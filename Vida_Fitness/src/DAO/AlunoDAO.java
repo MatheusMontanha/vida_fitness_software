@@ -26,13 +26,13 @@ import java.util.logging.Logger;
  * @author mathe
  */
 public class AlunoDAO {
-
+    
     ModalidadeDAO modalidadeDAO = new ModalidadeDAO();
     PacoteDAO pacoteDAO = new PacoteDAO();
     FrequenciaDAO frequenciaDAO = new FrequenciaDAO();
     InscricaoAlunoModalidadeDAO inscricaoModalidadeDAO = new InscricaoAlunoModalidadeDAO();
     InscricaoAlunoPacoteDAO inscricaoPacoteDAO = new InscricaoAlunoPacoteDAO();
-
+    
     public void salvarAluno(Aluno aluno) throws SQLException {
         Connection conexao = Conexao.realizarConexão();
         PreparedStatement stm;
@@ -70,28 +70,28 @@ public class AlunoDAO {
             Conexao.fecharConexao(conexao);
         }
     }
-
+    
     public String dataAgora() {
         Calendar c = Calendar.getInstance();
         Date date = c.getTime();
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         return dateFormat.format(date);
     }
-
+    
     public boolean verificarInadimplencia(String dataRecebida) {
         Calendar dataDeCadastro = Calendar.getInstance();
         Calendar dataAtual = Calendar.getInstance();
         DateFormat formataData = DateFormat.getDateInstance();
-
+        
         int anoCadastrado;
         int anoAtual;
-
+        
         int mesCadastrado;
         int mesAtual;
-
+        
         int diaCadastrado;
         int diaAtual;
-
+        
         try {
             Date dataConvertida = formataData.parse(dataRecebida);
             dataDeCadastro.setTime(dataConvertida);
@@ -113,6 +113,10 @@ public class AlunoDAO {
                     mesCadastrado = dataDeCadastro.get(Calendar.MONTH);
                     mesAtual = dataAtual.get(Calendar.MONTH);
                     if (mesCadastrado < mesAtual) {
+                        int diferencaMes = Math.abs(mesCadastrado - mesAtual);
+                        if (diferencaMes > 1) {
+                            return true;
+                        }
                         diaCadastrado = dataDeCadastro.get(Calendar.DAY_OF_MONTH);
                         diaAtual = dataAtual.get(Calendar.DAY_OF_MONTH);
                         if (diaCadastrado < diaAtual) {
@@ -127,7 +131,7 @@ public class AlunoDAO {
         }
         return false;
     }
-
+    
     public void deletarAluno(int idAluno) throws SQLException {
         Connection conexao = Conexao.realizarConexão();
         PreparedStatement stm;
@@ -142,7 +146,7 @@ public class AlunoDAO {
             Conexao.fecharConexao(conexao);
         }
     }
-
+    
     public List<Aluno> getAlunos() throws SQLException, ParseException {
         Connection conexao = Conexao.realizarConexão();
         PreparedStatement stm;
@@ -185,7 +189,7 @@ public class AlunoDAO {
         }
         return listaDeAlunos;
     }
-
+    
     public void editarCadastroDeAluno(Aluno aluno) throws SQLException {
         Connection conexao = Conexao.realizarConexão();
         PreparedStatement stm;
