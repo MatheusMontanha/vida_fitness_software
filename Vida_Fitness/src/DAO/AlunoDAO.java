@@ -33,7 +33,7 @@ public class AlunoDAO {
     InscricaoAlunoModalidadeDAO inscricaoModalidadeDAO = new InscricaoAlunoModalidadeDAO();
     InscricaoAlunoPacoteDAO inscricaoPacoteDAO = new InscricaoAlunoPacoteDAO();
     
-    public void salvarAluno(Aluno aluno) throws SQLException {
+    public void salvarAluno(Aluno aluno) throws SQLException{
         Connection conexao = Conexao.realizarConexão();
         PreparedStatement stm;
         ResultSet rs;

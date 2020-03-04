@@ -72,8 +72,58 @@ public class ModalidadeDAO {
         } catch (SQLException e) {
             Logger.getLogger(ModalidadeDAO.class.getName()).log(Level.SEVERE, null, e);
         } finally {
-           Conexao.fecharConexao(conexao);
+            Conexao.fecharConexao(conexao);
         }
         return null;
+
+    }
+
+    public void salvarModalidades(Modalidade modalidade) throws SQLException {
+
+        Connection conexao = Conexao.realizarConexão();
+        PreparedStatement stm;
+
+        try {
+            stm = conexao.prepareStatement("INSERT INTO Modalidade(nome,"
+                    + " valor_modalidade)VALUES(?,?)");
+            stm.setString(1, modalidade.getNome());
+            stm.setFloat(2, modalidade.getValorModalidade());
+
+            stm.executeUpdate();
+
+        } catch (SQLException e) {
+            Logger.getLogger(ModalidadeDAO.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            Conexao.fecharConexao(conexao);
+        }
+
+    }
+
+    public void deletarModalidade(int idModalidade) throws SQLException {
+        Connection conexao = Conexao.realizarConexão();
+        PreparedStatement stm;
+        try {
+            stm = conexao.prepareStatement("DELETE FROM Modalidade WHERE Modalidade.id_modalidade = " + idModalidade);
+            stm.executeUpdate();
+        } catch (SQLException e) {
+            Logger.getLogger(ModalidadeDAO.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            Conexao.fecharConexao(conexao);
+        }
+    }
+
+    public void editarModalidade(Modalidade modalidade) throws SQLException {
+        Connection conexao = Conexao.realizarConexão();
+        PreparedStatement stm;
+        try {
+            stm = conexao.prepareStatement("update Modalidade set "
+                    + "nome = '" + modalidade.getNome() + "', "
+                    + "valor_modalidade = '" + modalidade.getValorModalidade());
+             stm.executeUpdate();
+        } catch (SQLException e) {
+            Logger.getLogger(ModalidadeDAO.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            Conexao.fecharConexao(conexao);
+        }
     }
 }
