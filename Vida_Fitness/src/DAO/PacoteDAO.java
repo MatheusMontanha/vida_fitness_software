@@ -21,6 +21,8 @@ import java.util.logging.Logger;
  * @author mathe
  */
 public class PacoteDAO {
+    
+    GrupoModalidadePacoteDAO modalidadePacoteDAO = new GrupoModalidadePacoteDAO();
 
     public Pacote getPacoteCliente(int idAluno) throws SQLException {
         Connection conexao = Conexao.realizarConexão();
@@ -147,7 +149,10 @@ public class PacoteDAO {
             while (rs.next()) {
                 idUltimoPacote = rs.getInt("max(Pacote.id_pacote)");
             }
-        
+         for (int i = 0; i < pacote.getListaDeModalidades().size(); i++) {
+                    modalidadePacoteDAO.salvarModalidadePacote(idUltimoPacote,
+                            pacote.getListaDeModalidades().get(i).getIdModalidade());
+                }
           
         } catch (SQLException e) {
             Logger.getLogger(PacoteDAO.class.getName()).log(Level.SEVERE, null, e);
