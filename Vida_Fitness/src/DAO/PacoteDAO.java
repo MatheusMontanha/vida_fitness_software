@@ -123,10 +123,36 @@ public class PacoteDAO {
             }
             return listaDeModalides;
         } catch (SQLException e) {
-            Logger.getLogger(AlunoDAO.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(PacoteDAO.class.getName()).log(Level.SEVERE, null, e);
         } finally {
             Conexao.fecharConexao(conexao);
         }
         return null;
+    }
+
+    public void salvarPacote(Pacote pacote) throws SQLException {
+        Connection conexao = Conexao.realizarConexão();
+        PreparedStatement stm;
+         ResultSet rs;
+        int idUltimoPacote = -1;
+        try {
+            stm = conexao.prepareStatement("INSERT INTO Pacote(nome_pacote,"
+                    + " valor_desconto_pacote, duracao_pacote, VALUES(?,?,?)");
+            stm.setString(1, pacote.getNomePacote());
+            stm.setFloat(2, pacote.getValorDesconto());
+            stm.setInt(3, pacote.getDuracao());
+            stm.executeUpdate();
+            stm = conexao.prepareStatement("SELECT max(Pacote.id_pacote) from Pacote");
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                idUltimoPacote = rs.getInt("max(Pacote.id_pacote)");
+            }
+        
+          
+        } catch (SQLException e) {
+            Logger.getLogger(PacoteDAO.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            Conexao.fecharConexao(conexao);
+        }
     }
 }
