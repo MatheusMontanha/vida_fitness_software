@@ -28,7 +28,7 @@ public class GrupoModalidadePacoteDAO {
             stm.executeUpdate();
 
         } catch (SQLException e) {
-            Logger.getLogger(InscricaoAlunoModalidadeDAO.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(GrupoModalidadePacoteDAO.class.getName()).log(Level.SEVERE, null, e);
         } finally {
             Conexao.fecharConexao(conexao);
         }
@@ -42,7 +42,7 @@ public class GrupoModalidadePacoteDAO {
                     + "Grupo_Modalidade_Pacote.id_modalidade = " + idModalidade);
             stm.executeUpdate();
         } catch (SQLException e) {
-            Logger.getLogger(InscricaoAlunoModalidadeDAO.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(GrupoModalidadePacoteDAO.class.getName()).log(Level.SEVERE, null, e);
         } finally {
             Conexao.fecharConexao(conexao);
         }
