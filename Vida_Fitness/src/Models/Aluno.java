@@ -27,8 +27,9 @@ public class Aluno {
     private List<Modalidade> modalidades;
     private Pacote pacote;
     private List<Frequencia> frequencias;
+    private String formaDePagamento;
 
-    public Aluno(int idAluno, String nome, String telefonePrincipal, String telefoneSecundario, String endereco, String bairro, String cep, String cpf, Date dataCadastro, boolean inadimplente, List<Modalidade> modalidades, Pacote pacote, List<Frequencia> frequencias) {
+    public Aluno(int idAluno, String nome, String telefonePrincipal, String telefoneSecundario, String endereco, String bairro, String cep, String cpf, Date dataCadastro, boolean inadimplente, List<Modalidade> modalidades, Pacote pacote, List<Frequencia> frequencias, String formaDePagamento) {
         this.idAluno = idAluno;
         this.nome = nome;
         this.telefonePrincipal = telefonePrincipal;
@@ -42,6 +43,15 @@ public class Aluno {
         this.modalidades = modalidades;
         this.pacote = pacote;
         this.frequencias = frequencias;
+        this.formaDePagamento = formaDePagamento;
+    }
+
+    public String getFormaDePagamento() {
+        return formaDePagamento;
+    }
+
+    public void setFormaDePagamento(String formaDePagamento) {
+        this.formaDePagamento = formaDePagamento;
     }
 
     public Date getDataCadastro() {

@@ -29,7 +29,7 @@ import javax.swing.JTextField;
  * @author mathe
  */
 public class CadastroEdicaoAluno extends javax.swing.JFrame {
-
+    
     Aluno aluno;
     Aluno editarAluno;
     GerenciamentoAlunosController alunoController = new GerenciamentoAlunosController();
@@ -54,7 +54,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
         addModalidadeNaLista.setEnabled(false);
         preencherComValorPacote();
     }
-
+    
     public CadastroEdicaoAluno(Aluno aluno) {
         initComponents();
         preencherComValorPacote();
@@ -100,6 +100,12 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
         campoTelefoneSecundario = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         campoCPF = new javax.swing.JTextField();
+        try{
+            javax.swing.text.MaskFormatter data= new javax.swing.text.MaskFormatter("###.###.###-##");
+            campoCPF = new javax.swing.JFormattedTextField(data);
+        }
+        catch (Exception e){
+        }
         pacotesDisponiveis = new javax.swing.JComboBox<>();
         ativarPacote = new javax.swing.JRadioButton();
         modalidadesDisponiveis = new javax.swing.JComboBox<>();
@@ -111,6 +117,12 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         campoCEP = new javax.swing.JTextField();
+        try{
+            javax.swing.text.MaskFormatter data= new javax.swing.text.MaskFormatter("#####-###");
+            campoCEP = new javax.swing.JFormattedTextField(data);
+        }
+        catch (Exception e){
+        }
         jLabel10 = new javax.swing.JLabel();
         campoEndereco = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
@@ -375,11 +387,14 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
                 aluno.setEndereco(campoEndereco.getText());
                 aluno.setCpf(campoCPF.getText());
                 aluno.setInadimplente(false);
+                aluno.setFormaDePagamento(opcoesDePagamento.getSelectedItem().toString());
                 if (ativarModalidades.isSelected()) {
                     List<Modalidade> modalidades = identificarListaDeModalidades();
+                    aluno.setPacote(new Pacote());
                     aluno.setModalidades(modalidades);
                 } else if (ativarPacote.isSelected()) {
                     Pacote pacote = identificarPacoteSelecionado();
+                    aluno.setModalidades(new ArrayList<>());
                     aluno.setPacote(pacote);
                 }
                 try {
@@ -404,6 +419,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
                 editarAluno.setInadimplente(false);
                 editarAluno.setBairro(campoBairro.getText());
                 editarAluno.setCep(campoCEP.getText());
+                //aluno.setFormaDePagamento(opcoesDePagamento.getItemAt(opcoesDePagamento.getSelectedIndex()));
                 if (ativarModalidades.isSelected()) {
                     List<Modalidade> modalidades = identificarListaDeModalidades();
                     editarAluno.setModalidades(modalidades);
@@ -437,7 +453,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
         if (ativarPacote.isSelected()) {
             pacotesDisponiveis.setEnabled(true);
             componentesModalidade(false);
-
+            
         }
     }//GEN-LAST:event_ativarPacoteActionPerformed
 
@@ -457,7 +473,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
             if (indiceModalidade != -1) {
                 valorParaSubtrair = encontrarValorString(listaDeItensJlist.get(indiceModalidade).toString());
                 valor -= valorParaSubtrair;
-                campoApresentaValorCadastro.setText("R$" + formatoMoeda.format(valor));
+                campoApresentaValorCadastro.setText("R" + formatoMoeda.format(valor));
                 listaDeItensJlist.removeElementAt(indiceModalidade);
                 listaDeModalidadesAdd.setModel(listaDeItensJlist);
             } else {
@@ -492,7 +508,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
                 listaDeItensJlist.addElement("" + modalidade.getNome() + ", R$" + modalidade.getValorModalidade());
                 listaDeModalidadesAdd.setModel(listaDeItensJlist);
                 valor += modalidade.getValorModalidade();
-
+                
                 campoApresentaValorCadastro.setText("R" + formatoMoeda.format(valor));
             } else {
                 JOptionPane.showMessageDialog(this, "Ops!! Você já selecionou essa modalidade.");
@@ -506,14 +522,23 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
     private void buttonLimparTudoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonLimparTudoActionPerformed
         limparTodosCampos();
     }//GEN-LAST:event_buttonLimparTudoActionPerformed
-
+    
     private void componentesModalidade(boolean condicao) {
         modalidadesDisponiveis.setEnabled(condicao);
         listaDeModalidadesAdd.setEnabled(condicao);
         addModalidadeNaLista.setEnabled(condicao);
         excluirItemSelecionadoJlist.setEnabled(condicao);
     }
-
+    
+    private void selecionarFormaPagamento(String opcao) {
+        for (int i = 0; i < opcoesDePagamento.getItemCount(); i++) {
+            if (opcoesDePagamento.getItemAt(i).equalsIgnoreCase(opcao)) {
+                opcoesDePagamento.setSelectedIndex(i);
+                break;
+            }
+        }
+    }
+    
     private void preencherCamposParaEditar(Aluno aluno) {
         campoNome.setText(aluno.getNome());
         campoTelefonePrincipal.setText(aluno.getTelefonePrincipal());
@@ -522,6 +547,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
         campoTelefoneSecundario.setText(aluno.getTelefoneSecundario());
         campoCPF.setText(aluno.getCpf());
         campoEndereco.setText(aluno.getEndereco());
+        selecionarFormaPagamento(aluno.getFormaDePagamento());
         if (aluno.getModalidades() != null || !aluno.getModalidades().isEmpty()) {
             for (int i = 0; i < aluno.getModalidades().size(); i++) {
                 String nomeModalidade = aluno.getModalidades().get(i).getNome();
@@ -537,7 +563,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
             }
         }
     }
-
+    
     private double encontrarValorString(String text) {
         char caractere;
         double valorRecuperado = -1.0;
@@ -550,7 +576,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
         }
         return valorRecuperado;
     }
-
+    
     private String encontrarNomeString(String text) {
         char caractere;
         String nome = "";
@@ -563,7 +589,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
         }
         return nome;
     }
-
+    
     private boolean verificarDuplicidadeJList(String valor) {
         for (int i = 0; i < listaDeModalidadesAdd.getModel().getSize(); i++) {
             if (listaDeModalidadesAdd.getModel().getElementAt(i).equalsIgnoreCase(valor)) {
@@ -572,7 +598,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
         }
         return false;
     }
-
+    
     private List<Modalidade> identificarListaDeModalidades() {
         List<Modalidade> modalidadesSelecionadas = new ArrayList<>();
         String nome;
@@ -586,17 +612,17 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
         }
         return modalidadesSelecionadas;
     }
-
+    
     private Modalidade identificarModalidadeSelecionada() {
         for (int i = 0; i < listaDeModalides.size(); i++) {
             if (listaDeModalides.get(i).getNome().equalsIgnoreCase(modalidadesDisponiveis.getSelectedItem().toString())) {
                 return listaDeModalides.get(i);
             }
-
+            
         }
         return null;
     }
-
+    
     private Pacote identificarPacoteSelecionado() {
         for (int i = 0; i < listaDePacotes.size(); i++) {
             if (listaDePacotes.get(i).getNomePacote().equalsIgnoreCase(pacotesDisponiveis.getSelectedItem().toString())) {
@@ -605,7 +631,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
         }
         return null;
     }
-
+    
     private void popularOpcoesPacote() {
         listaDePacotes = gerenciadorPacotesController.getListaDePacotes();
         Pacote pacoteAux;
@@ -620,14 +646,14 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
             indexAux++;
         }
     }
-
+    
     private void popularOpcoesModalidades() {
         listaDeModalides = controllerModalidade.getModalidades();
         listaDeModalides.forEach((modalidade) -> {
             modalidadesDisponiveis.addItem(modalidade.getNome());
         });
     }
-
+    
     private void limparTodosCampos() {
         Component components[] = telaCadastroJPanel.getComponents();
         for (Component component : components) {
@@ -636,33 +662,30 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
             }
         }
     }
-
+    
     private int verificarCampoVazio() {
         Component components[] = telaCadastroJPanel.getComponents();
         int controle = -1;
         for (Component component : components) {
             if (component instanceof JTextField) {
                 if (((JTextField) component).getText().isEmpty()) {
-                    System.out.println("Campo em branco");
                     controle = 0;
                 }
             }
             if (component instanceof JComboBox) {
                 if (((JComboBox) component).getSelectedIndex() < 0) {
-                    System.out.println("JCombobox em branco");
                     controle = 0;
                 }
             }
             if (component instanceof JRadioButton) {
                 if (((JRadioButton) component).isSelected()) {
-                    System.out.println("Algum foi selecionado ao menos.");
                     controle = -1;
                 }
             }
         }
         return controle;
     }
-
+    
     private void preencherComValorPacote() {
         nomePacoteSelecionado = "";
         pacotesDisponiveis.addItemListener((ItemEvent e) -> {
@@ -687,7 +710,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
                 }
             }
         });
-
+        
     }
 
     /**
