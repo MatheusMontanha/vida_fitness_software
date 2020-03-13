@@ -26,14 +26,14 @@ import java.util.logging.Logger;
  * @author mathe
  */
 public class AlunoDAO {
-    
+
     ModalidadeDAO modalidadeDAO = new ModalidadeDAO();
     PacoteDAO pacoteDAO = new PacoteDAO();
     FrequenciaDAO frequenciaDAO = new FrequenciaDAO();
     InscricaoAlunoModalidadeDAO inscricaoModalidadeDAO = new InscricaoAlunoModalidadeDAO();
     InscricaoAlunoPacoteDAO inscricaoPacoteDAO = new InscricaoAlunoPacoteDAO();
-    
-    public void salvarAluno(Aluno aluno) throws SQLException{
+
+    public void salvarAluno(Aluno aluno) throws SQLException {
         Connection conexao = Conexao.realizarConexão();
         PreparedStatement stm;
         ResultSet rs;
@@ -41,7 +41,7 @@ public class AlunoDAO {
         try {
             stm = conexao.prepareStatement("INSERT INTO Aluno(nome,"
                     + " telefone_principal, telefone_secundario, endereco, CPF,"
-                    + "inadimplente, bairro, data_cadastro)VALUES(?,?,?,?,?,?,?,?)");
+                    + "inadimplente, bairro, data_cadastro, forma_pagamento)VALUES(?,?,?,?,?,?,?,?,?)");
             stm.setString(1, aluno.getNome());
             stm.setString(2, aluno.getTelefonePrincipal());
             stm.setString(3, aluno.getTelefoneSecundario());
@@ -50,6 +50,7 @@ public class AlunoDAO {
             stm.setBoolean(6, false);
             stm.setString(7, aluno.getBairro());
             stm.setString(8, dataAgora());
+            stm.setString(9, aluno.getFormaDePagamento());
             stm.executeUpdate();
             stm = conexao.prepareStatement("SELECT max(Aluno.id_aluno) from Aluno");
             rs = stm.executeQuery();
@@ -70,28 +71,28 @@ public class AlunoDAO {
             Conexao.fecharConexao(conexao);
         }
     }
-    
+
     public String dataAgora() {
         Calendar c = Calendar.getInstance();
         Date date = c.getTime();
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         return dateFormat.format(date);
     }
-    
+
     public boolean verificarInadimplencia(String dataRecebida) {
         Calendar dataDeCadastro = Calendar.getInstance();
         Calendar dataAtual = Calendar.getInstance();
         DateFormat formataData = DateFormat.getDateInstance();
-        
+
         int anoCadastrado;
         int anoAtual;
-        
+
         int mesCadastrado;
         int mesAtual;
-        
+
         int diaCadastrado;
         int diaAtual;
-        
+
         try {
             Date dataConvertida = formataData.parse(dataRecebida);
             dataDeCadastro.setTime(dataConvertida);
@@ -131,7 +132,7 @@ public class AlunoDAO {
         }
         return false;
     }
-    
+
     public void deletarAluno(int idAluno) throws SQLException {
         Connection conexao = Conexao.realizarConexão();
         PreparedStatement stm;
@@ -146,12 +147,13 @@ public class AlunoDAO {
             Conexao.fecharConexao(conexao);
         }
     }
-    
+
     public List<Aluno> getAlunos() throws SQLException, ParseException {
         Connection conexao = Conexao.realizarConexão();
         PreparedStatement stm;
         ResultSet rs;
-        String nome, telefonePrincipal, telefoneSecundario, endereco, CPF, bairro, cep;
+        String nome, telefonePrincipal, telefoneSecundario, endereco, CPF,
+                bairro, cep, formaDePagamento;
         boolean inadimplente;
         Date data;
         DateFormat formatData = DateFormat.getDateInstance();
@@ -172,13 +174,16 @@ public class AlunoDAO {
                 bairro = rs.getString("bairro");
                 cep = rs.getString("cep");
                 data = formatData.parse(rs.getString("data_cadastro"));
+                formaDePagamento = rs.getString("forma_pagamento");
                 if (verificarInadimplencia(rs.getString("data_cadastro"))) {
                     inadimplente = true;
                 }
                 listaDeFrequencias = frequenciaDAO.getFrequenciaAluno(idAluno);
                 Aluno aluno = new Aluno(idAluno, nome, telefonePrincipal,
                         telefoneSecundario, endereco, bairro, cep, CPF, data, inadimplente,
-                        modalidadeDAO.getModalidadesAluno(idAluno), pacoteDAO.getPacoteCliente(idAluno), listaDeFrequencias);
+                        modalidadeDAO.getModalidadesAluno(idAluno),
+                        pacoteDAO.getPacoteCliente(idAluno),
+                        listaDeFrequencias, formaDePagamento);
                 listaDeAlunos.add(aluno);
             }
             return listaDeAlunos;
@@ -189,7 +194,7 @@ public class AlunoDAO {
         }
         return listaDeAlunos;
     }
-    
+
     public void editarCadastroDeAluno(Aluno aluno) throws SQLException {
         Connection conexao = Conexao.realizarConexão();
         PreparedStatement stm;
@@ -201,7 +206,9 @@ public class AlunoDAO {
                     + "endereco = '" + aluno.getEndereco() + "', "
                     + "CPF = '" + aluno.getCpf() + "', "
                     + "bairro = '" + aluno.getBairro() + "', "
-                    + "cep = '" + aluno.getCep() + "' where Aluno.id_aluno = " + aluno.getIdAluno());
+                    + "cep = '" + aluno.getCep() + "', "
+                    + "forma_pagamento = '" + aluno.getFormaDePagamento()
+                    + "' where Aluno.id_aluno = " + aluno.getIdAluno());
             stm.executeUpdate();
             if (aluno.getModalidades() != null) {
                 inscricaoModalidadeDAO.deletarInscricaoModalidade(aluno.getIdAluno());

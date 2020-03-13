@@ -29,7 +29,7 @@ import javax.swing.JTextField;
  * @author mathe
  */
 public class CadastroEdicaoAluno extends javax.swing.JFrame {
-
+    
     Aluno aluno;
     Aluno editarAluno;
     GerenciamentoAlunosController alunoController = new GerenciamentoAlunosController();
@@ -54,7 +54,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
         addModalidadeNaLista.setEnabled(false);
         preencherComValorPacote();
     }
-
+    
     public CadastroEdicaoAluno(Aluno aluno) {
         initComponents();
         preencherComValorPacote();
@@ -100,6 +100,12 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
         campoTelefoneSecundario = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         campoCPF = new javax.swing.JTextField();
+        try{
+            javax.swing.text.MaskFormatter data= new javax.swing.text.MaskFormatter("###.###.###-##");
+            campoCPF = new javax.swing.JFormattedTextField(data);
+        }
+        catch (Exception e){
+        }
         pacotesDisponiveis = new javax.swing.JComboBox<>();
         ativarPacote = new javax.swing.JRadioButton();
         modalidadesDisponiveis = new javax.swing.JComboBox<>();
@@ -111,6 +117,12 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         campoCEP = new javax.swing.JTextField();
+        try{
+            javax.swing.text.MaskFormatter data= new javax.swing.text.MaskFormatter("#####-###");
+            campoCEP = new javax.swing.JFormattedTextField(data);
+        }
+        catch (Exception e){
+        }
         jLabel10 = new javax.swing.JLabel();
         campoEndereco = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
@@ -126,6 +138,9 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
         opcoesDePagamento = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
+        jSeparator2 = new javax.swing.JSeparator();
+        jLabel14 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -134,11 +149,11 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
         setType(java.awt.Window.Type.POPUP);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        telaCadastroJPanel.setBackground(new java.awt.Color(99, 156, 176));
+        telaCadastroJPanel.setBackground(new java.awt.Color(27, 25, 30));
         telaCadastroJPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        buttonSalvarAluno.setBackground(new java.awt.Color(0, 149, 0));
-        buttonSalvarAluno.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        buttonSalvarAluno.setBackground(new java.awt.Color(84, 182, 19));
+        buttonSalvarAluno.setFont(new java.awt.Font("Segoe UI Symbol", 1, 12)); // NOI18N
         buttonSalvarAluno.setForeground(new java.awt.Color(255, 255, 255));
         buttonSalvarAluno.setText("Salvar");
         buttonSalvarAluno.addActionListener(new java.awt.event.ActionListener() {
@@ -146,9 +161,9 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
                 buttonSalvarAlunoActionPerformed(evt);
             }
         });
-        telaCadastroJPanel.add(buttonSalvarAluno, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 540, 99, 37));
+        telaCadastroJPanel.add(buttonSalvarAluno, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 540, 99, 37));
 
-        jButton2.setBackground(new java.awt.Color(226, 77, 25));
+        jButton2.setBackground(new java.awt.Color(255, 51, 51));
         jButton2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Cancelar");
@@ -157,33 +172,38 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
                 jButton2ActionPerformed(evt);
             }
         });
-        telaCadastroJPanel.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 540, 94, 37));
+        telaCadastroJPanel.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 540, 94, 37));
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Segoe UI Symbol", 1, 16)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Nome:");
-        telaCadastroJPanel.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 91, 63, 34));
+        telaCadastroJPanel.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 110, 63, 34));
 
         campoNome.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        telaCadastroJPanel.add(campoNome, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 90, 370, 40));
+        telaCadastroJPanel.add(campoNome, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 110, 270, 30));
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Segoe UI Symbol", 1, 16)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Telefone Principal:");
-        telaCadastroJPanel.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 163, -1, -1));
+        telaCadastroJPanel.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 210, -1, -1));
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Segoe UI Symbol", 1, 16)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Telefone Secundário:");
-        telaCadastroJPanel.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 230, -1, -1));
+        telaCadastroJPanel.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 250, -1, -1));
 
         campoTelefoneSecundario.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        telaCadastroJPanel.add(campoTelefoneSecundario, new org.netbeans.lib.awtextra.AbsoluteConstraints(223, 225, 241, 33));
+        campoTelefoneSecundario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                campoTelefoneSecundarioActionPerformed(evt);
+            }
+        });
+        telaCadastroJPanel.add(campoTelefoneSecundario, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 253, 270, 30));
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Segoe UI Symbol", 1, 16)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("CPF:");
-        telaCadastroJPanel.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 110, -1, -1));
+        telaCadastroJPanel.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 160, -1, -1));
 
         campoCPF.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         campoCPF.addActionListener(new java.awt.event.ActionListener() {
@@ -191,43 +211,45 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
                 campoCPFActionPerformed(evt);
             }
         });
-        telaCadastroJPanel.add(campoCPF, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 100, 250, 33));
+        telaCadastroJPanel.add(campoCPF, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 160, 270, 30));
 
         pacotesDisponiveis.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione um pacote" }));
         pacotesDisponiveis.setEnabled(false);
-        telaCadastroJPanel.add(pacotesDisponiveis, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 340, 270, 31));
+        telaCadastroJPanel.add(pacotesDisponiveis, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 350, 270, 31));
 
         buttonGroup1.add(ativarPacote);
+        ativarPacote.setForeground(new java.awt.Color(255, 255, 255));
         ativarPacote.setText("Ativar Pacotes");
         ativarPacote.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ativarPacoteActionPerformed(evt);
             }
         });
-        telaCadastroJPanel.add(ativarPacote, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 340, -1, -1));
+        telaCadastroJPanel.add(ativarPacote, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 350, 130, -1));
 
         modalidadesDisponiveis.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione uma modalidade" }));
         modalidadesDisponiveis.setEnabled(false);
-        telaCadastroJPanel.add(modalidadesDisponiveis, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 390, 244, 31));
+        telaCadastroJPanel.add(modalidadesDisponiveis, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 390, 270, 31));
 
         buttonGroup1.add(ativarModalidades);
+        ativarModalidades.setForeground(new java.awt.Color(255, 255, 255));
         ativarModalidades.setText("Ativar Modalidades");
         ativarModalidades.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ativarModalidadesActionPerformed(evt);
             }
         });
-        telaCadastroJPanel.add(ativarModalidades, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 390, -1, -1));
+        telaCadastroJPanel.add(ativarModalidades, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 390, 130, -1));
 
-        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Segoe UI Symbol", 1, 16)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("Modalidades:");
-        telaCadastroJPanel.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 390, -1, -1));
+        telaCadastroJPanel.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 390, -1, -1));
 
         campoTelefonePrincipal.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        telaCadastroJPanel.add(campoTelefonePrincipal, new org.netbeans.lib.awtextra.AbsoluteConstraints(194, 158, 270, 33));
+        telaCadastroJPanel.add(campoTelefonePrincipal, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 205, 270, -1));
 
-        excluirItemSelecionadoJlist.setBackground(new java.awt.Color(226, 77, 25));
+        excluirItemSelecionadoJlist.setBackground(new java.awt.Color(0, 153, 255));
         excluirItemSelecionadoJlist.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         excluirItemSelecionadoJlist.setForeground(new java.awt.Color(255, 255, 255));
         excluirItemSelecionadoJlist.setText("Excluir Item da Lista");
@@ -236,10 +258,10 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
                 excluirItemSelecionadoJlistActionPerformed(evt);
             }
         });
-        telaCadastroJPanel.add(excluirItemSelecionadoJlist, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 440, 180, 30));
+        telaCadastroJPanel.add(excluirItemSelecionadoJlist, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 550, 180, 30));
 
         voltarTelaCadastroAluno.setBackground(new java.awt.Color(11, 133, 176));
-        voltarTelaCadastroAluno.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        voltarTelaCadastroAluno.setFont(new java.awt.Font("Segoe UI Symbol", 1, 12)); // NOI18N
         voltarTelaCadastroAluno.setForeground(new java.awt.Color(255, 255, 255));
         voltarTelaCadastroAluno.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/back2.png"))); // NOI18N
         voltarTelaCadastroAluno.setText("Voltar");
@@ -248,17 +270,17 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
                 voltarTelaCadastroAlunoActionPerformed(evt);
             }
         });
-        telaCadastroJPanel.add(voltarTelaCadastroAluno, new org.netbeans.lib.awtextra.AbsoluteConstraints(48, 30, 113, 32));
+        telaCadastroJPanel.add(voltarTelaCadastroAluno, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 113, 32));
 
-        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel8.setFont(new java.awt.Font("Segoe UI Symbol", 1, 16)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setText("Pacotes:");
-        telaCadastroJPanel.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 350, -1, 20));
+        telaCadastroJPanel.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 350, -1, 20));
 
-        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel9.setFont(new java.awt.Font("Segoe UI Symbol", 1, 16)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
         jLabel9.setText("CEP:");
-        telaCadastroJPanel.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 160, -1, -1));
+        telaCadastroJPanel.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 170, -1, -1));
 
         campoCEP.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         campoCEP.addActionListener(new java.awt.event.ActionListener() {
@@ -266,12 +288,12 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
                 campoCEPActionPerformed(evt);
             }
         });
-        telaCadastroJPanel.add(campoCEP, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 150, 250, 33));
+        telaCadastroJPanel.add(campoCEP, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 160, 270, 30));
 
-        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel10.setFont(new java.awt.Font("Segoe UI Symbol", 1, 16)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
         jLabel10.setText("Endereço:");
-        telaCadastroJPanel.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 220, -1, -1));
+        telaCadastroJPanel.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 220, -1, -1));
 
         campoEndereco.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         campoEndereco.addActionListener(new java.awt.event.ActionListener() {
@@ -279,12 +301,12 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
                 campoEnderecoActionPerformed(evt);
             }
         });
-        telaCadastroJPanel.add(campoEndereco, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 210, 250, 40));
+        telaCadastroJPanel.add(campoEndereco, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 210, 270, 30));
 
-        jLabel11.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel11.setFont(new java.awt.Font("Segoe UI Symbol", 1, 16)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(255, 255, 255));
         jLabel11.setText("Forma de Pagamento:");
-        telaCadastroJPanel.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 340, -1, -1));
+        telaCadastroJPanel.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 320, -1, -1));
 
         campoBairro.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         campoBairro.addActionListener(new java.awt.event.ActionListener() {
@@ -292,14 +314,14 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
                 campoBairroActionPerformed(evt);
             }
         });
-        telaCadastroJPanel.add(campoBairro, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 270, 250, 40));
+        telaCadastroJPanel.add(campoBairro, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 260, 270, 30));
 
         descModalidadesSelecionadas.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         descModalidadesSelecionadas.setForeground(new java.awt.Color(255, 255, 255));
         descModalidadesSelecionadas.setText("Modalidades Selecionas:");
-        telaCadastroJPanel.add(descModalidadesSelecionadas, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 470, 170, 40));
+        telaCadastroJPanel.add(descModalidadesSelecionadas, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 420, 170, 40));
 
-        addModalidadeNaLista.setBackground(new java.awt.Color(0, 149, 0));
+        addModalidadeNaLista.setBackground(new java.awt.Color(0, 153, 255));
         addModalidadeNaLista.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         addModalidadeNaLista.setForeground(new java.awt.Color(255, 255, 255));
         addModalidadeNaLista.setText("Adicionar");
@@ -308,16 +330,16 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
                 addModalidadeNaListaActionPerformed(evt);
             }
         });
-        telaCadastroJPanel.add(addModalidadeNaLista, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 440, 120, 30));
+        telaCadastroJPanel.add(addModalidadeNaLista, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 550, 120, 30));
 
         listaDeModalidadesAdd.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         listaDeModalidadesAdd.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(listaDeModalidadesAdd);
 
-        telaCadastroJPanel.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 510, 240, 80));
+        telaCadastroJPanel.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 460, 240, 80));
 
-        buttonLimparTudo.setBackground(new java.awt.Color(226, 77, 25));
-        buttonLimparTudo.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        buttonLimparTudo.setBackground(new java.awt.Color(255, 204, 0));
+        buttonLimparTudo.setFont(new java.awt.Font("Segoe UI Symbol", 1, 12)); // NOI18N
         buttonLimparTudo.setForeground(new java.awt.Color(255, 255, 255));
         buttonLimparTudo.setText("Limpar Tudo");
         buttonLimparTudo.addActionListener(new java.awt.event.ActionListener() {
@@ -325,37 +347,44 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
                 buttonLimparTudoActionPerformed(evt);
             }
         });
-        telaCadastroJPanel.add(buttonLimparTudo, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 20, -1, 34));
+        telaCadastroJPanel.add(buttonLimparTudo, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 120, -1, 34));
 
         campoApresentaValorCadastro.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         campoApresentaValorCadastro.setEnabled(false);
-        telaCadastroJPanel.add(campoApresentaValorCadastro, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 540, 150, 30));
+        telaCadastroJPanel.add(campoApresentaValorCadastro, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 450, 150, 30));
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 3, 14)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Segoe UI Symbol", 3, 16)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Valor inscrição:");
-        telaCadastroJPanel.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 520, 110, 20));
+        telaCadastroJPanel.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 420, 130, 20));
 
-        jLabel12.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel12.setFont(new java.awt.Font("Segoe UI Symbol", 1, 16)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(255, 255, 255));
         jLabel12.setText("Bairro:");
-        telaCadastroJPanel.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 280, -1, -1));
+        telaCadastroJPanel.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 260, -1, -1));
 
         opcoesDePagamento.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         opcoesDePagamento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione a forma de pagamento", "A vista", "Cartão de Crédito", "Cheque", "A prazo" }));
-        telaCadastroJPanel.add(opcoesDePagamento, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 370, 250, 40));
+        telaCadastroJPanel.add(opcoesDePagamento, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 350, 250, 30));
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("A opção que estiver ativada, será a cadastrada.");
-        telaCadastroJPanel.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 310, 300, -1));
+        telaCadastroJPanel.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 310, 300, -1));
 
         jLabel13.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(255, 0, 51));
         jLabel13.setText("*");
-        telaCadastroJPanel.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 300, 30, 20));
+        telaCadastroJPanel.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 300, 30, 20));
+        telaCadastroJPanel.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 330, 310, 10));
+        telaCadastroJPanel.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, 1000, 10));
 
-        getContentPane().add(telaCadastroJPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 890, 600));
+        jLabel14.setFont(new java.awt.Font("Segoe UI Black", 1, 36)); // NOI18N
+        jLabel14.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel14.setText("Cadastro de Aluno");
+        telaCadastroJPanel.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 50, -1, -1));
+
+        getContentPane().add(telaCadastroJPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 600));
 
         pack();
         setLocationRelativeTo(null);
@@ -375,11 +404,14 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
                 aluno.setEndereco(campoEndereco.getText());
                 aluno.setCpf(campoCPF.getText());
                 aluno.setInadimplente(false);
+                aluno.setFormaDePagamento(opcoesDePagamento.getSelectedItem().toString());
                 if (ativarModalidades.isSelected()) {
                     List<Modalidade> modalidades = identificarListaDeModalidades();
+                    aluno.setPacote(new Pacote());
                     aluno.setModalidades(modalidades);
                 } else if (ativarPacote.isSelected()) {
                     Pacote pacote = identificarPacoteSelecionado();
+                    aluno.setModalidades(new ArrayList<>());
                     aluno.setPacote(pacote);
                 }
                 try {
@@ -404,6 +436,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
                 editarAluno.setInadimplente(false);
                 editarAluno.setBairro(campoBairro.getText());
                 editarAluno.setCep(campoCEP.getText());
+                //aluno.setFormaDePagamento(opcoesDePagamento.getItemAt(opcoesDePagamento.getSelectedIndex()));
                 if (ativarModalidades.isSelected()) {
                     List<Modalidade> modalidades = identificarListaDeModalidades();
                     editarAluno.setModalidades(modalidades);
@@ -437,7 +470,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
         if (ativarPacote.isSelected()) {
             pacotesDisponiveis.setEnabled(true);
             componentesModalidade(false);
-
+            
         }
     }//GEN-LAST:event_ativarPacoteActionPerformed
 
@@ -457,7 +490,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
             if (indiceModalidade != -1) {
                 valorParaSubtrair = encontrarValorString(listaDeItensJlist.get(indiceModalidade).toString());
                 valor -= valorParaSubtrair;
-                campoApresentaValorCadastro.setText("R$" + formatoMoeda.format(valor));
+                campoApresentaValorCadastro.setText("R" + formatoMoeda.format(valor));
                 listaDeItensJlist.removeElementAt(indiceModalidade);
                 listaDeModalidadesAdd.setModel(listaDeItensJlist);
             } else {
@@ -492,7 +525,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
                 listaDeItensJlist.addElement("" + modalidade.getNome() + ", R$" + modalidade.getValorModalidade());
                 listaDeModalidadesAdd.setModel(listaDeItensJlist);
                 valor += modalidade.getValorModalidade();
-
+                
                 campoApresentaValorCadastro.setText("R" + formatoMoeda.format(valor));
             } else {
                 JOptionPane.showMessageDialog(this, "Ops!! Você já selecionou essa modalidade.");
@@ -507,13 +540,26 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
         limparTodosCampos();
     }//GEN-LAST:event_buttonLimparTudoActionPerformed
 
+    private void campoTelefoneSecundarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoTelefoneSecundarioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_campoTelefoneSecundarioActionPerformed
+    
     private void componentesModalidade(boolean condicao) {
         modalidadesDisponiveis.setEnabled(condicao);
         listaDeModalidadesAdd.setEnabled(condicao);
         addModalidadeNaLista.setEnabled(condicao);
         excluirItemSelecionadoJlist.setEnabled(condicao);
     }
-
+    
+    private void selecionarFormaPagamento(String opcao) {
+        for (int i = 0; i < opcoesDePagamento.getItemCount(); i++) {
+            if (opcoesDePagamento.getItemAt(i).equalsIgnoreCase(opcao)) {
+                opcoesDePagamento.setSelectedIndex(i);
+                break;
+            }
+        }
+    }
+    
     private void preencherCamposParaEditar(Aluno aluno) {
         campoNome.setText(aluno.getNome());
         campoTelefonePrincipal.setText(aluno.getTelefonePrincipal());
@@ -522,6 +568,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
         campoTelefoneSecundario.setText(aluno.getTelefoneSecundario());
         campoCPF.setText(aluno.getCpf());
         campoEndereco.setText(aluno.getEndereco());
+        selecionarFormaPagamento(aluno.getFormaDePagamento());
         if (aluno.getModalidades() != null || !aluno.getModalidades().isEmpty()) {
             for (int i = 0; i < aluno.getModalidades().size(); i++) {
                 String nomeModalidade = aluno.getModalidades().get(i).getNome();
@@ -537,7 +584,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
             }
         }
     }
-
+    
     private double encontrarValorString(String text) {
         char caractere;
         double valorRecuperado = -1.0;
@@ -550,7 +597,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
         }
         return valorRecuperado;
     }
-
+    
     private String encontrarNomeString(String text) {
         char caractere;
         String nome = "";
@@ -563,7 +610,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
         }
         return nome;
     }
-
+    
     private boolean verificarDuplicidadeJList(String valor) {
         for (int i = 0; i < listaDeModalidadesAdd.getModel().getSize(); i++) {
             if (listaDeModalidadesAdd.getModel().getElementAt(i).equalsIgnoreCase(valor)) {
@@ -572,7 +619,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
         }
         return false;
     }
-
+    
     private List<Modalidade> identificarListaDeModalidades() {
         List<Modalidade> modalidadesSelecionadas = new ArrayList<>();
         String nome;
@@ -586,17 +633,17 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
         }
         return modalidadesSelecionadas;
     }
-
+    
     private Modalidade identificarModalidadeSelecionada() {
         for (int i = 0; i < listaDeModalides.size(); i++) {
             if (listaDeModalides.get(i).getNome().equalsIgnoreCase(modalidadesDisponiveis.getSelectedItem().toString())) {
                 return listaDeModalides.get(i);
             }
-
+            
         }
         return null;
     }
-
+    
     private Pacote identificarPacoteSelecionado() {
         for (int i = 0; i < listaDePacotes.size(); i++) {
             if (listaDePacotes.get(i).getNomePacote().equalsIgnoreCase(pacotesDisponiveis.getSelectedItem().toString())) {
@@ -605,7 +652,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
         }
         return null;
     }
-
+    
     private void popularOpcoesPacote() {
         listaDePacotes = gerenciadorPacotesController.getListaDePacotes();
         Pacote pacoteAux;
@@ -620,14 +667,14 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
             indexAux++;
         }
     }
-
+    
     private void popularOpcoesModalidades() {
         listaDeModalides = controllerModalidade.getModalidades();
         listaDeModalides.forEach((modalidade) -> {
             modalidadesDisponiveis.addItem(modalidade.getNome());
         });
     }
-
+    
     private void limparTodosCampos() {
         Component components[] = telaCadastroJPanel.getComponents();
         for (Component component : components) {
@@ -636,33 +683,30 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
             }
         }
     }
-
+    
     private int verificarCampoVazio() {
         Component components[] = telaCadastroJPanel.getComponents();
         int controle = -1;
         for (Component component : components) {
             if (component instanceof JTextField) {
                 if (((JTextField) component).getText().isEmpty()) {
-                    System.out.println("Campo em branco");
                     controle = 0;
                 }
             }
             if (component instanceof JComboBox) {
                 if (((JComboBox) component).getSelectedIndex() < 0) {
-                    System.out.println("JCombobox em branco");
                     controle = 0;
                 }
             }
             if (component instanceof JRadioButton) {
                 if (((JRadioButton) component).isSelected()) {
-                    System.out.println("Algum foi selecionado ao menos.");
                     controle = -1;
                 }
             }
         }
         return controle;
     }
-
+    
     private void preencherComValorPacote() {
         nomePacoteSelecionado = "";
         pacotesDisponiveis.addItemListener((ItemEvent e) -> {
@@ -687,7 +731,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
                 }
             }
         });
-
+        
     }
 
     /**
@@ -743,6 +787,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -752,6 +797,8 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
     private javax.swing.JList<String> listaDeModalidadesAdd;
     private javax.swing.JComboBox<String> modalidadesDisponiveis;
     private javax.swing.JComboBox<String> opcoesDePagamento;
