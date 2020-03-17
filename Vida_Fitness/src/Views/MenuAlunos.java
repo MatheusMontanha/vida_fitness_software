@@ -4,6 +4,17 @@
  * and open the template in the editor.
  */
 package Views;
+import Controllers.GerenciamentoAlunosController;
+import Models.Aluno;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -315,7 +326,7 @@ public class MenuAlunos extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new NewJFrameteste().setVisible(true);
+                new MenuAlunos().setVisible(true);
             }
         });
     }

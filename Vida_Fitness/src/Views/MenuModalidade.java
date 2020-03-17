@@ -184,8 +184,8 @@ public class MenuModalidade extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void campoModalidadeFiltroKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoModalidadeFiltroKeyReleased
-        String valor = campoValorFiltro.getText();
-        filtrar(valor);
+        String valor = campoModalidadeFiltro.getText();
+        //filtrar(valor);
     }//GEN-LAST:event_campoModalidadeFiltroKeyReleased
 
     /**
