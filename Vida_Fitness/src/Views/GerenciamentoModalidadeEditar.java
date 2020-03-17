@@ -37,6 +37,7 @@ public class GerenciamentoModalidadeEditar extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jButtonCancelarModalidadeEdit = new javax.swing.JButton();
         jButtonSalvarModalidadeEdit = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -50,11 +51,10 @@ public class GerenciamentoModalidadeEditar extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI Black", 1, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Editar Modalidades");
-        jPanelCRUDModalidade.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 100, -1, -1));
+        jPanelCRUDModalidade.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 50, -1, -1));
 
-        jSeparator1.setBackground(new java.awt.Color(138, 236, 10));
         jSeparator1.setForeground(new java.awt.Color(0, 0, 0));
-        jPanelCRUDModalidade.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 150, 1000, 20));
+        jPanelCRUDModalidade.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 110, 480, 30));
 
         jTextFieldValorModalidadeEdit.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jTextFieldValorModalidadeEdit.addActionListener(new java.awt.event.ActionListener() {
@@ -62,20 +62,20 @@ public class GerenciamentoModalidadeEditar extends javax.swing.JFrame {
                 jTextFieldValorModalidadeEditActionPerformed(evt);
             }
         });
-        jPanelCRUDModalidade.add(jTextFieldValorModalidadeEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 330, 290, 30));
+        jPanelCRUDModalidade.add(jTextFieldValorModalidadeEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 340, 290, 30));
 
         jTextFieldNomeModalidadeEdit.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jPanelCRUDModalidade.add(jTextFieldNomeModalidadeEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 250, 290, 30));
+        jPanelCRUDModalidade.add(jTextFieldNomeModalidadeEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 230, 290, 30));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI Symbol", 1, 16)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Nome");
-        jPanelCRUDModalidade.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 230, -1, -1));
+        jPanelCRUDModalidade.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 200, -1, -1));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI Symbol", 1, 16)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Valor");
-        jPanelCRUDModalidade.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 310, -1, -1));
+        jPanelCRUDModalidade.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 310, -1, -1));
 
         jButtonCancelarModalidadeEdit.setBackground(new java.awt.Color(255, 51, 51));
         jButtonCancelarModalidadeEdit.setFont(new java.awt.Font("Arial Black", 0, 12)); // NOI18N
@@ -86,7 +86,7 @@ public class GerenciamentoModalidadeEditar extends javax.swing.JFrame {
                 jButtonCancelarModalidadeEditActionPerformed(evt);
             }
         });
-        jPanelCRUDModalidade.add(jButtonCancelarModalidadeEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 470, 100, 30));
+        jPanelCRUDModalidade.add(jButtonCancelarModalidadeEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 450, 100, 30));
 
         jButtonSalvarModalidadeEdit.setBackground(new java.awt.Color(84, 182, 19));
         jButtonSalvarModalidadeEdit.setFont(new java.awt.Font("Arial Black", 0, 12)); // NOI18N
@@ -97,7 +97,11 @@ public class GerenciamentoModalidadeEditar extends javax.swing.JFrame {
                 jButtonSalvarModalidadeEditActionPerformed(evt);
             }
         });
-        jPanelCRUDModalidade.add(jButtonSalvarModalidadeEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 470, 100, 30));
+        jPanelCRUDModalidade.add(jButtonSalvarModalidadeEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 450, 100, 30));
+
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/pesosPretos2.jpg"))); // NOI18N
+        jLabel4.setText("jLabel4");
+        jPanelCRUDModalidade.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 520, 600));
 
         jPanel1.add(jPanelCRUDModalidade, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 600));
 
@@ -159,6 +163,7 @@ public class GerenciamentoModalidadeEditar extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanelCRUDModalidade;
     private javax.swing.JSeparator jSeparator1;
