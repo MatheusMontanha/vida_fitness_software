@@ -41,12 +41,8 @@ public class GerenciamentoModalidade extends javax.swing.JFrame {
     public GerenciamentoModalidade(Modalidade modalidade) {
         initComponents();
         this.editarModalidade = modalidade;
-        popularOpcoesModalidade();
-        preencherCamposParaEditar(Modalidade);
-        if (modalidade.getModalidades() != null) {
-            componentesModalidade(true);
-            ativarModalidades.setSelected(true);
-        }
+        preencherCamposParaEditar(modalidade);
+        
         
     }
     
@@ -216,6 +212,10 @@ public class GerenciamentoModalidade extends javax.swing.JFrame {
                                                   
     }//GEN-LAST:event_jButtonSalvarModalidadeActionPerformed
 
+    private void preencherCamposParaEditar(Modalidade modalidade) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
     private void ValorModalidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ValorModalidadeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_ValorModalidadeActionPerformed
@@ -278,4 +278,6 @@ public class GerenciamentoModalidade extends javax.swing.JFrame {
     private javax.swing.JPanel jPanelCRUDModalidade;
     private javax.swing.JSeparator jSeparator1;
     // End of variables declaration//GEN-END:variables
+
+    
 }
