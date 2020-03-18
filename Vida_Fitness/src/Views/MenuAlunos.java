@@ -4,8 +4,11 @@
  * and open the template in the editor.
  */
 package Views;
+
 import Controllers.GerenciamentoAlunosController;
 import Models.Aluno;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.List;
@@ -22,11 +25,18 @@ import javax.swing.table.TableRowSorter;
  */
 public class MenuAlunos extends javax.swing.JFrame {
 
-    /**
-     * Creates new form NewJFrameteste
-     */
+    int indiceSelecionado;
+    List<Aluno> listaDeAlunos;
+    GerenciamentoAlunosController controllerAlunos = new GerenciamentoAlunosController();
+    DefaultTableModel dtm;
+
     public MenuAlunos() {
         initComponents();
+        try {
+            popularTabela();
+        } catch (ParseException e) {
+            Logger.getLogger(MenuAlunos.class.getName()).log(Level.SEVERE, null, e);
+        }
     }
 
     /**
@@ -38,7 +48,7 @@ public class MenuAlunos extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        jPanelPrincipal = new javax.swing.JPanel();
         campoValorFiltro = new javax.swing.JTextField();
         excluirBotao = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
@@ -50,7 +60,7 @@ public class MenuAlunos extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
+        jPanelCorVerde = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabelaDeAlunos = new javax.swing.JTable();
         jButton6 = new javax.swing.JButton();
@@ -58,10 +68,11 @@ public class MenuAlunos extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanelPrincipal.setBackground(new java.awt.Color(255, 255, 255));
+        jPanelPrincipal.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         campoValorFiltro.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         campoValorFiltro.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -69,7 +80,7 @@ public class MenuAlunos extends javax.swing.JFrame {
                 campoValorFiltroKeyReleased(evt);
             }
         });
-        jPanel1.add(campoValorFiltro, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 140, 210, -1));
+        jPanelPrincipal.add(campoValorFiltro, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 140, 210, -1));
 
         excluirBotao.setBackground(new java.awt.Color(255, 0, 0));
         excluirBotao.setFont(new java.awt.Font("Segoe UI Symbol", 1, 14)); // NOI18N
@@ -80,7 +91,7 @@ public class MenuAlunos extends javax.swing.JFrame {
                 excluirBotaoActionPerformed(evt);
             }
         });
-        jPanel1.add(excluirBotao, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 140, -1, 30));
+        jPanelPrincipal.add(excluirBotao, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 140, -1, 30));
 
         jButton5.setBackground(new java.awt.Color(0, 149, 0));
         jButton5.setFont(new java.awt.Font("Segoe UI Symbol", 1, 14)); // NOI18N
@@ -91,7 +102,7 @@ public class MenuAlunos extends javax.swing.JFrame {
                 jButton5ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 540, -1, -1));
+        jPanelPrincipal.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 540, -1, -1));
 
         editarBotao.setBackground(new java.awt.Color(0, 153, 255));
         editarBotao.setFont(new java.awt.Font("Segoe UI Symbol", 1, 14)); // NOI18N
@@ -102,7 +113,7 @@ public class MenuAlunos extends javax.swing.JFrame {
                 editarBotaoActionPerformed(evt);
             }
         });
-        jPanel1.add(editarBotao, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 140, -1, -1));
+        jPanelPrincipal.add(editarBotao, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 140, -1, -1));
 
         jPanel2.setBackground(new java.awt.Color(27, 25, 30));
         jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -157,13 +168,15 @@ public class MenuAlunos extends javax.swing.JFrame {
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/vidafitnes-removebg-preview (1).png"))); // NOI18N
         jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, -1, -1));
 
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 310, 600));
+        jPanelPrincipal.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 310, 600));
 
-        jPanel3.setBackground(new java.awt.Color(0, 153, 51));
-        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 0, 690, 70));
+        jPanelCorVerde.setBackground(new java.awt.Color(0, 153, 51));
+        jPanelCorVerde.setPreferredSize(null);
+        jPanelCorVerde.setRequestFocusEnabled(false);
+        jPanelCorVerde.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanelPrincipal.add(jPanelCorVerde, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 0, -1, -1));
 
-        tabelaDeAlunos.setFont(new java.awt.Font("Segoe UI Symbol", 1, 10)); // NOI18N
+        tabelaDeAlunos.setFont(new java.awt.Font("Segoe UI Symbol", 1, 12)); // NOI18N
         tabelaDeAlunos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
@@ -206,26 +219,27 @@ public class MenuAlunos extends javax.swing.JFrame {
         tabelaDeAlunos.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tabelaDeAlunos);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 180, 690, 350));
+        jPanelPrincipal.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 180, 730, 350));
 
         jButton6.setBackground(new java.awt.Color(0, 153, 255));
         jButton6.setFont(new java.awt.Font("Segoe UI Symbol", 1, 14)); // NOI18N
         jButton6.setForeground(new java.awt.Color(255, 255, 255));
         jButton6.setText("Frequencia");
-        jPanel1.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 540, -1, -1));
+        jPanelPrincipal.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 540, -1, -1));
 
-        jButton7.setBackground(new java.awt.Color(255, 255, 0));
+        jButton7.setBackground(new java.awt.Color(255, 153, 0));
         jButton7.setFont(new java.awt.Font("Segoe UI Symbol", 1, 14)); // NOI18N
         jButton7.setForeground(new java.awt.Color(255, 255, 255));
         jButton7.setText("Ver mais");
-        jPanel1.add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 140, -1, -1));
+        jPanelPrincipal.add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 140, -1, -1));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/procurar.png"))); // NOI18N
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 140, -1, -1));
+        jPanelPrincipal.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 140, -1, -1));
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 600));
+        getContentPane().add(jPanelPrincipal, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1040, 590));
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void gerenciarAlunosButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gerenciarAlunosButtonActionPerformed
@@ -266,10 +280,10 @@ public class MenuAlunos extends javax.swing.JFrame {
 
             Aluno aluno = buscarAlunoNaLista(nome);
             int resposta = JOptionPane.showConfirmDialog(rootPane,
-                "Tem certeza que deseja excluir o(a) aluno(a) " + aluno.getNome() + "? "
-                + "Essa ação não poderá ser revertida.",
-                "Selecione uma Opção",
-                JOptionPane.YES_NO_OPTION);
+                    "Tem certeza que deseja excluir o(a) aluno(a) " + aluno.getNome() + "? "
+                    + "Essa ação não poderá ser revertida.",
+                    "Selecione uma Opção",
+                    JOptionPane.YES_NO_OPTION);
 
             if (resposta != 1 & resposta != 2 & resposta != -1) {
                 try {
@@ -279,11 +293,11 @@ public class MenuAlunos extends javax.swing.JFrame {
                 } catch (SQLException e) {
                     Logger.getLogger(GerenciamentoDeAlunos.class.getName()).log(Level.SEVERE, null, e);
                     JOptionPane.showMessageDialog(this, "Ocorreu um erro ao excluir o aluno."
-                        + "Tente novamente!");
+                            + "Tente novamente!");
                 } catch (ParseException ex) {
                     Logger.getLogger(GerenciamentoDeAlunos.class.getName()).log(Level.SEVERE, null, ex);
                     JOptionPane.showMessageDialog(this, "Ocorreu um erro ao converter a data do cadastro."
-                        + "Tente novamente!");
+                            + "Tente novamente!");
                 }
             }
         } else {
@@ -295,6 +309,69 @@ public class MenuAlunos extends javax.swing.JFrame {
         String valor = campoValorFiltro.getText();
         filtrar(valor);
     }//GEN-LAST:event_campoValorFiltroKeyReleased
+
+    private Aluno buscarAlunoNaLista(String nome) {
+        for (int i = 0; i < listaDeAlunos.size(); i++) {
+            if (nome.equalsIgnoreCase(listaDeAlunos.get(i).getNome())) {
+                return listaDeAlunos.get(i);
+            }
+        }
+        return null;
+    }
+
+    private void popularTabela() throws ParseException {
+        dtm = (DefaultTableModel) tabelaDeAlunos.getModel();
+        dtm.setNumRows(0);
+        listaDeAlunos = controllerAlunos.getListaDeAlunos();
+        String modalidades = "";
+        String situacao;
+        if (listaDeAlunos.size() > 0) {
+            for (Aluno aluno : listaDeAlunos) {
+                if (aluno.isInadimplente()) {
+                    situacao = "Inadimplente";
+                } else {
+                    situacao = "Regular";
+                }
+                if (!aluno.getModalidades().isEmpty() & aluno.getModalidades() != null) {
+                    for (int i = 0; i < aluno.getModalidades().size(); i++) {
+                        modalidades += aluno.getModalidades().get(i).getNome();
+                        if (i != aluno.getModalidades().size() - 1) {
+                            modalidades += ", ";
+                        }
+                    }
+                    dtm.addRow(new Object[]{
+                        aluno.getNome(),
+                        aluno.getEndereco(),
+                        aluno.getTelefonePrincipal(),
+                        modalidades, "",
+                        situacao});
+                    modalidades = "";
+                }
+                if (aluno.getPacote() != null) {
+                    dtm.addRow(new Object[]{
+                        aluno.getNome(),
+                        aluno.getEndereco(),
+                        aluno.getTelefonePrincipal(),
+                        "", aluno.getPacote().getNomePacote(),
+                        situacao});
+                    modalidades = "";
+                }
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(this, "Nenhum aluno foi cadastrado!");
+        }
+    }
+
+    public void filtrar(String valor) {
+        try {
+            TableRowSorter<DefaultTableModel> resultadoFiltro = new TableRowSorter<>(dtm);
+            tabelaDeAlunos.setRowSorter(resultadoFiltro);
+            resultadoFiltro.setRowFilter(RowFilter.regexFilter(valor));
+        } catch (Exception e) {
+            System.out.println("Caractere não aceito.");
+        }
+    }
 
     /**
      * @param args the command line arguments
@@ -312,22 +389,16 @@ public class MenuAlunos extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(NewJFrameteste.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(NewJFrameteste.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(NewJFrameteste.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(NewJFrameteste.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(MenuAlunos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
+        //</editor-fold>
+
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MenuAlunos().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new MenuAlunos().setVisible(true);
         });
     }
 
@@ -345,9 +416,9 @@ public class MenuAlunos extends javax.swing.JFrame {
     private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanelCorVerde;
+    private javax.swing.JPanel jPanelPrincipal;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tabelaDeAlunos;
     // End of variables declaration//GEN-END:variables
