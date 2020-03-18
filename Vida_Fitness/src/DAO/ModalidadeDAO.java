@@ -24,6 +24,7 @@ public class ModalidadeDAO {
     float valorModalidade;
     int idModalidade;
     String nome;
+    
 
     public List<Modalidade> getModalidadesAluno(int idAluno) throws SQLException {
         Connection conexao = Conexao.realizarConexão();
@@ -57,10 +58,11 @@ public class ModalidadeDAO {
         Connection conexao = Conexao.realizarConexão();
         PreparedStatement stm;
         ResultSet rs;
+        List<Modalidade> listaModalidades = new ArrayList<>();
         try {
             stm = conexao.prepareStatement("Select * from Modalidade");
             rs = stm.executeQuery();
-            List<Modalidade> listaModalidades = new ArrayList<>();
+            
             while (rs.next()) {
                 valorModalidade = rs.getFloat("valor_modalidade");
                 idModalidade = rs.getInt("id_modalidade");

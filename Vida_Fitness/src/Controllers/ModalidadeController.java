@@ -30,4 +30,15 @@ public class ModalidadeController {
         }
         return null;
     }
+    
+     public void salvarCadastroModalidade(Modalidade modalidade) throws SQLException {
+        modalidadeDAO.salvarModalidades(modalidade);
+    }
+     public void deletarCadastroModalidade(int idModalidade) throws SQLException {
+        modalidadeDAO.deletarModalidade(idModalidade);
+    }
+     
+      public void editarCadastroModalidade(Modalidade modalidade) throws SQLException {
+        modalidadeDAO.editarModalidade(modalidade);
+    }
 }
