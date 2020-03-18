@@ -13,7 +13,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -62,9 +64,10 @@ public class MenuModalidade extends javax.swing.JFrame {
         editarModalidade = new javax.swing.JButton();
         excluirModalidade = new javax.swing.JButton();
         cadastrarModalidade = new javax.swing.JButton();
-        jLabel4 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -153,18 +156,23 @@ public class MenuModalidade extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tabelaModalidades);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 180, 550, 330));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 180, 550, 330));
 
-        modalidadeFiltro.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        modalidadeFiltro.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        modalidadeFiltro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                modalidadeFiltroActionPerformed(evt);
+            }
+        });
         modalidadeFiltro.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 modalidadeFiltroKeyReleased(evt);
             }
         });
-        jPanel1.add(modalidadeFiltro, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 140, 210, -1));
+        jPanel1.add(modalidadeFiltro, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 140, 210, -1));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/procurar.png"))); // NOI18N
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 140, -1, -1));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 140, -1, -1));
 
         editarModalidade.setBackground(new java.awt.Color(0, 153, 255));
         editarModalidade.setFont(new java.awt.Font("Segoe UI Symbol", 1, 14)); // NOI18N
@@ -175,7 +183,7 @@ public class MenuModalidade extends javax.swing.JFrame {
                 editarModalidadeActionPerformed(evt);
             }
         });
-        jPanel1.add(editarModalidade, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 140, -1, -1));
+        jPanel1.add(editarModalidade, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 140, -1, -1));
 
         excluirModalidade.setBackground(new java.awt.Color(255, 0, 0));
         excluirModalidade.setFont(new java.awt.Font("Segoe UI Symbol", 1, 14)); // NOI18N
@@ -186,7 +194,7 @@ public class MenuModalidade extends javax.swing.JFrame {
                 excluirModalidadeActionPerformed(evt);
             }
         });
-        jPanel1.add(excluirModalidade, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 140, -1, -1));
+        jPanel1.add(excluirModalidade, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 140, -1, -1));
 
         cadastrarModalidade.setBackground(new java.awt.Color(0, 149, 0));
         cadastrarModalidade.setFont(new java.awt.Font("Segoe UI Symbol", 1, 14)); // NOI18N
@@ -197,15 +205,15 @@ public class MenuModalidade extends javax.swing.JFrame {
                 cadastrarModalidadeActionPerformed(evt);
             }
         });
-        jPanel1.add(cadastrarModalidade, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 520, 110, 30));
+        jPanel1.add(cadastrarModalidade, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 520, 110, 30));
 
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/imagemTenis.jpg"))); // NOI18N
-        jLabel4.setText("imagemFundoMenu");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 0, 690, 600));
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/imagemTenisCerta.jpg"))); // NOI18N
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 0, 730, 600));
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 600));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1040, 600));
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void gerenciarAlunosButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gerenciarAlunosButtonActionPerformed
@@ -287,7 +295,20 @@ public class MenuModalidade extends javax.swing.JFrame {
             
     }//GEN-LAST:event_editarModalidadeActionPerformed
 
-    
+    private void modalidadeFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modalidadeFiltroActionPerformed
+        String nome = modalidadeFiltro.getText();
+        filtrar(nome);        
+    }//GEN-LAST:event_modalidadeFiltroActionPerformed
+
+     private void filtrar(String nome) {
+        try {
+            TableRowSorter<DefaultTableModel> resultadoFiltro = new TableRowSorter<>(dtm);
+            tabelaModalidades.setRowSorter(resultadoFiltro);
+            resultadoFiltro.setRowFilter(RowFilter.regexFilter(nome));
+        } catch (Exception e) {
+            System.out.println("Caractere não aceito.");
+        }
+    }
     
     private void popularTabelaModalidade() throws ParseException {
         dtm = (DefaultTableModel) tabelaModalidades.getModel();
@@ -348,11 +369,13 @@ public class MenuModalidade extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField modalidadeFiltro;
     private javax.swing.JTable tabelaModalidades;
     // End of variables declaration//GEN-END:variables
+
+   
 }
