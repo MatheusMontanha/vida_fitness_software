@@ -6,7 +6,9 @@
 package Views;
 
 import Controllers.GerenciamentoAlunosController;
+import Controllers.GerenciamentoFrequenciaAluno;
 import Models.Aluno;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,16 +21,18 @@ import javax.swing.JOptionPane;
  *
  * @author mathe
  */
-public class GerenciamentoFrequencia extends javax.swing.JFrame {
+public class LancarFrequencia extends javax.swing.JFrame {
 
     List<Aluno> listaDeAlunos;
+    List<Aluno> listaDeResultado;
     GerenciamentoAlunosController gerenciamentoDeAlunos = new GerenciamentoAlunosController();
-    DefaultListModel listaDeItensJlist = new DefaultListModel();
+    DefaultListModel listaDeAlunosResultadoJList;
+    GerenciamentoFrequenciaAluno gerenciamentoFrequencia = new GerenciamentoFrequenciaAluno();
 
     /**
      * Creates new form GerenciamentoFrequencia
      */
-    public GerenciamentoFrequencia() {
+    public LancarFrequencia() {
         initComponents();
         popularListaDeAlunos();
     }
@@ -47,8 +51,6 @@ public class GerenciamentoFrequencia extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         campoPesquisaAluno = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
-        opcaoPresenta = new javax.swing.JRadioButton();
-        opcaoAusente = new javax.swing.JRadioButton();
         lancarFrequencia = new javax.swing.JButton();
         buscarAluno = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -83,18 +85,6 @@ public class GerenciamentoFrequencia extends javax.swing.JFrame {
         jLabel1.setText("Pesquisa o Aluno Desejado:");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 100, -1, -1));
 
-        buttonGroup1.add(opcaoPresenta);
-        opcaoPresenta.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        opcaoPresenta.setForeground(new java.awt.Color(255, 255, 255));
-        opcaoPresenta.setText("Presente");
-        jPanel1.add(opcaoPresenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 360, -1, -1));
-
-        buttonGroup1.add(opcaoAusente);
-        opcaoAusente.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        opcaoAusente.setForeground(new java.awt.Color(255, 255, 255));
-        opcaoAusente.setText("Ausente");
-        jPanel1.add(opcaoAusente, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 360, -1, -1));
-
         lancarFrequencia.setBackground(new java.awt.Color(0, 204, 0));
         lancarFrequencia.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         lancarFrequencia.setForeground(new java.awt.Color(255, 255, 255));
@@ -120,12 +110,12 @@ public class GerenciamentoFrequencia extends javax.swing.JFrame {
         alunosResultado.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         jScrollPane1.setViewportView(alunosResultado);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 240, 370, 100));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 230, 450, 160));
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setText("Resultado:");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 210, 90, -1));
+        jLabel4.setText("Resultado(s):");
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 200, 120, -1));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 820, 490));
 
@@ -140,22 +130,75 @@ public class GerenciamentoFrequencia extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void lancarFrequenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lancarFrequenciaActionPerformed
-
+        int indiceSelecionado;
+        indiceSelecionado = alunosResultado.getSelectedIndex();
+        if (indiceSelecionado >= 0) {
+            if (listaDeAlunosResultadoJList.get(indiceSelecionado).toString().contains("Frequência de hoje já lançada")) {
+                JOptionPane.showMessageDialog(this, "Ops!! Esse aluno já teve a frequencia lançada hoje.");
+            } else {
+                Aluno aluno = identificarAluno(cpfAlunoSelecionado(listaDeAlunosResultadoJList.get(indiceSelecionado).toString()));
+                try {
+                    gerenciamentoFrequencia.lancarFrequenciaAluno(aluno);
+                    JOptionPane.showMessageDialog(this, "Aê!! Frequencia lançada com sucesso.");
+                    listaDeAlunosResultadoJList = new DefaultListModel();
+                } catch (SQLException e) {
+                    JOptionPane.showMessageDialog(this, "Ops!! Houve algum erro ao tentar inserir."
+                            + "Tente novamente.");
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Ops!! Selecione novamente o aluno.");
+        }
     }//GEN-LAST:event_lancarFrequenciaActionPerformed
 
     private void buscarAlunoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarAlunoActionPerformed
         if (buscarAluno(campoPesquisaAluno.getText()).size() > 0) {
+            listaDeAlunos.clear();
+            popularListaDeAlunos();
+            listaDeResultado = buscarAluno(campoPesquisaAluno.getText());
             preencherLista(buscarAluno(campoPesquisaAluno.getText()));
         } else {
             JOptionPane.showMessageDialog(this, "Ops!! Nenhum Aluno foi encontrado.");
         }
     }//GEN-LAST:event_buscarAlunoActionPerformed
 
-    private void preencherLista(List<Aluno> alunos) {
-        for (int i = 0; i < alunos.size(); i++) {
-            listaDeItensJlist.addElement(alunos.get(i).getNome() + ", " + alunos.get(i).getCpf());
+    private String cpfAlunoSelecionado(String valor) {
+        char caractere;
+        String cpf = "";
+        for (int i = 0; i < valor.length(); i++) {
+            caractere = valor.charAt(i);
+            if (caractere == ',') {
+                cpf = valor.substring(i + 2, valor.length());
+                return cpf;
+            }
         }
-        alunosResultado.setModel(listaDeItensJlist);
+        return cpf;
+    }
+
+    private Aluno identificarAluno(String cpf) {
+        if (cpf.length() > 0) {
+            for (int i = 0; i < listaDeAlunos.size(); i++) {
+                if (listaDeAlunos.get(i).getCpf().equalsIgnoreCase(cpf)) {
+                    return listaDeAlunos.get(i);
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Ops!! Cpf passado parece estar vazio. Tente novamente.");
+            return new Aluno();
+        }
+        return new Aluno();
+    }
+
+    private void preencherLista(List<Aluno> alunos) {
+        listaDeAlunosResultadoJList = new DefaultListModel();
+        for (int i = 0; i < alunos.size(); i++) {
+            if (gerenciamentoFrequencia.verificarLancamentoDeFrequencia(alunos.get(i).getFrequencias())) {
+                listaDeAlunosResultadoJList.addElement(alunos.get(i).getNome() + ", " + alunos.get(i).getCpf() + " - Frequência de hoje já lançada.");
+            } else {
+                listaDeAlunosResultadoJList.addElement(alunos.get(i).getNome() + ", " + alunos.get(i).getCpf());
+            }
+        }
+        alunosResultado.setModel(listaDeAlunosResultadoJList);
     }
 
     private List<Aluno> buscarAluno(String valorDigitado) {
@@ -172,7 +215,7 @@ public class GerenciamentoFrequencia extends javax.swing.JFrame {
         try {
             listaDeAlunos = gerenciamentoDeAlunos.getListaDeAlunos();
         } catch (ParseException ex) {
-            Logger.getLogger(GerenciamentoFrequencia.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LancarFrequencia.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -192,22 +235,18 @@ public class GerenciamentoFrequencia extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GerenciamentoFrequencia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GerenciamentoFrequencia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GerenciamentoFrequencia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GerenciamentoFrequencia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(LancarFrequencia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new GerenciamentoFrequencia().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new LancarFrequencia().setVisible(true);
         });
     }
 
@@ -222,7 +261,5 @@ public class GerenciamentoFrequencia extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton lancarFrequencia;
-    private javax.swing.JRadioButton opcaoAusente;
-    private javax.swing.JRadioButton opcaoPresenta;
     // End of variables declaration//GEN-END:variables
 }
