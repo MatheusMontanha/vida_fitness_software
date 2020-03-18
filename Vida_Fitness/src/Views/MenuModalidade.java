@@ -5,17 +5,37 @@
  */
 package Views;
 
+import Controllers.ModalidadeController;
+import Models.Modalidade;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Debor
  */
 public class MenuModalidade extends javax.swing.JFrame {
 
+    int indiceSelecionado;
+    List<Modalidade> listaDeModalidades;
+    ModalidadeController controllerModalidades = new ModalidadeController();
+    DefaultTableModel dtm;
+
     /**
      * Creates new form MenuModalidade
      */
     public MenuModalidade() {
         initComponents();
+        try {
+            popularTabelaModalidade();
+        } catch (ParseException ex) {
+            Logger.getLogger(MenuModalidade.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -36,12 +56,12 @@ public class MenuModalidade extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        campoModalidadeFiltro = new javax.swing.JTextField();
+        tabelaModalidades = new javax.swing.JTable();
+        modalidadeFiltro = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
+        editarModalidade = new javax.swing.JButton();
+        excluirModalidade = new javax.swing.JButton();
+        cadastrarModalidade = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -105,8 +125,8 @@ public class MenuModalidade extends javax.swing.JFrame {
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 310, 600));
 
-        jTable1.setFont(new java.awt.Font("Segoe UI Semilight", 1, 12)); // NOI18N
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tabelaModalidades.setFont(new java.awt.Font("Segoe UI Semilight", 1, 12)); // NOI18N
+        tabelaModalidades.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
                 {null, null},
@@ -131,38 +151,53 @@ public class MenuModalidade extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tabelaModalidades);
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 180, 550, 330));
 
-        campoModalidadeFiltro.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        campoModalidadeFiltro.addKeyListener(new java.awt.event.KeyAdapter() {
+        modalidadeFiltro.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        modalidadeFiltro.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                campoModalidadeFiltroKeyReleased(evt);
+                modalidadeFiltroKeyReleased(evt);
             }
         });
-        jPanel1.add(campoModalidadeFiltro, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 140, 210, -1));
+        jPanel1.add(modalidadeFiltro, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 140, 210, -1));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/procurar.png"))); // NOI18N
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 140, -1, -1));
 
-        jButton5.setBackground(new java.awt.Color(0, 153, 255));
-        jButton5.setFont(new java.awt.Font("Segoe UI Symbol", 1, 14)); // NOI18N
-        jButton5.setForeground(new java.awt.Color(255, 255, 255));
-        jButton5.setText("Editar");
-        jPanel1.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 140, -1, -1));
+        editarModalidade.setBackground(new java.awt.Color(0, 153, 255));
+        editarModalidade.setFont(new java.awt.Font("Segoe UI Symbol", 1, 14)); // NOI18N
+        editarModalidade.setForeground(new java.awt.Color(255, 255, 255));
+        editarModalidade.setText("Editar");
+        editarModalidade.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editarModalidadeActionPerformed(evt);
+            }
+        });
+        jPanel1.add(editarModalidade, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 140, -1, -1));
 
-        jButton6.setBackground(new java.awt.Color(255, 0, 0));
-        jButton6.setFont(new java.awt.Font("Segoe UI Symbol", 1, 14)); // NOI18N
-        jButton6.setForeground(new java.awt.Color(255, 255, 255));
-        jButton6.setText("Excluir");
-        jPanel1.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 140, -1, -1));
+        excluirModalidade.setBackground(new java.awt.Color(255, 0, 0));
+        excluirModalidade.setFont(new java.awt.Font("Segoe UI Symbol", 1, 14)); // NOI18N
+        excluirModalidade.setForeground(new java.awt.Color(255, 255, 255));
+        excluirModalidade.setText("Excluir");
+        excluirModalidade.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                excluirModalidadeActionPerformed(evt);
+            }
+        });
+        jPanel1.add(excluirModalidade, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 140, -1, -1));
 
-        jButton7.setBackground(new java.awt.Color(0, 149, 0));
-        jButton7.setFont(new java.awt.Font("Segoe UI Symbol", 1, 14)); // NOI18N
-        jButton7.setForeground(new java.awt.Color(255, 255, 255));
-        jButton7.setText("Cadastrar");
-        jPanel1.add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 520, 110, 30));
+        cadastrarModalidade.setBackground(new java.awt.Color(0, 149, 0));
+        cadastrarModalidade.setFont(new java.awt.Font("Segoe UI Symbol", 1, 14)); // NOI18N
+        cadastrarModalidade.setForeground(new java.awt.Color(255, 255, 255));
+        cadastrarModalidade.setText("Cadastrar");
+        cadastrarModalidade.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cadastrarModalidadeActionPerformed(evt);
+            }
+        });
+        jPanel1.add(cadastrarModalidade, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 520, 110, 30));
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/imagemTenis.jpg"))); // NOI18N
         jLabel4.setText("imagemFundoMenu");
@@ -174,8 +209,8 @@ public class MenuModalidade extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void gerenciarAlunosButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gerenciarAlunosButtonActionPerformed
-        GerenciamentoDeAlunos gerenciamentoAlunos = new GerenciamentoDeAlunos();
-        gerenciamentoAlunos.setVisible(true);
+        MenuModalidade menuModalidade = new MenuModalidade();
+        menuModalidade.setVisible(true);
         dispose();
     }//GEN-LAST:event_gerenciarAlunosButtonActionPerformed
 
@@ -183,10 +218,89 @@ public class MenuModalidade extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void campoModalidadeFiltroKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoModalidadeFiltroKeyReleased
-        String valor = campoModalidadeFiltro.getText();
+    private void modalidadeFiltroKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_modalidadeFiltroKeyReleased
+        String valor = modalidadeFiltro.getText();
         //filtrar(valor);
-    }//GEN-LAST:event_campoModalidadeFiltroKeyReleased
+    }//GEN-LAST:event_modalidadeFiltroKeyReleased
+
+     private Modalidade buscarModalidadeNaLista(String nome) {
+        for (int i = 0; i < listaDeModalidades.size(); i++) {
+            if (nome.equalsIgnoreCase(listaDeModalidades.get(i).getNome())) {
+                return listaDeModalidades.get(i);
+            }
+        }
+        return null;
+    }
+    
+    private void excluirModalidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_excluirModalidadeActionPerformed
+         if (tabelaModalidades.getSelectedRow() >= 0) {
+            int linhaSelecionada = tabelaModalidades.getSelectedRow();
+            String nome;
+            nome = (String) tabelaModalidades.getValueAt(linhaSelecionada, 0);
+            
+             Modalidade modalidade = buscarModalidadeNaLista(nome);
+            int resposta = JOptionPane.showConfirmDialog(rootPane,
+                "Tem certeza que deseja excluir a modalidade " + modalidade.getNome() + "? "
+                + "Essa ação não poderá ser revertida.",
+                "Selecione uma Opção",
+                JOptionPane.YES_NO_OPTION);
+             if (resposta != 1 & resposta != 2 & resposta != -1) {
+                try {
+                    controllerModalidades.deletarCadastroModalidade(modalidade.getIdModalidade());
+                    JOptionPane.showMessageDialog(this, "Modalidade excluida com sucesso!");
+                    popularTabelaModalidade();
+                } catch (SQLException e) {
+                    Logger.getLogger(GerenciamentoModalidade.class.getName()).log(Level.SEVERE, null, e);
+                    JOptionPane.showMessageDialog(this, "Ocorreu um erro ao excluir a modalidade."
+                            + "Tente novamente!");
+                } catch (ParseException ex) {
+                    Logger.getLogger(MenuModalidade.class.getName()).log(Level.SEVERE, null, ex);
+                } 
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Nenhuma modalidade foi selecionada!");
+        }
+                                              
+            
+            
+            
+    }//GEN-LAST:event_excluirModalidadeActionPerformed
+
+    private void cadastrarModalidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastrarModalidadeActionPerformed
+        GerenciamentoModalidade cadastroModalidade = new GerenciamentoModalidade();
+        cadastroModalidade.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_cadastrarModalidadeActionPerformed
+
+    private void editarModalidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarModalidadeActionPerformed
+         if (tabelaModalidades.getSelectedRow() >= 0) {
+            int linhaSelecionada = tabelaModalidades.getSelectedRow();
+            String nome;
+            nome = (String) tabelaModalidades.getValueAt(linhaSelecionada, 0);
+            Modalidade modalidade = buscarModalidadeNaLista(nome);
+            GerenciamentoModalidade cadastroModalidade = new GerenciamentoModalidade(modalidade);
+            cadastroModalidade.setVisible(true);
+            dispose();
+        } else {
+            JOptionPane.showMessageDialog(this, "Nenhuma modalidade foi selecionada!");
+        }
+            
+    }//GEN-LAST:event_editarModalidadeActionPerformed
+
+    
+    
+    private void popularTabelaModalidade() throws ParseException {
+        dtm = (DefaultTableModel) tabelaModalidades.getModel();
+        dtm.setNumRows(0);
+        listaDeModalidades = controllerModalidades.getModalidades();
+        System.out.println(listaDeModalidades.size());
+        for (Modalidade modalidade : listaDeModalidades) {
+            dtm.addRow(new Object[]{
+                modalidade.getNome(),
+                modalidade.getValorModalidade()
+        });
+        }
+    }
 
     /**
      * @param args the command line arguments
@@ -224,21 +338,21 @@ public class MenuModalidade extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField campoModalidadeFiltro;
+    private javax.swing.JButton cadastrarModalidade;
+    private javax.swing.JButton editarModalidade;
+    private javax.swing.JButton excluirModalidade;
     private javax.swing.JButton gerenciarAlunosButton;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTextField modalidadeFiltro;
+    private javax.swing.JTable tabelaModalidades;
     // End of variables declaration//GEN-END:variables
 }

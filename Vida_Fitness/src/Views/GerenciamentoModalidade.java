@@ -5,10 +5,16 @@
  */
 package Views;
 
+import Controllers.ModalidadeController;
+import Models.Modalidade;
 import java.awt.Color;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.sql.SQLException;
+import java.util.List;
+import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -17,6 +23,14 @@ import javax.swing.JPanel;
  */
 public class GerenciamentoModalidade extends javax.swing.JFrame {
 
+    Modalidade modalidade;
+    Modalidade editarModalidade;
+    ModalidadeController modalidadeController = new ModalidadeController();
+    List<Modalidade> listaDeModalides;
+    ModalidadeController controllerModalidade = new ModalidadeController();
+    DefaultListModel listaDeItensJlist = new DefaultListModel();
+    double valor = 0.0;
+
     /**
      * Creates new form GerenciamentoModalidade
      */
@@ -24,6 +38,23 @@ public class GerenciamentoModalidade extends javax.swing.JFrame {
         initComponents();
     }
 
+    public GerenciamentoModalidade(Modalidade modalidade) {
+        initComponents();
+        this.editarModalidade = modalidade;
+        popularOpcoesModalidade();
+        preencherCamposParaEditar(Modalidade);
+        if (modalidade.getModalidades() != null) {
+            componentesModalidade(true);
+            ativarModalidades.setSelected(true);
+        }
+        
+    }
+    
+    private int verificarCampoVazio(){
+        return 0;
+        
+    }
+   
 //    public class jPanelGradient extends JPanel{
 //        @Override
 //        protected void paintComponent(Graphics g){
@@ -49,12 +80,13 @@ public class GerenciamentoModalidade extends javax.swing.JFrame {
 
         jPanelCRUDModalidade = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jTextFieldValorModalidade = new javax.swing.JTextField();
-        jTextFieldNomeModalidade = new javax.swing.JTextField();
+        ValorModalidade = new javax.swing.JTextField();
+        NomeModalidade = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jButtonCancelarModalidade = new javax.swing.JButton();
         jButtonSalvarModalidade = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
 
@@ -69,16 +101,21 @@ public class GerenciamentoModalidade extends javax.swing.JFrame {
         jLabel1.setText("Cadastrar Modalidades");
         jPanelCRUDModalidade.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 50, -1, -1));
 
-        jTextFieldValorModalidade.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jTextFieldValorModalidade.addActionListener(new java.awt.event.ActionListener() {
+        ValorModalidade.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        ValorModalidade.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldValorModalidadeActionPerformed(evt);
+                ValorModalidadeActionPerformed(evt);
             }
         });
-        jPanelCRUDModalidade.add(jTextFieldValorModalidade, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 330, 290, 30));
+        jPanelCRUDModalidade.add(ValorModalidade, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 330, 290, 30));
 
-        jTextFieldNomeModalidade.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jPanelCRUDModalidade.add(jTextFieldNomeModalidade, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 220, 290, 30));
+        NomeModalidade.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        NomeModalidade.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                NomeModalidadeActionPerformed(evt);
+            }
+        });
+        jPanelCRUDModalidade.add(NomeModalidade, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 220, 290, 30));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI Symbol", 1, 16)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -112,6 +149,18 @@ public class GerenciamentoModalidade extends javax.swing.JFrame {
         });
         jPanelCRUDModalidade.add(jButtonSalvarModalidade, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 430, 100, 30));
 
+        jButton1.setBackground(new java.awt.Color(11, 133, 176));
+        jButton1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/back2.png"))); // NOI18N
+        jButton1.setText("Voltar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanelCRUDModalidade.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/pesosPretos2.jpg"))); // NOI18N
         jLabel4.setText("jLabel4");
         jPanelCRUDModalidade.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 520, 600));
@@ -127,12 +176,59 @@ public class GerenciamentoModalidade extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonCancelarModalidadeActionPerformed
 
     private void jButtonSalvarModalidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarModalidadeActionPerformed
-        // TODO add your handling code here:
+       if (editarModalidade == null) {
+            if (verificarCampoVazio() == -1) {
+                modalidade = new Modalidade();
+                modalidade.setNome(NomeModalidade.getText());
+                modalidade.setValorModalidade(Float.parseFloat(ValorModalidade.getText()));
+                
+                try {
+                    modalidadeController.salvarCadastroModalidade(modalidade);
+                    JOptionPane.showMessageDialog(this, "Modalidade salva com sucesso!");
+                    MenuModalidade menuModalidade = new MenuModalidade();
+                    menuModalidade.setVisible(true);
+                    dispose();
+                } catch (SQLException e) {
+                    JOptionPane.showMessageDialog(this, "Ops!! Algo deu errado. Tente novamente.");
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Ops!! Algum campo foi deixado em branco.");
+            }
+        } else {
+            if (verificarCampoVazio() == -1) {
+                editarModalidade.setNome(NomeModalidade.getText());
+                 modalidade.setValorModalidade(Float.parseFloat(ValorModalidade.getText()));
+               
+              
+                try {
+                    modalidadeController.editarCadastroModalidade(editarModalidade);
+                    JOptionPane.showMessageDialog(this, "Edição realizada com sucesso!");
+                    MenuModalidade menuModalidade = new MenuModalidade();
+                    menuModalidade.setVisible(true);
+                    dispose();
+                } catch (SQLException e) {
+                    JOptionPane.showMessageDialog(this, "Ops!! Algo deu errado. Tente novamente.");
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Ops!! Algum campo foi deixado em branco.");
+            }
+        }
+                                                  
     }//GEN-LAST:event_jButtonSalvarModalidadeActionPerformed
 
-    private void jTextFieldValorModalidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldValorModalidadeActionPerformed
+    private void ValorModalidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ValorModalidadeActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldValorModalidadeActionPerformed
+    }//GEN-LAST:event_ValorModalidadeActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        QuadroPrincipal quadroPrincipal = new QuadroPrincipal();
+        quadroPrincipal.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void NomeModalidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NomeModalidadeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_NomeModalidadeActionPerformed
 
     /**
      * @param args the command line arguments
@@ -170,6 +266,9 @@ public class GerenciamentoModalidade extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField NomeModalidade;
+    private javax.swing.JTextField ValorModalidade;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonCancelarModalidade;
     private javax.swing.JButton jButtonSalvarModalidade;
     private javax.swing.JLabel jLabel1;
@@ -178,7 +277,5 @@ public class GerenciamentoModalidade extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanelCRUDModalidade;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTextField jTextFieldNomeModalidade;
-    private javax.swing.JTextField jTextFieldValorModalidade;
     // End of variables declaration//GEN-END:variables
 }
