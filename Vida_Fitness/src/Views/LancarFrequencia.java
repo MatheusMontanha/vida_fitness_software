@@ -50,12 +50,15 @@ public class LancarFrequencia extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         voltarButton = new javax.swing.JButton();
         campoPesquisaAluno = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
-        lancarFrequencia = new javax.swing.JButton();
         buscarAluno = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         alunosResultado = new javax.swing.JList<>();
         jLabel4 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        lancarFrequencia = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -78,26 +81,10 @@ public class LancarFrequencia extends javax.swing.JFrame {
 
         campoPesquisaAluno.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         campoPesquisaAluno.setToolTipText("");
-        jPanel1.add(campoPesquisaAluno, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 130, 250, 32));
+        jPanel1.add(campoPesquisaAluno, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 160, 250, 32));
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Pesquisa o Aluno Desejado:");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 100, -1, -1));
-
-        lancarFrequencia.setBackground(new java.awt.Color(0, 204, 0));
-        lancarFrequencia.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        lancarFrequencia.setForeground(new java.awt.Color(255, 255, 255));
-        lancarFrequencia.setText("Lançar Frequência");
-        lancarFrequencia.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                lancarFrequenciaActionPerformed(evt);
-            }
-        });
-        jPanel1.add(lancarFrequencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 420, 190, 40));
-
-        buscarAluno.setBackground(new java.awt.Color(95, 158, 160));
-        buscarAluno.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        buscarAluno.setBackground(new java.awt.Color(0, 153, 204));
+        buscarAluno.setFont(new java.awt.Font("Segoe UI Symbol", 1, 14)); // NOI18N
         buscarAluno.setForeground(new java.awt.Color(255, 255, 255));
         buscarAluno.setText("Buscar");
         buscarAluno.addActionListener(new java.awt.event.ActionListener() {
@@ -105,19 +92,47 @@ public class LancarFrequencia extends javax.swing.JFrame {
                 buscarAlunoActionPerformed(evt);
             }
         });
-        jPanel1.add(buscarAluno, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 130, 90, 30));
+        jPanel1.add(buscarAluno, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 160, 90, 30));
 
         alunosResultado.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         jScrollPane1.setViewportView(alunosResultado);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 230, 450, 160));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 270, 450, 160));
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Segoe UI Symbol", 1, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Resultado(s):");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 200, 120, -1));
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 240, 120, -1));
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 820, 490));
+        jPanel2.setBackground(new java.awt.Color(27, 25, 30));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI Symbol", 1, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Pesquisa o Aluno Desejado:");
+        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 20, -1, -1));
+
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/lupa.png"))); // NOI18N
+        jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 20, -1, -1));
+
+        lancarFrequencia.setBackground(new java.awt.Color(0, 149, 0));
+        lancarFrequencia.setFont(new java.awt.Font("Segoe UI Symbol", 1, 14)); // NOI18N
+        lancarFrequencia.setForeground(new java.awt.Color(255, 255, 255));
+        lancarFrequencia.setText("Lançar Frequência");
+        lancarFrequencia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lancarFrequenciaActionPerformed(evt);
+            }
+        });
+        jPanel2.add(lancarFrequencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 340, 170, 40));
+
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 110, 550, 430));
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/ImagemFrequencia.jpg"))); // NOI18N
+        jLabel3.setText("jLabel3");
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1040, 600));
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1040, 600));
 
         pack();
         setLocationRelativeTo(null);
@@ -256,8 +271,11 @@ public class LancarFrequencia extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JTextField campoPesquisaAluno;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton lancarFrequencia;
     private javax.swing.JButton voltarButton;

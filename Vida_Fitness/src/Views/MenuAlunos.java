@@ -63,7 +63,7 @@ public class MenuAlunos extends javax.swing.JFrame {
         jPanelCorVerde = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabelaDeAlunos = new javax.swing.JTable();
-        jButton6 = new javax.swing.JButton();
+        jButtonFrequencia = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
 
@@ -80,7 +80,7 @@ public class MenuAlunos extends javax.swing.JFrame {
                 campoValorFiltroKeyReleased(evt);
             }
         });
-        jPanelPrincipal.add(campoValorFiltro, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 140, 210, -1));
+        jPanelPrincipal.add(campoValorFiltro, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 90, 210, -1));
 
         excluirBotao.setBackground(new java.awt.Color(255, 0, 0));
         excluirBotao.setFont(new java.awt.Font("Segoe UI Symbol", 1, 14)); // NOI18N
@@ -91,7 +91,7 @@ public class MenuAlunos extends javax.swing.JFrame {
                 excluirBotaoActionPerformed(evt);
             }
         });
-        jPanelPrincipal.add(excluirBotao, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 140, -1, 30));
+        jPanelPrincipal.add(excluirBotao, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 90, -1, 30));
 
         jButton5.setBackground(new java.awt.Color(0, 149, 0));
         jButton5.setFont(new java.awt.Font("Segoe UI Symbol", 1, 14)); // NOI18N
@@ -102,7 +102,7 @@ public class MenuAlunos extends javax.swing.JFrame {
                 jButton5ActionPerformed(evt);
             }
         });
-        jPanelPrincipal.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 540, -1, -1));
+        jPanelPrincipal.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(321, 530, 110, -1));
 
         editarBotao.setBackground(new java.awt.Color(0, 153, 255));
         editarBotao.setFont(new java.awt.Font("Segoe UI Symbol", 1, 14)); // NOI18N
@@ -113,7 +113,7 @@ public class MenuAlunos extends javax.swing.JFrame {
                 editarBotaoActionPerformed(evt);
             }
         });
-        jPanelPrincipal.add(editarBotao, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 140, -1, -1));
+        jPanelPrincipal.add(editarBotao, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 90, -1, -1));
 
         jPanel2.setBackground(new java.awt.Color(27, 25, 30));
         jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -185,7 +185,7 @@ public class MenuAlunos extends javax.swing.JFrame {
         jPanelCorVerde.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
         jPanelPrincipal.add(jPanelCorVerde, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 0, -1, -1));
 
-        tabelaDeAlunos.setFont(new java.awt.Font("Segoe UI Symbol", 1, 12)); // NOI18N
+        tabelaDeAlunos.setFont(new java.awt.Font("Segoe UI Symbol", 0, 12)); // NOI18N
         tabelaDeAlunos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
@@ -228,16 +228,21 @@ public class MenuAlunos extends javax.swing.JFrame {
         tabelaDeAlunos.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tabelaDeAlunos);
 
-        jPanelPrincipal.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 180, 720, 340));
+        jPanelPrincipal.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 130, 730, 390));
 
-        jButton6.setBackground(new java.awt.Color(0, 153, 255));
-        jButton6.setFont(new java.awt.Font("Segoe UI Symbol", 1, 14)); // NOI18N
-        jButton6.setForeground(new java.awt.Color(255, 255, 255));
-        jButton6.setText("Frequencia");
-        jPanelPrincipal.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 540, -1, -1));
+        jButtonFrequencia.setBackground(new java.awt.Color(153, 153, 0));
+        jButtonFrequencia.setFont(new java.awt.Font("Segoe UI Symbol", 1, 14)); // NOI18N
+        jButtonFrequencia.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonFrequencia.setText("Frequencia");
+        jButtonFrequencia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonFrequenciaActionPerformed(evt);
+            }
+        });
+        jPanelPrincipal.add(jButtonFrequencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 90, -1, -1));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/procurar.png"))); // NOI18N
-        jPanelPrincipal.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 140, -1, -1));
+        jPanelPrincipal.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 100, -1, -1));
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/imagemTenisCerta.jpg"))); // NOI18N
         jPanelPrincipal.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 0, 730, 600));
@@ -329,6 +334,12 @@ public class MenuAlunos extends javax.swing.JFrame {
         menuModalidade.setVisible(true);
         dispose();
     }//GEN-LAST:event_jButtonGerenciarModalidadesActionPerformed
+
+    private void jButtonFrequenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFrequenciaActionPerformed
+        VisualizarFrequencia frequencia = new VisualizarFrequencia();
+        frequencia.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jButtonFrequenciaActionPerformed
 
     private Aluno buscarAlunoNaLista(String nome) {
         for (int i = 0; i < listaDeAlunos.size(); i++) {
@@ -428,7 +439,7 @@ public class MenuAlunos extends javax.swing.JFrame {
     private javax.swing.JButton excluirBotao;
     private javax.swing.JButton gerenciarAlunosButton;
     private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButtonFrequencia;
     private javax.swing.JButton jButtonGerenciarCustos;
     private javax.swing.JButton jButtonGerenciarModalidades;
     private javax.swing.JButton jButtonGerenciarPacotes;

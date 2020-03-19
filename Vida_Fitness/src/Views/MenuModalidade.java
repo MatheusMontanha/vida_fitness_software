@@ -138,7 +138,7 @@ public class MenuModalidade extends javax.swing.JFrame {
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 310, 600));
 
-        tabelaModalidades.setFont(new java.awt.Font("Segoe UI Semilight", 1, 12)); // NOI18N
+        tabelaModalidades.setFont(new java.awt.Font("Segoe UI Symbol", 0, 12)); // NOI18N
         tabelaModalidades.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},

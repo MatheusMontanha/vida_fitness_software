@@ -46,10 +46,12 @@ public class VisualizarFrequencia extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tabelaDeFrequenciaAlunos = new javax.swing.JTable();
         voltarButton = new javax.swing.JButton();
-        campoInputFiltro = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
+        campoInputFiltro = new javax.swing.JTextField();
         lancarFrequenciaButton = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -86,7 +88,7 @@ public class VisualizarFrequencia extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tabelaDeFrequenciaAlunos);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 240, 1000, 360));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 250, 1040, 320));
 
         voltarButton.setBackground(new java.awt.Color(11, 133, 176));
         voltarButton.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -99,7 +101,19 @@ public class VisualizarFrequencia extends javax.swing.JFrame {
                 voltarButtonActionPerformed(evt);
             }
         });
-        jPanel1.add(voltarButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, -1, -1));
+        jPanel1.add(voltarButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, -1, -1));
+
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/lupa.png"))); // NOI18N
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 210, -1, -1));
+
+        jPanel2.setBackground(new java.awt.Color(27, 25, 30));
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI Black", 1, 24)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("Frequência dos Alunos");
+        jPanel2.add(jLabel2);
+
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 140, 310, 40));
 
         campoInputFiltro.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         campoInputFiltro.setToolTipText("Filtre por nome, telefone, endereço e ultima frequência");
@@ -108,20 +122,10 @@ public class VisualizarFrequencia extends javax.swing.JFrame {
                 campoInputFiltroKeyReleased(evt);
             }
         });
-        jPanel1.add(campoInputFiltro, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 130, 280, 40));
-
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Pesquise:");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 140, 100, 30));
-
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Frequência dos Alunos");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 210, -1, -1));
+        jPanel1.add(campoInputFiltro, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 210, 250, 30));
 
         lancarFrequenciaButton.setBackground(new java.awt.Color(0, 149, 0));
-        lancarFrequenciaButton.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lancarFrequenciaButton.setFont(new java.awt.Font("Segoe UI Symbol", 1, 14)); // NOI18N
         lancarFrequenciaButton.setForeground(new java.awt.Color(255, 255, 255));
         lancarFrequenciaButton.setText("Lançar Frequência");
         lancarFrequenciaButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -130,17 +134,21 @@ public class VisualizarFrequencia extends javax.swing.JFrame {
                 lancarFrequenciaButtonActionPerformed(evt);
             }
         });
-        jPanel1.add(lancarFrequenciaButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 40, 160, 40));
+        jPanel1.add(lancarFrequenciaButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 210, 160, 30));
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 600));
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/ImagemFrequencia.jpg"))); // NOI18N
+        jLabel3.setText("jLabel3");
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1040, 600));
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1040, 600));
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void voltarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_voltarButtonActionPerformed
-        QuadroPrincipal quadroPrincipal = new QuadroPrincipal();
-        quadroPrincipal.setVisible(true);
+        MenuAlunos menuAlunos = new MenuAlunos();
+        menuAlunos.setVisible(true);
         dispose();
     }//GEN-LAST:event_voltarButtonActionPerformed
 
@@ -227,9 +235,11 @@ public class VisualizarFrequencia extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField campoInputFiltro;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton lancarFrequenciaButton;
     private javax.swing.JTable tabelaDeFrequenciaAlunos;
