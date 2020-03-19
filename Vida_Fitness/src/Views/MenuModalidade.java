@@ -88,7 +88,7 @@ public class MenuModalidade extends javax.swing.JFrame {
                 gerenciarAlunosButtonActionPerformed(evt);
             }
         });
-        jPanel2.add(gerenciarAlunosButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 320, 250, 30));
+        jPanel2.add(gerenciarAlunosButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 320, 250, -1));
 
         jButton1.setBackground(new java.awt.Color(102, 102, 102));
         jButton1.setFont(new java.awt.Font("Segoe UI Symbol", 1, 14)); // NOI18N

@@ -160,4 +160,33 @@ public class PacoteDAO {
             Conexao.fecharConexao(conexao);
         }
     }
+    
+     public void deletarPacote(int idPacote) throws SQLException {
+        Connection conexao = Conexao.realizarConexão();
+        PreparedStatement stm;
+        try {
+            stm = conexao.prepareStatement("DELETE FROM Pacote WHERE Pacote.id_pacote = " + idPacote);
+            stm.executeUpdate();
+        } catch (SQLException e) {
+            Logger.getLogger(PacoteDAO.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            Conexao.fecharConexao(conexao);
+        }
+    }
+     
+     public void editarPacote(Pacote pacote) throws SQLException {
+        Connection conexao = Conexao.realizarConexão();
+        PreparedStatement stm;
+        try {
+            stm = conexao.prepareStatement("update Pacote set "
+                    + "nome_pacote = '" + pacote.getNomePacote() + "', "
+                    + "duracao_pacote ='" + pacote.getDuracao() + "', "
+                    + "valor_desconto_pacote = '" + pacote.getValorDesconto());
+             stm.executeUpdate();
+        } catch (SQLException e) {
+            Logger.getLogger(PacoteDAO.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            Conexao.fecharConexao(conexao);
+        }
+}
 }
