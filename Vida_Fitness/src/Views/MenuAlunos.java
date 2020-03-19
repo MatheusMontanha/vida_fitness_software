@@ -55,17 +55,17 @@ public class MenuAlunos extends javax.swing.JFrame {
         editarBotao = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         gerenciarAlunosButton = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        jButtonGerenciarPacotes = new javax.swing.JButton();
+        jButtonGerenciarModalidades = new javax.swing.JButton();
+        jButtonGerenciarCustos = new javax.swing.JButton();
+        jButtonIniciar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jPanelCorVerde = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabelaDeAlunos = new javax.swing.JTable();
         jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -91,7 +91,7 @@ public class MenuAlunos extends javax.swing.JFrame {
                 excluirBotaoActionPerformed(evt);
             }
         });
-        jPanelPrincipal.add(excluirBotao, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 140, -1, 30));
+        jPanelPrincipal.add(excluirBotao, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 140, -1, 30));
 
         jButton5.setBackground(new java.awt.Color(0, 149, 0));
         jButton5.setFont(new java.awt.Font("Segoe UI Symbol", 1, 14)); // NOI18N
@@ -102,7 +102,7 @@ public class MenuAlunos extends javax.swing.JFrame {
                 jButton5ActionPerformed(evt);
             }
         });
-        jPanelPrincipal.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 540, -1, -1));
+        jPanelPrincipal.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 540, -1, -1));
 
         editarBotao.setBackground(new java.awt.Color(0, 153, 255));
         editarBotao.setFont(new java.awt.Font("Segoe UI Symbol", 1, 14)); // NOI18N
@@ -113,7 +113,7 @@ public class MenuAlunos extends javax.swing.JFrame {
                 editarBotaoActionPerformed(evt);
             }
         });
-        jPanelPrincipal.add(editarBotao, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 140, -1, -1));
+        jPanelPrincipal.add(editarBotao, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 140, -1, -1));
 
         jPanel2.setBackground(new java.awt.Color(27, 25, 30));
         jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -132,38 +132,48 @@ public class MenuAlunos extends javax.swing.JFrame {
         });
         jPanel2.add(gerenciarAlunosButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 320, 250, -1));
 
-        jButton1.setBackground(new java.awt.Color(102, 102, 102));
-        jButton1.setFont(new java.awt.Font("Segoe UI Symbol", 1, 14)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/caixa.png"))); // NOI18N
-        jButton1.setText("Gerenciar Pacotes");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButtonGerenciarPacotes.setBackground(new java.awt.Color(102, 102, 102));
+        jButtonGerenciarPacotes.setFont(new java.awt.Font("Segoe UI Symbol", 1, 14)); // NOI18N
+        jButtonGerenciarPacotes.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonGerenciarPacotes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/caixa.png"))); // NOI18N
+        jButtonGerenciarPacotes.setText("Gerenciar Pacotes");
+        jButtonGerenciarPacotes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButtonGerenciarPacotesActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 390, 250, 30));
+        jPanel2.add(jButtonGerenciarPacotes, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 390, 250, 30));
 
-        jButton2.setBackground(new java.awt.Color(102, 102, 102));
-        jButton2.setFont(new java.awt.Font("Segoe UI Symbol", 1, 14)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/academia.png"))); // NOI18N
-        jButton2.setText("Gerenciar Modalidades");
-        jPanel2.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 460, 250, 30));
+        jButtonGerenciarModalidades.setBackground(new java.awt.Color(102, 102, 102));
+        jButtonGerenciarModalidades.setFont(new java.awt.Font("Segoe UI Symbol", 1, 14)); // NOI18N
+        jButtonGerenciarModalidades.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonGerenciarModalidades.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/academia.png"))); // NOI18N
+        jButtonGerenciarModalidades.setText("Gerenciar Modalidades");
+        jButtonGerenciarModalidades.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonGerenciarModalidadesActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jButtonGerenciarModalidades, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 460, 250, 30));
 
-        jButton3.setBackground(new java.awt.Color(102, 102, 102));
-        jButton3.setFont(new java.awt.Font("Segoe UI Symbol", 1, 14)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/dinheiro.png"))); // NOI18N
-        jButton3.setText("Gerenciar Custos");
-        jPanel2.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 530, 250, 30));
+        jButtonGerenciarCustos.setBackground(new java.awt.Color(102, 102, 102));
+        jButtonGerenciarCustos.setFont(new java.awt.Font("Segoe UI Symbol", 1, 14)); // NOI18N
+        jButtonGerenciarCustos.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonGerenciarCustos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/dinheiro.png"))); // NOI18N
+        jButtonGerenciarCustos.setText("Gerenciar Custos");
+        jPanel2.add(jButtonGerenciarCustos, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 530, 250, 30));
 
-        jButton4.setBackground(new java.awt.Color(102, 102, 102));
-        jButton4.setFont(new java.awt.Font("Segoe UI Symbol", 1, 14)); // NOI18N
-        jButton4.setForeground(new java.awt.Color(255, 255, 255));
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/casa (1).png"))); // NOI18N
-        jButton4.setText("Inicio");
-        jPanel2.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 250, 250, 30));
+        jButtonIniciar.setBackground(new java.awt.Color(102, 102, 102));
+        jButtonIniciar.setFont(new java.awt.Font("Segoe UI Symbol", 1, 14)); // NOI18N
+        jButtonIniciar.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonIniciar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/casa (1).png"))); // NOI18N
+        jButtonIniciar.setText("Inicio");
+        jButtonIniciar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonIniciarActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jButtonIniciar, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 250, 250, 30));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/vidafitnes-removebg-preview (1).png"))); // NOI18N
         jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, -1, -1));
@@ -171,7 +181,6 @@ public class MenuAlunos extends javax.swing.JFrame {
         jPanelPrincipal.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 310, 600));
 
         jPanelCorVerde.setBackground(new java.awt.Color(0, 153, 51));
-        jPanelCorVerde.setPreferredSize(null);
         jPanelCorVerde.setRequestFocusEnabled(false);
         jPanelCorVerde.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
         jPanelPrincipal.add(jPanelCorVerde, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 0, -1, -1));
@@ -219,38 +228,37 @@ public class MenuAlunos extends javax.swing.JFrame {
         tabelaDeAlunos.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tabelaDeAlunos);
 
-        jPanelPrincipal.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 180, 730, 350));
+        jPanelPrincipal.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 180, 720, 340));
 
         jButton6.setBackground(new java.awt.Color(0, 153, 255));
         jButton6.setFont(new java.awt.Font("Segoe UI Symbol", 1, 14)); // NOI18N
         jButton6.setForeground(new java.awt.Color(255, 255, 255));
         jButton6.setText("Frequencia");
-        jPanelPrincipal.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 540, -1, -1));
-
-        jButton7.setBackground(new java.awt.Color(255, 153, 0));
-        jButton7.setFont(new java.awt.Font("Segoe UI Symbol", 1, 14)); // NOI18N
-        jButton7.setForeground(new java.awt.Color(255, 255, 255));
-        jButton7.setText("Ver mais");
-        jPanelPrincipal.add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 140, -1, -1));
+        jPanelPrincipal.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 540, -1, -1));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/procurar.png"))); // NOI18N
         jPanelPrincipal.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 140, -1, -1));
 
-        getContentPane().add(jPanelPrincipal, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1040, 590));
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/imagemTenisCerta.jpg"))); // NOI18N
+        jPanelPrincipal.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 0, 730, 600));
+
+        getContentPane().add(jPanelPrincipal, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1040, 600));
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void gerenciarAlunosButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gerenciarAlunosButtonActionPerformed
-        GerenciamentoDeAlunos gerenciamentoAlunos = new GerenciamentoDeAlunos();
-        gerenciamentoAlunos.setVisible(true);
+        MenuAlunos menuAlunos = new MenuAlunos();
+        menuAlunos.setVisible(true);
         dispose();
     }//GEN-LAST:event_gerenciarAlunosButtonActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void jButtonGerenciarPacotesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGerenciarPacotesActionPerformed
+      MenuPacote menuPacotes = new MenuPacote();
+        menuPacotes.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jButtonGerenciarPacotesActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         CadastroEdicaoAluno cadastroAluno = new CadastroEdicaoAluno();
@@ -309,6 +317,18 @@ public class MenuAlunos extends javax.swing.JFrame {
         String valor = campoValorFiltro.getText();
         filtrar(valor);
     }//GEN-LAST:event_campoValorFiltroKeyReleased
+
+    private void jButtonIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIniciarActionPerformed
+        MenuInicial menuInicial = new MenuInicial();
+        menuInicial.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jButtonIniciarActionPerformed
+
+    private void jButtonGerenciarModalidadesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGerenciarModalidadesActionPerformed
+        MenuModalidade menuModalidade = new MenuModalidade();
+        menuModalidade.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jButtonGerenciarModalidadesActionPerformed
 
     private Aluno buscarAlunoNaLista(String nome) {
         for (int i = 0; i < listaDeAlunos.size(); i++) {
@@ -407,15 +427,15 @@ public class MenuAlunos extends javax.swing.JFrame {
     private javax.swing.JButton editarBotao;
     private javax.swing.JButton excluirBotao;
     private javax.swing.JButton gerenciarAlunosButton;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButtonGerenciarCustos;
+    private javax.swing.JButton jButtonGerenciarModalidades;
+    private javax.swing.JButton jButtonGerenciarPacotes;
+    private javax.swing.JButton jButtonIniciar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanelCorVerde;
     private javax.swing.JPanel jPanelPrincipal;
