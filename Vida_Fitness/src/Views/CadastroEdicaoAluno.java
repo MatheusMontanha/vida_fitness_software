@@ -113,7 +113,6 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         campoTelefonePrincipal = new javax.swing.JTextField();
         excluirItemSelecionadoJlist = new javax.swing.JButton();
-        voltarTelaCadastroAluno = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         campoCEP = new javax.swing.JTextField();
@@ -259,18 +258,6 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
             }
         });
         telaCadastroJPanel.add(excluirItemSelecionadoJlist, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 550, 180, 30));
-
-        voltarTelaCadastroAluno.setBackground(new java.awt.Color(11, 133, 176));
-        voltarTelaCadastroAluno.setFont(new java.awt.Font("Segoe UI Symbol", 1, 12)); // NOI18N
-        voltarTelaCadastroAluno.setForeground(new java.awt.Color(255, 255, 255));
-        voltarTelaCadastroAluno.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/back2.png"))); // NOI18N
-        voltarTelaCadastroAluno.setText("Voltar");
-        voltarTelaCadastroAluno.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                voltarTelaCadastroAlunoActionPerformed(evt);
-            }
-        });
-        telaCadastroJPanel.add(voltarTelaCadastroAluno, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 113, 32));
 
         jLabel8.setFont(new java.awt.Font("Segoe UI Symbol", 1, 16)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
@@ -498,12 +485,6 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_excluirItemSelecionadoJlistActionPerformed
-
-    private void voltarTelaCadastroAlunoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_voltarTelaCadastroAlunoActionPerformed
-        GerenciamentoDeAlunos gerenciamentoDeAlunos = new GerenciamentoDeAlunos();
-        gerenciamentoDeAlunos.setVisible(true);
-        dispose();
-    }//GEN-LAST:event_voltarTelaCadastroAlunoActionPerformed
 
     private void campoCEPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoCEPActionPerformed
         // TODO add your handling code here:
@@ -804,6 +785,5 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> opcoesDePagamento;
     private javax.swing.JComboBox<String> pacotesDisponiveis;
     private javax.swing.JPanel telaCadastroJPanel;
-    private javax.swing.JButton voltarTelaCadastroAluno;
     // End of variables declaration//GEN-END:variables
 }
