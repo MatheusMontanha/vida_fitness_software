@@ -24,7 +24,6 @@ public class ModalidadeDAO {
     float valorModalidade;
     int idModalidade;
     String nome;
-    
 
     public List<Modalidade> getModalidadesAluno(int idAluno) throws SQLException {
         Connection conexao = Conexao.realizarConexão();
@@ -62,7 +61,7 @@ public class ModalidadeDAO {
         try {
             stm = conexao.prepareStatement("Select * from Modalidade");
             rs = stm.executeQuery();
-            
+
             while (rs.next()) {
                 valorModalidade = rs.getFloat("valor_modalidade");
                 idModalidade = rs.getInt("id_modalidade");
@@ -121,11 +120,63 @@ public class ModalidadeDAO {
             stm = conexao.prepareStatement("update Modalidade set "
                     + "nome = '" + modalidade.getNome() + "', "
                     + "valor_modalidade = '" + modalidade.getValorModalidade());
-             stm.executeUpdate();
+            stm.executeUpdate();
         } catch (SQLException e) {
             Logger.getLogger(ModalidadeDAO.class.getName()).log(Level.SEVERE, null, e);
         } finally {
             Conexao.fecharConexao(conexao);
         }
+    }
+
+    public boolean verificarPrimeiroPagamento(int idAluno) {
+        Connection conexao = Conexao.realizarConexão();
+        PreparedStatement stm;
+        ResultSet rs;
+        try {
+            stm = conexao.prepareStatement("SELECT Aluno.nome from Aluno "
+                    + "INNER JOIN Inscricao_Aluno_Modalidade on "
+                    + "Inscricao_Aluno_Modalidade.id_aluno = Aluno.id_aluno \n"
+                    + "INNER JOIN Pagamento_Inscricao_Modalidade on "
+                    + "Pagamento_Inscricao_Modalidade.id_inscricao_aluno_modalidade = "
+                    + "Inscricao_Aluno_Modalidade.id_inscricao_aluno_modalidade \n"
+                    + "WHERE Aluno.id_aluno = " + idAluno);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                return false;
+            }
+            return true;
+        } catch (SQLException e) {
+            Logger.getLogger(ModalidadeDAO.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            Conexao.fecharConexao(conexao);
+        }
+        return false;
+    }
+
+    public String buscarDataUltimoPagamento(int idAluno) {
+        Connection conexao = Conexao.realizarConexão();
+        PreparedStatement stm;
+        ResultSet rs;
+        String data;
+        try {
+            stm = conexao.prepareStatement("SELECT Pagamento_Inscricao_Modalidade.data_pagamento"
+                    + " FROM Pagamento_Inscricao_Modalidade \n"
+                    + "INNER JOIN Inscricao_Aluno_Modalidade ON "
+                    + "Inscricao_Aluno_Modalidade.id_inscricao_aluno_modalidade = "
+                    + "Pagamento_Inscricao_Modalidade.id_inscricao_aluno_modalidade \n"
+                    + "INNER JOIN Aluno on Aluno.id_aluno = Inscricao_Aluno_Modalidade.id_aluno "
+                    + "WHERE Aluno.id_aluno = " + idAluno + " GROUP BY Pagamento_Inscricao_Modalidade.data_pagamento");
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                // return false;
+                data = rs.getString("data_pagamento");
+                return data;
+            }
+        } catch (SQLException e) {
+            Logger.getLogger(ModalidadeDAO.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            Conexao.fecharConexao(conexao);
+        }
+        return "";
     }
 }
