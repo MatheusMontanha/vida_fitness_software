@@ -9,7 +9,6 @@ import DAO.AlunoDAO;
 import Models.Aluno;
 import Models.Frequencia;
 import java.sql.SQLException;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -53,8 +52,7 @@ public class GerenciamentoAlunosController {
     public String verificarFrequenciaAluno(Frequencia frequencia) {
         Calendar dataAtual = Calendar.getInstance();
         Date dataAgora = dataAtual.getTime();
-        Calendar dataCadastrada = Calendar.getInstance();;
-        //DateFormat formataData = DateFormat.getDateInstance();
+        Calendar dataCadastrada = Calendar.getInstance();
         long days;
         if (frequencia.getData().before(dataAgora)) {
             dataCadastrada.setTime(frequencia.getData());
@@ -63,5 +61,4 @@ public class GerenciamentoAlunosController {
         }
         return "";
     }
-
 }

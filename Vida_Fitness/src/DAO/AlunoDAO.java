@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -79,57 +80,52 @@ public class AlunoDAO {
         return dateFormat.format(date);
     }
 
-    public boolean verificarInadimplencia(String dataRecebida) {
-        Calendar dataDeCadastro = Calendar.getInstance();
-        Calendar dataAtual = Calendar.getInstance();
+    private boolean verificarInadimplencia(String dataRecebida, int idAluno) {
+
+        Calendar calendarioAtual = Calendar.getInstance();
+        Date dataAgora = calendarioAtual.getTime();
+
+        Calendar calendarioDataCadastrada = Calendar.getInstance();
         DateFormat formataData = DateFormat.getDateInstance();
 
-        int anoCadastrado;
-        int anoAtual;
-
-        int mesCadastrado;
-        int mesAtual;
-
-        int diaCadastrado;
-        int diaAtual;
-
+        Date dataConvertida;
         try {
-            Date dataConvertida = formataData.parse(dataRecebida);
-            dataDeCadastro.setTime(dataConvertida);
-            if (dataDeCadastro.before(dataAtual)) {
-                anoCadastrado = dataDeCadastro.get(Calendar.YEAR);
-                anoAtual = dataAtual.get(Calendar.YEAR);
-                if (anoCadastrado < anoAtual) {
-                    mesCadastrado = dataDeCadastro.get(Calendar.MONTH);
-                    mesAtual = dataAtual.get(Calendar.MONTH);
-                    if (mesCadastrado >= mesAtual) {
-                        diaCadastrado = dataDeCadastro.get(Calendar.DAY_OF_MONTH);
-                        diaAtual = dataAtual.get(Calendar.DAY_OF_MONTH);
-                        if (diaAtual > diaCadastrado) {
-                            return true;
-                        }
+            if (modalidadeDAO.verificarPrimeiroPagamento(idAluno)) {
+                dataConvertida = formataData.parse(dataRecebida);
+                if (dataConvertida.before(dataAgora)) {
+                    long dias;
+                    calendarioDataCadastrada.setTime(dataConvertida);
+                    dias = Math.abs(ChronoUnit.DAYS.between(calendarioAtual.toInstant(),
+                            calendarioDataCadastrada.toInstant()));
+                    return dias > 30;
+                }
+            } else {
+                String dataUltimoPagamento;
+                dataUltimoPagamento = modalidadeDAO.buscarDataUltimoPagamento(idAluno);
+                dataConvertida = formataData.parse(dataUltimoPagamento);
+                calendarioDataCadastrada.setTime(dataConvertida);
+
+                int mesUltimoPagamento = calendarioDataCadastrada.get(Calendar.MONTH);
+                int mesAtual = calendarioAtual.get(Calendar.MONTH);
+                if ((mesUltimoPagamento - mesAtual) > 1) {
+                    return true;
+                } else if ((mesUltimoPagamento - mesAtual) == 0) {
+                    return false;
+                } else {
+                    Date dataConvertidaOutra;
+                    dataConvertidaOutra = formataData.parse(dataRecebida);
+                    calendarioDataCadastrada.setTime(dataConvertidaOutra);
+                    int diaDeVencimento = calendarioDataCadastrada.get(Calendar.DAY_OF_MONTH);
+                    int diaAtual = calendarioAtual.get(Calendar.DAY_OF_MONTH);
+                    if (diaAtual > diaDeVencimento) {
+                        return true;
                     }
                 }
-                if (anoCadastrado == anoAtual) {
-                    mesCadastrado = dataDeCadastro.get(Calendar.MONTH);
-                    mesAtual = dataAtual.get(Calendar.MONTH);
-                    if (mesCadastrado < mesAtual) {
-                        int diferencaMes = Math.abs(mesCadastrado - mesAtual);
-                        if (diferencaMes > 1) {
-                            return true;
-                        }
-                        diaCadastrado = dataDeCadastro.get(Calendar.DAY_OF_MONTH);
-                        diaAtual = dataAtual.get(Calendar.DAY_OF_MONTH);
-                        if (diaCadastrado < diaAtual) {
-                            return true;
-                        }
-                    }
-                }
-                return false;
             }
-        } catch (ParseException e) {
-            Logger.getLogger(AlunoDAO.class.getName()).log(Level.SEVERE, null, e);
+        } catch (ParseException ex) {
+            Logger.getLogger(AlunoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+
         return false;
     }
 
@@ -175,7 +171,7 @@ public class AlunoDAO {
                 cep = rs.getString("cep");
                 data = formatData.parse(rs.getString("data_cadastro"));
                 formaDePagamento = rs.getString("forma_pagamento");
-                if (verificarInadimplencia(rs.getString("data_cadastro"))) {
+                if (verificarInadimplencia(rs.getString("data_cadastro"), idAluno)) {
                     inadimplente = true;
                 }
                 listaDeFrequencias = frequenciaDAO.getFrequenciaAluno(idAluno);

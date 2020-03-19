@@ -48,7 +48,7 @@ public class LancarFrequencia extends javax.swing.JFrame {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        voltarButton = new javax.swing.JButton();
         campoPesquisaAluno = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         lancarFrequencia = new javax.swing.JButton();
@@ -64,17 +64,17 @@ public class LancarFrequencia extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(95, 158, 160));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jButton1.setBackground(new java.awt.Color(11, 133, 176));
-        jButton1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/back2.png"))); // NOI18N
-        jButton1.setText("Voltar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        voltarButton.setBackground(new java.awt.Color(11, 133, 176));
+        voltarButton.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        voltarButton.setForeground(new java.awt.Color(255, 255, 255));
+        voltarButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/back2.png"))); // NOI18N
+        voltarButton.setText("Voltar");
+        voltarButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                voltarButtonActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, -1, -1));
+        jPanel1.add(voltarButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, -1, -1));
 
         campoPesquisaAluno.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         campoPesquisaAluno.setToolTipText("");
@@ -123,11 +123,11 @@ public class LancarFrequencia extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        QuadroPrincipal quadroPrincipal = new QuadroPrincipal();
-        quadroPrincipal.setVisible(true);
+    private void voltarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_voltarButtonActionPerformed
+        VisualizarFrequencia visualizarFrequencia = new VisualizarFrequencia();
+        visualizarFrequencia.setVisible(true);
         dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_voltarButtonActionPerformed
 
     private void lancarFrequenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lancarFrequenciaActionPerformed
         int indiceSelecionado;
@@ -240,7 +240,7 @@ public class LancarFrequencia extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
-        
+
         //</editor-fold>
         //</editor-fold>
 
@@ -255,11 +255,11 @@ public class LancarFrequencia extends javax.swing.JFrame {
     private javax.swing.JButton buscarAluno;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JTextField campoPesquisaAluno;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton lancarFrequencia;
+    private javax.swing.JButton voltarButton;
     // End of variables declaration//GEN-END:variables
 }
