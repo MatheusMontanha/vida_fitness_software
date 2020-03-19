@@ -114,14 +114,14 @@ public class MenuModalidade extends javax.swing.JFrame {
         jButton3.setForeground(new java.awt.Color(255, 255, 255));
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/dinheiro.png"))); // NOI18N
         jButton3.setText("Gerenciar Custos");
-        jPanel2.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 530, 250, 30));
+        jPanel2.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 530, 250, -1));
 
         jButton4.setBackground(new java.awt.Color(102, 102, 102));
         jButton4.setFont(new java.awt.Font("Segoe UI Symbol", 1, 14)); // NOI18N
         jButton4.setForeground(new java.awt.Color(255, 255, 255));
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/casa (1).png"))); // NOI18N
         jButton4.setText("Inicio");
-        jPanel2.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 250, 250, 30));
+        jPanel2.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 250, 250, -1));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/vidafitnes-removebg-preview (1).png"))); // NOI18N
         jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, -1, -1));
@@ -159,11 +159,6 @@ public class MenuModalidade extends javax.swing.JFrame {
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 180, 550, 330));
 
         modalidadeFiltro.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        modalidadeFiltro.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                modalidadeFiltroActionPerformed(evt);
-            }
-        });
         modalidadeFiltro.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 modalidadeFiltroKeyReleased(evt);
@@ -227,8 +222,8 @@ public class MenuModalidade extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void modalidadeFiltroKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_modalidadeFiltroKeyReleased
-        String valor = modalidadeFiltro.getText();
-        //filtrar(valor);
+        String nome = modalidadeFiltro.getText();
+        filtrar(nome);
     }//GEN-LAST:event_modalidadeFiltroKeyReleased
 
      private Modalidade buscarModalidadeNaLista(String nome) {
@@ -294,11 +289,6 @@ public class MenuModalidade extends javax.swing.JFrame {
         }
             
     }//GEN-LAST:event_editarModalidadeActionPerformed
-
-    private void modalidadeFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modalidadeFiltroActionPerformed
-        String nome = modalidadeFiltro.getText();
-        filtrar(nome);        
-    }//GEN-LAST:event_modalidadeFiltroActionPerformed
 
      private void filtrar(String nome) {
         try {
