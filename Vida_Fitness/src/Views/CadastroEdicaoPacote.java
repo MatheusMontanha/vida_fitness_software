@@ -16,6 +16,8 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
@@ -46,7 +48,9 @@ public class CadastroEdicaoPacote extends javax.swing.JFrame {
     }
 
     public CadastroEdicaoPacote(Pacote pacoteEditar) {
-        //editarPacote = pacote;
+        initComponents();
+        popularOpcoesModalidades();
+        editarPacote = pacoteEditar;
         preencherCamposParaEditar(pacoteEditar);
     }
 
@@ -94,13 +98,13 @@ public class CadastroEdicaoPacote extends javax.swing.JFrame {
         tituloTelaCRUDMod.setFont(new java.awt.Font("Segoe UI Black", 1, 36)); // NOI18N
         tituloTelaCRUDMod.setForeground(new java.awt.Color(255, 255, 255));
         tituloTelaCRUDMod.setText("Cadastrar Pacote");
-        painelCentral.add(tituloTelaCRUDMod, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 20, -1, -1));
-        painelCentral.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 80, 510, 10));
+        painelCentral.add(tituloTelaCRUDMod, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 20, -1, -1));
+        painelCentral.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 80, 940, 10));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI Symbol", 1, 16)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Nome");
-        painelCentral.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 90, -1, -1));
+        painelCentral.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 150, -1, -1));
 
         nomePacote.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         nomePacote.addActionListener(new java.awt.event.ActionListener() {
@@ -108,7 +112,7 @@ public class CadastroEdicaoPacote extends javax.swing.JFrame {
                 nomePacoteActionPerformed(evt);
             }
         });
-        painelCentral.add(nomePacote, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 120, 290, 30));
+        painelCentral.add(nomePacote, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 180, 290, 30));
 
         duracaoPacote.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         duracaoPacote.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -259,20 +263,41 @@ public class CadastroEdicaoPacote extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonCancelarPacoteActionPerformed
 
     private void salvarPacoteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salvarPacoteButtonActionPerformed
-        if (verificarCampoVazio() == -1) {
-            pacote = new Pacote();
-            pacote.setNomePacote(nomePacote.getText());
-            pacote.setDuracao(Integer.parseInt(duracaoPacote.getText()));
-            pacote.setValorDesconto(Float.parseFloat(campoValorDesconto.getText()));
-            pacote.setListaDeModalidades(identificarListaDeModalidades());
-            try {
-                pacoteController.cadastrarPacote(pacote);
-                JOptionPane.showMessageDialog(this, "AÊ!! Pacote cadastrado com sucesso.");
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(this, "Ops!! Algo deu errado. Tente novamente.");
+        if (editarPacote == null) {
+            if (verificarCampoVazio() == -1) {
+                pacote = new Pacote();
+                pacote.setNomePacote(nomePacote.getText());
+                pacote.setDuracao(Integer.parseInt(duracaoPacote.getText()));
+                pacote.setValorDesconto(Float.parseFloat(campoValorDesconto.getText()));
+                pacote.setListaDeModalidades(identificarListaDeModalidades());
+                try {
+                    pacoteController.cadastrarPacote(pacote);
+                    JOptionPane.showMessageDialog(this, "AÊ!! Pacote cadastrado com sucesso.");
+                    MenuPacote pacoteMenu = new MenuPacote();
+                    pacoteMenu.setVisible(true);
+                    dispose();
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(this, "Ops!! Algo deu errado. Tente novamente.");
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Ops!! Algum campo foi deixado em branco.");
             }
         } else {
-            JOptionPane.showMessageDialog(this, "Ops!! Algum campo foi deixado em branco.");
+            if (verificarCampoVazio() == -1) {
+                editarPacote.setNomePacote(nomePacote.getText());
+                editarPacote.setDuracao(Integer.parseInt(duracaoPacote.getText()));
+                editarPacote.setValorDesconto(Float.parseFloat(campoValorDesconto.getText()));
+                editarPacote.setListaDeModalidades(identificarListaDeModalidades());
+                try {
+                    pacoteController.editarCadastroModalidade(editarPacote);
+                    JOptionPane.showMessageDialog(this, "AÊ!! Pacote editado com sucesso.");
+                    MenuPacote pacoteMenu = new MenuPacote();
+                    pacoteMenu.setVisible(true);
+                    dispose();
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(this, "Ops!! Algo deu errado. Tente novamente.");
+                }
+            }
         }
 
     }//GEN-LAST:event_salvarPacoteButtonActionPerformed
@@ -430,20 +455,23 @@ public class CadastroEdicaoPacote extends javax.swing.JFrame {
         return false;
     }
 
-    private void preencherCamposParaEditar(Pacote pacote) {
-        nomePacote.setText(pacote.getNomePacote());
-        duracaoPacote.setText("" + pacote.getDuracao());
-        if (pacote.getListaDeModalidades().size() > 0) {
-            for (int i = 0; i < pacote.getListaDeModalidades().size(); i++) {
-                String nomeModalidade = pacote.getListaDeModalidades().get(i).getNome();
-                float valorModalidade = pacote.getListaDeModalidades().get(i).getValorModalidade();
+    private void preencherCamposParaEditar(Pacote pacoteRecuperado) {
+        System.out.println("apaopkdopaskdopsa");
+        nomePacote.setText(pacoteRecuperado.getNomePacote());
+        duracaoPacote.setText("" + pacoteRecuperado.getDuracao());
+        campoValorDesconto.setText("" + pacoteRecuperado.getValorDesconto());
+        if (pacoteRecuperado.getListaDeModalidades().size() > 0) {
+            for (int i = 0; i < pacoteRecuperado.getListaDeModalidades().size(); i++) {
+                String nomeModalidade = pacoteRecuperado.getListaDeModalidades().get(i).getNome();
+                float valorModalidade = pacoteRecuperado.getListaDeModalidades().get(i).getValorModalidade();
                 float valorTotal = 0;
                 defaultModelJlist.addElement("" + nomeModalidade + ", R$" + valorModalidade);
                 modalidadesJList.setModel(defaultModelJlist);
-                for (Modalidade modalidade : pacote.getListaDeModalidades()) {
+                for (Modalidade modalidade : pacoteRecuperado.getListaDeModalidades()) {
                     valorTotal += modalidade.getValorModalidade();
                 }
-                campoValorTotalDesconto.setText("R" + formatoMoeda.format(valorTotal));
+                campoValorTotalSemDesconto.setText("R" + formatoMoeda.format(valorTotal));
+                campoValorTotalDesconto.setText("R" + formatoMoeda.format(valorTotal - pacoteRecuperado.getValorDesconto()));
                 valor = valorTotal;
             }
         }

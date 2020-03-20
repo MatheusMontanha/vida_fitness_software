@@ -33,10 +33,11 @@ public class GrupoModalidadePacoteDAO {
             Conexao.fecharConexao(conexao);
         }
     }
-    public void deletarModalidadePacote(int idModalidade) throws SQLException{
+
+    public void deletarModalidadePacote(int idModalidade) throws SQLException {
         Connection conexao = Conexao.realizarConexão();
         PreparedStatement stm;
-         try {
+        try {
             stm = conexao.prepareStatement("DELETE FROM "
                     + "Grupo_Modalidade_Pacote WHERE "
                     + "Grupo_Modalidade_Pacote.id_modalidade = " + idModalidade);
@@ -46,8 +47,22 @@ public class GrupoModalidadePacoteDAO {
         } finally {
             Conexao.fecharConexao(conexao);
         }
-    
+
+    }
+
+    public void deletarModalidadesPacote(int idPacote) {
+        Connection conexao = Conexao.realizarConexão();
+        PreparedStatement stm;
+        try {
+            stm = conexao.prepareStatement("DELETE FROM "
+                    + "Grupo_Modalidade_Pacote WHERE "
+                    + "Grupo_Modalidade_Pacote.id_pacote = " + idPacote);
+            stm.executeUpdate();
+        } catch (SQLException e) {
+            Logger.getLogger(GrupoModalidadePacoteDAO.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            Conexao.fecharConexao(conexao);
+        }
     }
 
 }
-

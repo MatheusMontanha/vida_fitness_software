@@ -166,9 +166,14 @@ public class PacoteDAO {
         try {
             stm = conexao.prepareStatement("update Pacote set "
                     + "nome_pacote = '" + pacote.getNomePacote() + "', "
-                    + "duracao_pacote ='" + pacote.getDuracao() + "', "
-                    + "valor_desconto_pacote = '" + pacote.getValorDesconto());
+                    + "valor_desconto_pacote = " + pacote.getValorDesconto() + ", "
+                    + "duracao_pacote = " + pacote.getDuracao());
             stm.executeUpdate();
+            modalidadePacoteDAO.deletarModalidadePacote(pacote.getIdPacote());
+            for (int i = 0; i < pacote.getListaDeModalidades().size(); i++) {
+                modalidadePacoteDAO.salvarModalidadePacote(pacote.getIdPacote(),
+                        pacote.getListaDeModalidades().get(i).getIdModalidade());
+            }
         } catch (SQLException e) {
             Logger.getLogger(PacoteDAO.class.getName()).log(Level.SEVERE, null, e);
         } finally {

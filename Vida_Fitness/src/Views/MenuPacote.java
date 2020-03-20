@@ -249,11 +249,9 @@ public class MenuPacote extends javax.swing.JFrame {
             int linhaSelecionada = tabelaPacotes.getSelectedRow();
             String nome;
             nome = (String) tabelaPacotes.getValueAt(linhaSelecionada, 0);
-            Pacote pacote = buscarPacoteNaLista(nome);
-            CadastroEdicaoPacote edicaoCadastroPacote = new CadastroEdicaoPacote(pacote);
+            CadastroEdicaoPacote edicaoCadastroPacote = new CadastroEdicaoPacote(buscarPacoteNaLista(nome));
             edicaoCadastroPacote.setVisible(true);
             dispose();
-            System.out.println("askdoapskdopsa");
         } else {
             JOptionPane.showMessageDialog(this, "Nenhum pacote foi selecionado!");
         }
@@ -317,8 +315,8 @@ public class MenuPacote extends javax.swing.JFrame {
 
 
     private void cadastrarPacoteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastrarPacoteActionPerformed
-        CadastroEdicaoModalidade cadastroModalidade = new CadastroEdicaoModalidade();
-        cadastroModalidade.setVisible(true);
+        CadastroEdicaoPacote cadastroEdicaoPacote = new CadastroEdicaoPacote();
+        cadastroEdicaoPacote.setVisible(true);
         dispose();
     }//GEN-LAST:event_cadastrarPacoteActionPerformed
 
@@ -362,10 +360,8 @@ public class MenuPacote extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MenuPacote().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new MenuPacote().setVisible(true);
         });
     }
 
