@@ -21,7 +21,7 @@ import java.util.logging.Logger;
  * @author mathe
  */
 public class PacoteDAO {
-    
+
     GrupoModalidadePacoteDAO modalidadePacoteDAO = new GrupoModalidadePacoteDAO();
 
     public Pacote getPacoteCliente(int idAluno) throws SQLException {
@@ -69,27 +69,14 @@ public class PacoteDAO {
         List<Modalidade> listaDeModalides = new ArrayList<>();
         List<Pacote> listaDePacotes = new ArrayList<>();
         try {
-            stm = conexao.prepareStatement("SELECT * from Pacote "
-                    + "INNER JOIN Grupo_Modalidade_Pacote on "
-                    + "Grupo_Modalidade_Pacote.id_pacote = Pacote.id_pacote "
-                    + "INNER JOIN Modalidade on Modalidade.id_modalidade = Grupo_Modalidade_Pacote.id_modalidade");
+            stm = conexao.prepareStatement("SELECT * from Pacote");
             rs = stm.executeQuery();
-            Pacote pacote = new Pacote();
             while (rs.next()) {
                 idPacote = rs.getInt("id_pacote");
                 nomePacote = rs.getString("nome_pacote");
                 valorDesconto = rs.getFloat("valor_desconto_pacote");
                 duracaoPacote = rs.getInt("duracao_pacote");
-                pacote.setIdPacote(idPacote);
-                pacote.setDuracao(duracaoPacote);
-                pacote.setNomePacote(nomePacote);
-                pacote.setValorDesconto(valorDesconto);
-                nome = rs.getString("nome");
-                valorModalidade = rs.getFloat("valor_modalidade");
-                idModalidade = rs.getInt("id_modalidade");
-                Modalidade modalidade = new Modalidade(idModalidade, nome, valorModalidade);
-                listaDeModalides.add(modalidade);
-                pacote.setListaDeModalidades(listaDeModalides);
+                Pacote pacote = new Pacote(idPacote, nomePacote, valorDesconto, duracaoPacote);
                 listaDePacotes.add(pacote);
             }
             return listaDePacotes;
@@ -135,11 +122,11 @@ public class PacoteDAO {
     public void salvarPacote(Pacote pacote) throws SQLException {
         Connection conexao = Conexao.realizarConexão();
         PreparedStatement stm;
-         ResultSet rs;
+        ResultSet rs;
         int idUltimoPacote = -1;
         try {
             stm = conexao.prepareStatement("INSERT INTO Pacote(nome_pacote,"
-                    + " valor_desconto_pacote, duracao_pacote, VALUES(?,?,?)");
+                    + " valor_desconto_pacote, duracao_pacote) VALUES(?,?,?)");
             stm.setString(1, pacote.getNomePacote());
             stm.setFloat(2, pacote.getValorDesconto());
             stm.setInt(3, pacote.getDuracao());
@@ -149,19 +136,18 @@ public class PacoteDAO {
             while (rs.next()) {
                 idUltimoPacote = rs.getInt("max(Pacote.id_pacote)");
             }
-         for (int i = 0; i < pacote.getListaDeModalidades().size(); i++) {
-                    modalidadePacoteDAO.salvarModalidadePacote(idUltimoPacote,
-                            pacote.getListaDeModalidades().get(i).getIdModalidade());
-                }
-          
+            for (int i = 0; i < pacote.getListaDeModalidades().size(); i++) {
+                modalidadePacoteDAO.salvarModalidadePacote(idUltimoPacote,
+                        pacote.getListaDeModalidades().get(i).getIdModalidade());
+            }
         } catch (SQLException e) {
             Logger.getLogger(PacoteDAO.class.getName()).log(Level.SEVERE, null, e);
         } finally {
             Conexao.fecharConexao(conexao);
         }
     }
-    
-     public void deletarPacote(int idPacote) throws SQLException {
+
+    public void deletarPacote(int idPacote) throws SQLException {
         Connection conexao = Conexao.realizarConexão();
         PreparedStatement stm;
         try {
@@ -173,8 +159,8 @@ public class PacoteDAO {
             Conexao.fecharConexao(conexao);
         }
     }
-     
-     public void editarPacote(Pacote pacote) throws SQLException {
+
+    public void editarPacote(Pacote pacote) throws SQLException {
         Connection conexao = Conexao.realizarConexão();
         PreparedStatement stm;
         try {
@@ -182,11 +168,11 @@ public class PacoteDAO {
                     + "nome_pacote = '" + pacote.getNomePacote() + "', "
                     + "duracao_pacote ='" + pacote.getDuracao() + "', "
                     + "valor_desconto_pacote = '" + pacote.getValorDesconto());
-             stm.executeUpdate();
+            stm.executeUpdate();
         } catch (SQLException e) {
             Logger.getLogger(PacoteDAO.class.getName()).log(Level.SEVERE, null, e);
         } finally {
             Conexao.fecharConexao(conexao);
         }
-}
+    }
 }

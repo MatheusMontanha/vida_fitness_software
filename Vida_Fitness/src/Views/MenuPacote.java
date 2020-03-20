@@ -250,7 +250,7 @@ public class MenuPacote extends javax.swing.JFrame {
             String nome;
             nome = (String) tabelaPacotes.getValueAt(linhaSelecionada, 0);
             Pacote pacote = buscarPacoteNaLista(nome);
-            GerenciamentoPacote cadastroPacote = new GerenciamentoPacote(pacote);
+            CadastroEdicaoPacote cadastroPacote = new CadastroEdicaoPacote(pacote);
             cadastroPacote.setVisible(true);
             dispose();
         } else {
@@ -319,7 +319,7 @@ public class MenuPacote extends javax.swing.JFrame {
 
     
     private void cadastrarPacoteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastrarPacoteActionPerformed
-        GerenciamentoModalidade cadastroModalidade = new GerenciamentoModalidade();
+        CadastroEdicaoModalidade cadastroModalidade = new CadastroEdicaoModalidade();
         cadastroModalidade.setVisible(true);
         dispose();
     }//GEN-LAST:event_cadastrarPacoteActionPerformed

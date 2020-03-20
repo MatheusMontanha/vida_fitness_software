@@ -21,10 +21,10 @@ public class GrupoModalidadePacoteDAO {
         Connection conexao = Conexao.realizarConexão();
         PreparedStatement stm;
         try {
-            stm = conexao.prepareStatement("INSERT INTO Grupo_Modalidade_Pacote(id_modalidade,"
-                    + " id_pacote)VALUES(?,?)");
-            stm.setInt(1, idModalidade);
-            stm.setInt(2, idPacote);
+            stm = conexao.prepareStatement("INSERT INTO Grupo_Modalidade_Pacote(id_pacote,"
+                    + " id_modalidade)VALUES(?,?)");
+            stm.setInt(1, idPacote);
+            stm.setInt(2, idModalidade);
             stm.executeUpdate();
 
         } catch (SQLException e) {

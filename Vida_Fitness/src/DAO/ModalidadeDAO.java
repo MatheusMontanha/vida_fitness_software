@@ -85,10 +85,10 @@ public class ModalidadeDAO {
         PreparedStatement stm;
 
         try {
-            stm = conexao.prepareStatement("INSERT INTO Modalidade(nome,"
-                    + " valor_modalidade)VALUES(?,?)");
-            stm.setString(1, modalidade.getNome());
-            stm.setFloat(2, modalidade.getValorModalidade());
+            stm = conexao.prepareStatement("INSERT INTO Modalidade(valor_modalidade,"
+                    + " nome)VALUES(?,?)");
+            stm.setFloat(1, modalidade.getValorModalidade());
+            stm.setString(2, modalidade.getNome());
 
             stm.executeUpdate();
 
@@ -118,8 +118,9 @@ public class ModalidadeDAO {
         PreparedStatement stm;
         try {
             stm = conexao.prepareStatement("update Modalidade set "
-                    + "nome = '" + modalidade.getNome() + "', "
-                    + "valor_modalidade = '" + modalidade.getValorModalidade());
+                    + "valor_modalidade = " + modalidade.getValorModalidade() + ", "
+                    + "nome = '" + modalidade.getNome() + "' "
+                    + "WHERE Modalidade.id_modalidade = " + modalidade.getIdModalidade());
             stm.executeUpdate();
         } catch (SQLException e) {
             Logger.getLogger(ModalidadeDAO.class.getName()).log(Level.SEVERE, null, e);

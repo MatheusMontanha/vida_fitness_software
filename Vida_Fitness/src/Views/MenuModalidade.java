@@ -265,7 +265,7 @@ public class MenuModalidade extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(this, "Modalidade excluida com sucesso!");
                     popularTabelaModalidade();
                 } catch (SQLException e) {
-                    Logger.getLogger(GerenciamentoModalidade.class.getName()).log(Level.SEVERE, null, e);
+                    Logger.getLogger(CadastroEdicaoModalidade.class.getName()).log(Level.SEVERE, null, e);
                     JOptionPane.showMessageDialog(this, "Ocorreu um erro ao excluir a modalidade."
                             + "Tente novamente!");
                 } catch (ParseException ex) {
@@ -280,7 +280,7 @@ public class MenuModalidade extends javax.swing.JFrame {
     }//GEN-LAST:event_excluirModalidadeActionPerformed
 
     private void cadastrarModalidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastrarModalidadeActionPerformed
-        GerenciamentoModalidade cadastroModalidade = new GerenciamentoModalidade();
+        CadastroEdicaoModalidade cadastroModalidade = new CadastroEdicaoModalidade();
         cadastroModalidade.setVisible(true);
         dispose();
     }//GEN-LAST:event_cadastrarModalidadeActionPerformed
@@ -291,7 +291,7 @@ public class MenuModalidade extends javax.swing.JFrame {
             String nome;
             nome = (String) tabelaModalidades.getValueAt(linhaSelecionada, 0);
             Modalidade modalidade = buscarModalidadeNaLista(nome);
-            GerenciamentoModalidade cadastroModalidade = new GerenciamentoModalidade(modalidade);
+            CadastroEdicaoModalidade cadastroModalidade = new CadastroEdicaoModalidade(modalidade);
             cadastroModalidade.setVisible(true);
             dispose();
         } else {
