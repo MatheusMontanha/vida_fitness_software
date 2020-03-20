@@ -49,4 +49,7 @@ public class GerenciadorPacotesController {
         pacoteDAO.editarPacote(pacote);
     }
 
+      public void cadastrarPacote(Pacote pacote) throws SQLException{
+          pacoteDAO.salvarPacote(pacote);
+      }
 }
