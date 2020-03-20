@@ -304,11 +304,11 @@ public class MenuAlunos extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(this, "Aluno excluido com sucesso!");
                     popularTabela();
                 } catch (SQLException e) {
-                    Logger.getLogger(GerenciamentoDeAlunos.class.getName()).log(Level.SEVERE, null, e);
+                    Logger.getLogger(MenuAlunos.class.getName()).log(Level.SEVERE, null, e);
                     JOptionPane.showMessageDialog(this, "Ocorreu um erro ao excluir o aluno."
                             + "Tente novamente!");
                 } catch (ParseException ex) {
-                    Logger.getLogger(GerenciamentoDeAlunos.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(MenuAlunos.class.getName()).log(Level.SEVERE, null, ex);
                     JOptionPane.showMessageDialog(this, "Ocorreu um erro ao converter a data do cadastro."
                             + "Tente novamente!");
                 }
@@ -336,9 +336,6 @@ public class MenuAlunos extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonGerenciarModalidadesActionPerformed
 
     private void jButtonFrequenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFrequenciaActionPerformed
-//        VisualizarFrequencia frequencia = new VisualizarFrequencia();
-//        frequencia.setVisible(true);
-//        dispose();
         VisualizarFrequencia visualizarFrequencia = new VisualizarFrequencia();
         visualizarFrequencia.setVisible(true);
         dispose();

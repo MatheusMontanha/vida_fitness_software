@@ -7,6 +7,7 @@ package Views;
 
 import Controllers.GerenciadorPacotesController;
 import Controllers.ModalidadeController;
+import Models.Aluno;
 import Models.Modalidade;
 import Models.Pacote;
 import java.awt.Component;
@@ -44,8 +45,9 @@ public class CadastroEdicaoPacote extends javax.swing.JFrame {
         popularOpcoesModalidades();
     }
 
-    CadastroEdicaoPacote(Pacote pacote) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public CadastroEdicaoPacote(Pacote pacoteEditar) {
+        //editarPacote = pacote;
+        preencherCamposParaEditar(pacoteEditar);
     }
 
     /**
@@ -426,6 +428,25 @@ public class CadastroEdicaoPacote extends javax.swing.JFrame {
             }
         }
         return false;
+    }
+
+    private void preencherCamposParaEditar(Pacote pacote) {
+        nomePacote.setText(pacote.getNomePacote());
+        duracaoPacote.setText("" + pacote.getDuracao());
+        if (pacote.getListaDeModalidades().size() > 0) {
+            for (int i = 0; i < pacote.getListaDeModalidades().size(); i++) {
+                String nomeModalidade = pacote.getListaDeModalidades().get(i).getNome();
+                float valorModalidade = pacote.getListaDeModalidades().get(i).getValorModalidade();
+                float valorTotal = 0;
+                defaultModelJlist.addElement("" + nomeModalidade + ", R$" + valorModalidade);
+                modalidadesJList.setModel(defaultModelJlist);
+                for (Modalidade modalidade : pacote.getListaDeModalidades()) {
+                    valorTotal += modalidade.getValorModalidade();
+                }
+                campoValorTotalDesconto.setText("R" + formatoMoeda.format(valorTotal));
+                valor = valorTotal;
+            }
+        }
     }
 
     /**

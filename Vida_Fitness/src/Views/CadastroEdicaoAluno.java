@@ -29,7 +29,7 @@ import javax.swing.JTextField;
  * @author mathe
  */
 public class CadastroEdicaoAluno extends javax.swing.JFrame {
-    
+
     Aluno aluno;
     Aluno editarAluno;
     GerenciamentoAlunosController alunoController = new GerenciamentoAlunosController();
@@ -53,10 +53,12 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
         excluirItemSelecionadoJlist.setEnabled(false);
         addModalidadeNaLista.setEnabled(false);
         preencherComValorPacote();
+        tituloPagina.setText("Cadastro de Aluno");
     }
-    
+
     public CadastroEdicaoAluno(Aluno aluno) {
         initComponents();
+        tituloPagina.setText("Edição de Aluno");
         preencherComValorPacote();
         this.editarAluno = aluno;
         popularOpcoesPacote();
@@ -139,7 +141,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
-        jLabel14 = new javax.swing.JLabel();
+        tituloPagina = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -366,10 +368,10 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
         telaCadastroJPanel.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 330, 310, 10));
         telaCadastroJPanel.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, 1000, 10));
 
-        jLabel14.setFont(new java.awt.Font("Segoe UI Black", 1, 36)); // NOI18N
-        jLabel14.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel14.setText("Cadastro de Aluno");
-        telaCadastroJPanel.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 50, -1, -1));
+        tituloPagina.setFont(new java.awt.Font("Segoe UI Black", 1, 36)); // NOI18N
+        tituloPagina.setForeground(new java.awt.Color(255, 255, 255));
+        tituloPagina.setText("Cadastro de Aluno");
+        telaCadastroJPanel.add(tituloPagina, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 50, -1, -1));
 
         getContentPane().add(telaCadastroJPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 600));
 
@@ -378,7 +380,9 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        MenuAlunos menuAluno = new MenuAlunos();
+        menuAluno.setVisible(true);
+        dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void buttonSalvarAlunoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSalvarAlunoActionPerformed
@@ -404,8 +408,8 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
                 try {
                     alunoController.salvarCadastroAluno(aluno);
                     JOptionPane.showMessageDialog(this, "Aluno salvo com sucesso!");
-                    GerenciamentoDeAlunos gerenciamentoDeAlunos = new GerenciamentoDeAlunos();
-                    gerenciamentoDeAlunos.setVisible(true);
+                    MenuAlunos menuAlunos = new MenuAlunos();
+                    menuAlunos.setVisible(true);
                     dispose();
                 } catch (SQLException e) {
                     JOptionPane.showMessageDialog(this, "Ops!! Algo deu errado. Tente novamente.");
@@ -437,8 +441,8 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
                 try {
                     alunoController.editarCadastroAluno(editarAluno);
                     JOptionPane.showMessageDialog(this, "Edição realizada com sucesso!");
-                    GerenciamentoDeAlunos gerenciamentoDeAlunos = new GerenciamentoDeAlunos();
-                    gerenciamentoDeAlunos.setVisible(true);
+                    MenuAlunos menuAlunos = new MenuAlunos();
+                    menuAlunos.setVisible(true);
                     dispose();
                 } catch (SQLException e) {
                     JOptionPane.showMessageDialog(this, "Ops!! Algo deu errado. Tente novamente.");
@@ -457,7 +461,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
         if (ativarPacote.isSelected()) {
             pacotesDisponiveis.setEnabled(true);
             componentesModalidade(false);
-            
+
         }
     }//GEN-LAST:event_ativarPacoteActionPerformed
 
@@ -506,7 +510,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
                 listaDeItensJlist.addElement("" + modalidade.getNome() + ", R$" + modalidade.getValorModalidade());
                 listaDeModalidadesAdd.setModel(listaDeItensJlist);
                 valor += modalidade.getValorModalidade();
-                
+
                 campoApresentaValorCadastro.setText("R" + formatoMoeda.format(valor));
             } else {
                 JOptionPane.showMessageDialog(this, "Ops!! Você já selecionou essa modalidade.");
@@ -524,14 +528,14 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
     private void campoTelefoneSecundarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoTelefoneSecundarioActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_campoTelefoneSecundarioActionPerformed
-    
+
     private void componentesModalidade(boolean condicao) {
         modalidadesDisponiveis.setEnabled(condicao);
         listaDeModalidadesAdd.setEnabled(condicao);
         addModalidadeNaLista.setEnabled(condicao);
         excluirItemSelecionadoJlist.setEnabled(condicao);
     }
-    
+
     private void selecionarFormaPagamento(String opcao) {
         for (int i = 0; i < opcoesDePagamento.getItemCount(); i++) {
             if (opcoesDePagamento.getItemAt(i).equalsIgnoreCase(opcao)) {
@@ -540,7 +544,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
             }
         }
     }
-    
+
     private void preencherCamposParaEditar(Aluno aluno) {
         campoNome.setText(aluno.getNome());
         campoTelefonePrincipal.setText(aluno.getTelefonePrincipal());
@@ -565,7 +569,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
             }
         }
     }
-    
+
     private double encontrarValorString(String text) {
         char caractere;
         double valorRecuperado = -1.0;
@@ -578,7 +582,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
         }
         return valorRecuperado;
     }
-    
+
     private String encontrarNomeString(String text) {
         char caractere;
         String nome = "";
@@ -591,7 +595,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
         }
         return nome;
     }
-    
+
     private boolean verificarDuplicidadeJList(String valor) {
         for (int i = 0; i < listaDeModalidadesAdd.getModel().getSize(); i++) {
             if (listaDeModalidadesAdd.getModel().getElementAt(i).equalsIgnoreCase(valor)) {
@@ -600,7 +604,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
         }
         return false;
     }
-    
+
     private List<Modalidade> identificarListaDeModalidades() {
         List<Modalidade> modalidadesSelecionadas = new ArrayList<>();
         String nome;
@@ -614,17 +618,17 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
         }
         return modalidadesSelecionadas;
     }
-    
+
     private Modalidade identificarModalidadeSelecionada() {
         for (int i = 0; i < listaDeModalides.size(); i++) {
             if (listaDeModalides.get(i).getNome().equalsIgnoreCase(modalidadesDisponiveis.getSelectedItem().toString())) {
                 return listaDeModalides.get(i);
             }
-            
+
         }
         return null;
     }
-    
+
     private Pacote identificarPacoteSelecionado() {
         for (int i = 0; i < listaDePacotes.size(); i++) {
             if (listaDePacotes.get(i).getNomePacote().equalsIgnoreCase(pacotesDisponiveis.getSelectedItem().toString())) {
@@ -633,7 +637,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
         }
         return null;
     }
-    
+
     private void popularOpcoesPacote() {
         listaDePacotes = gerenciadorPacotesController.getListaDePacotes();
         Pacote pacoteAux;
@@ -648,14 +652,14 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
             indexAux++;
         }
     }
-    
+
     private void popularOpcoesModalidades() {
         listaDeModalides = controllerModalidade.getModalidades();
         listaDeModalides.forEach((modalidade) -> {
             modalidadesDisponiveis.addItem(modalidade.getNome());
         });
     }
-    
+
     private void limparTodosCampos() {
         Component components[] = telaCadastroJPanel.getComponents();
         for (Component component : components) {
@@ -664,7 +668,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
             }
         }
     }
-    
+
     private int verificarCampoVazio() {
         Component components[] = telaCadastroJPanel.getComponents();
         int controle = -1;
@@ -687,7 +691,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
         }
         return controle;
     }
-    
+
     private void preencherComValorPacote() {
         nomePacoteSelecionado = "";
         pacotesDisponiveis.addItemListener((ItemEvent e) -> {
@@ -712,7 +716,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
                 }
             }
         });
-        
+
     }
 
     /**
@@ -768,7 +772,6 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -785,5 +788,6 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> opcoesDePagamento;
     private javax.swing.JComboBox<String> pacotesDisponiveis;
     private javax.swing.JPanel telaCadastroJPanel;
+    private javax.swing.JLabel tituloPagina;
     // End of variables declaration//GEN-END:variables
 }

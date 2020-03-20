@@ -76,7 +76,7 @@ public class PacoteDAO {
                 nomePacote = rs.getString("nome_pacote");
                 valorDesconto = rs.getFloat("valor_desconto_pacote");
                 duracaoPacote = rs.getInt("duracao_pacote");
-                Pacote pacote = new Pacote(idPacote, nomePacote, valorDesconto, duracaoPacote);
+                Pacote pacote = new Pacote(idPacote, nomePacote, valorDesconto, duracaoPacote, getModalidadesPacote(idPacote));
                 listaDePacotes.add(pacote);
             }
             return listaDePacotes;

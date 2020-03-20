@@ -25,7 +25,7 @@ public class MenuPacote extends javax.swing.JFrame {
 
     List<Pacote> listaDePacotes;
     int indiceSelecionado;
-    GerenciadorPacotesController controllerPacotes= new GerenciadorPacotesController();
+    GerenciadorPacotesController controllerPacotes = new GerenciadorPacotesController();
     DefaultTableModel dtm;
 
     /**
@@ -33,7 +33,7 @@ public class MenuPacote extends javax.swing.JFrame {
      */
     public MenuPacote() {
         initComponents();
-         try {
+        try {
             popularTabelaPacote();
         } catch (ParseException ex) {
             Logger.getLogger(MenuPacote.class.getName()).log(Level.SEVERE, null, ex);
@@ -234,7 +234,7 @@ public class MenuPacote extends javax.swing.JFrame {
     }//GEN-LAST:event_gerenciarAlunosButtonActionPerformed
 
     private void jButtonGerenciarPacotesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGerenciarPacotesActionPerformed
-       MenuPacote menuPacote = new MenuPacote();
+        MenuPacote menuPacote = new MenuPacote();
         menuPacote.setVisible(true);
         dispose();
     }//GEN-LAST:event_jButtonGerenciarPacotesActionPerformed
@@ -250,9 +250,10 @@ public class MenuPacote extends javax.swing.JFrame {
             String nome;
             nome = (String) tabelaPacotes.getValueAt(linhaSelecionada, 0);
             Pacote pacote = buscarPacoteNaLista(nome);
-            CadastroEdicaoPacote cadastroPacote = new CadastroEdicaoPacote(pacote);
-            cadastroPacote.setVisible(true);
+            CadastroEdicaoPacote edicaoCadastroPacote = new CadastroEdicaoPacote(pacote);
+            edicaoCadastroPacote.setVisible(true);
             dispose();
+            System.out.println("askdoapskdopsa");
         } else {
             JOptionPane.showMessageDialog(this, "Nenhum pacote foi selecionado!");
         }
@@ -269,7 +270,7 @@ public class MenuPacote extends javax.swing.JFrame {
     }
 
     private void excluirPacoteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_excluirPacoteActionPerformed
-         if (tabelaPacotes.getSelectedRow() >= 0) {
+        if (tabelaPacotes.getSelectedRow() >= 0) {
             int linhaSelecionada = tabelaPacotes.getSelectedRow();
             String nome;
             nome = (String) tabelaPacotes.getValueAt(linhaSelecionada, 0);
@@ -287,11 +288,11 @@ public class MenuPacote extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(this, "Pacote excluido com sucesso!");
                     popularTabelaPacote();
                 } catch (SQLException e) {
-                    Logger.getLogger(GerenciamentoDeAlunos.class.getName()).log(Level.SEVERE, null, e);
+                    Logger.getLogger(MenuPacote.class.getName()).log(Level.SEVERE, null, e);
                     JOptionPane.showMessageDialog(this, "Ocorreu um erro ao excluir o pacote."
                             + "Tente novamente!");
                 } catch (ParseException ex) {
-                    Logger.getLogger(GerenciamentoDeAlunos.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(MenuPacote.class.getName()).log(Level.SEVERE, null, ex);
                     JOptionPane.showMessageDialog(this, "Ocorreu um erro ao converter a data do cadastro."
                             + "Tente novamente!");
                 }
@@ -301,7 +302,6 @@ public class MenuPacote extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_excluirPacoteActionPerformed
 
-    
     private void popularTabelaPacote() throws ParseException {
         dtm = (DefaultTableModel) tabelaPacotes.getModel();
         dtm.setNumRows(0);
@@ -311,13 +311,11 @@ public class MenuPacote extends javax.swing.JFrame {
             dtm.addRow(new Object[]{
                 pacote.getNomePacote(),
                 pacote.getValorDesconto(),
-                pacote.getDuracao(),
-          
-        });
+                pacote.getDuracao(),});
         }
     }
 
-    
+
     private void cadastrarPacoteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastrarPacoteActionPerformed
         CadastroEdicaoModalidade cadastroModalidade = new CadastroEdicaoModalidade();
         cadastroModalidade.setVisible(true);
@@ -325,7 +323,7 @@ public class MenuPacote extends javax.swing.JFrame {
     }//GEN-LAST:event_cadastrarPacoteActionPerformed
 
     private void jButtonInicialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonInicialActionPerformed
-       MenuInicial menuInicial = new MenuInicial();
+        MenuInicial menuInicial = new MenuInicial();
         menuInicial.setVisible(true);
         dispose();
     }//GEN-LAST:event_jButtonInicialActionPerformed
@@ -391,7 +389,7 @@ public class MenuPacote extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void filtrar(String nome) {
-         try {
+        try {
             TableRowSorter<DefaultTableModel> resultadoFiltro = new TableRowSorter<>(dtm);
             tabelaPacotes.setRowSorter(resultadoFiltro);
             resultadoFiltro.setRowFilter(RowFilter.regexFilter(nome));
