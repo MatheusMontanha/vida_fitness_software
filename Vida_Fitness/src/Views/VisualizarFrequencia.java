@@ -88,7 +88,7 @@ public class VisualizarFrequencia extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tabelaDeFrequenciaAlunos);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 250, 1040, 320));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 250, 1040, 330));
 
         voltarButton.setBackground(new java.awt.Color(11, 133, 176));
         voltarButton.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N

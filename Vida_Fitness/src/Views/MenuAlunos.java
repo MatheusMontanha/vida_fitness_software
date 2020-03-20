@@ -260,7 +260,7 @@ public class MenuAlunos extends javax.swing.JFrame {
     }//GEN-LAST:event_gerenciarAlunosButtonActionPerformed
 
     private void jButtonGerenciarPacotesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGerenciarPacotesActionPerformed
-      MenuPacote menuPacotes = new MenuPacote();
+        MenuPacote menuPacotes = new MenuPacote();
         menuPacotes.setVisible(true);
         dispose();
     }//GEN-LAST:event_jButtonGerenciarPacotesActionPerformed
@@ -336,8 +336,11 @@ public class MenuAlunos extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonGerenciarModalidadesActionPerformed
 
     private void jButtonFrequenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFrequenciaActionPerformed
-        VisualizarFrequencia frequencia = new VisualizarFrequencia();
-        frequencia.setVisible(true);
+//        VisualizarFrequencia frequencia = new VisualizarFrequencia();
+//        frequencia.setVisible(true);
+//        dispose();
+        VisualizarFrequencia visualizarFrequencia = new VisualizarFrequencia();
+        visualizarFrequencia.setVisible(true);
         dispose();
     }//GEN-LAST:event_jButtonFrequenciaActionPerformed
 
