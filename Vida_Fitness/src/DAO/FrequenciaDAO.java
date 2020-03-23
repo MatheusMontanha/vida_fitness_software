@@ -8,7 +8,6 @@ package DAO;
 import Models.Aluno;
 import java.util.List;
 import Models.Frequencia;
-import Models.Pacote;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

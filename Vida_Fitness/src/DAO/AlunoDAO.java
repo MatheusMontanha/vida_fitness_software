@@ -132,10 +132,34 @@ public class AlunoDAO {
     public void deletarAluno(int idAluno) throws SQLException {
         Connection conexao = Conexao.realizarConexão();
         PreparedStatement stm;
+        List idsPagamento;
         try {
+            idsPagamento = inscricaoModalidadeDAO.getInscricaoAlunoModalidade(idAluno);
+            for (int i = 0; i < idsPagamento.size(); i++) {
+                deletarRegistroDePagamento(Integer.parseInt("" + idsPagamento.get(i)));
+            }
+            frequenciaDAO.excluirFrequenciaAluno(idAluno);
+            inscricaoModalidadeDAO.deletarInscricaoModalidade(idAluno);
+            inscricaoPacoteDAO.deletarInscricaoPacote(idAluno);
             inscricaoModalidadeDAO.deletarInscricaoModalidade(idAluno);
             frequenciaDAO.excluirFrequenciaAluno(idAluno);
             stm = conexao.prepareStatement("DELETE FROM Aluno WHERE Aluno.id_aluno = " + idAluno);
+            stm.executeUpdate();
+        } catch (SQLException e) {
+            Logger.getLogger(AlunoDAO.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            Conexao.fecharConexao(conexao);
+        }
+    }
+
+    public void deletarRegistroDePagamento(int idInscricaoModalidade) {
+        Connection conexao = Conexao.realizarConexão();
+        PreparedStatement stm;
+        try {
+            stm = conexao.prepareStatement("DELETE FROM "
+                    + "Pagamento_Inscricao_Modalidade WHERE "
+                    + "Pagamento_Inscricao_Modalidade.id_inscricao_aluno_modalidade = "
+                    + idInscricaoModalidade);
             stm.executeUpdate();
         } catch (SQLException e) {
             Logger.getLogger(AlunoDAO.class.getName()).log(Level.SEVERE, null, e);
