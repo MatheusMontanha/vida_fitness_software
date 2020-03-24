@@ -28,8 +28,9 @@ public class Aluno {
     private Pacote pacote;
     private List<Frequencia> frequencias;
     private String formaDePagamento;
+    private boolean pagamentoComCartao;
 
-    public Aluno(int idAluno, String nome, String telefonePrincipal, String telefoneSecundario, String endereco, String bairro, String cep, String cpf, Date dataCadastro, boolean inadimplente, List<Modalidade> modalidades, Pacote pacote, List<Frequencia> frequencias, String formaDePagamento) {
+    public Aluno(int idAluno, String nome, String telefonePrincipal, String telefoneSecundario, String endereco, String bairro, String cep, String cpf, Date dataCadastro, boolean inadimplente, List<Modalidade> modalidades, Pacote pacote, List<Frequencia> frequencias, boolean pagamentoComCartao) {
         this.idAluno = idAluno;
         this.nome = nome;
         this.telefonePrincipal = telefonePrincipal;
@@ -44,6 +45,15 @@ public class Aluno {
         this.pacote = pacote;
         this.frequencias = frequencias;
         this.formaDePagamento = formaDePagamento;
+        this.pagamentoComCartao = pagamentoComCartao;
+    }
+
+    public boolean isPagamentoComCartao() {
+        return pagamentoComCartao;
+    }
+
+    public void setPagamentoComCartao(boolean pagamentoComCartao) {
+        this.pagamentoComCartao = pagamentoComCartao;
     }
 
     public String getFormaDePagamento() {

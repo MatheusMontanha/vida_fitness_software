@@ -167,9 +167,9 @@ public class PacoteDAO {
             stm = conexao.prepareStatement("update Pacote set "
                     + "nome_pacote = '" + pacote.getNomePacote() + "', "
                     + "valor_desconto_pacote = " + pacote.getValorDesconto() + ", "
-                    + "duracao_pacote = " + pacote.getDuracao());
+                    + "duracao_pacote = " + pacote.getDuracao() + " WHERE Pacote.id_pacote = " + pacote.getIdPacote());
             stm.executeUpdate();
-            modalidadePacoteDAO.deletarModalidadePacote(pacote.getIdPacote());
+            modalidadePacoteDAO.deletarModalidadesPacote(pacote.getIdPacote());
             for (int i = 0; i < pacote.getListaDeModalidades().size(); i++) {
                 modalidadePacoteDAO.salvarModalidadePacote(pacote.getIdPacote(),
                         pacote.getListaDeModalidades().get(i).getIdModalidade());

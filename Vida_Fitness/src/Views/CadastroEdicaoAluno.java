@@ -25,7 +25,6 @@ import javax.swing.DefaultListModel;
 import javax.swing.InputVerifier;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
@@ -36,7 +35,7 @@ import javax.swing.border.Border;
  * @author mathe
  */
 public class CadastroEdicaoAluno extends javax.swing.JFrame {
-
+    
     Aluno aluno;
     Aluno editarAluno;
     GerenciamentoAlunosController alunoController = new GerenciamentoAlunosController();
@@ -63,14 +62,10 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
         addModalidadeNaLista.setEnabled(false);
         preencherComValorPacote();
         tituloPagina.setText("Cadastro de Aluno");
-        addItemListener();
-        habilitarConteudoCartaoCredito(false);
     }
-
+    
     public CadastroEdicaoAluno(Aluno aluno) {
         initComponents();
-        addItemListener();
-        habilitarConteudoCartaoCredito(false);
         tituloPagina.setText("Edição de Aluno");
         preencherComValorPacote();
         this.editarAluno = aluno;
@@ -160,23 +155,12 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
         campoApresentaValorCadastro = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        opcoesDePagamento = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
         tituloPagina = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
-        qntdVezesCartaoCredito = new javax.swing.JTextField();
-        try{
-            javax.swing.text.MaskFormatter data= new javax.swing.text.MaskFormatter("##");
-            qntdVezesCartaoCredito = new javax.swing.JFormattedTextField(data);
-        }
-        catch (Exception e){
-        }
-        jLabel15 = new javax.swing.JLabel();
-        valorDaParcela = new javax.swing.JLabel();
-        textoParcela1 = new javax.swing.JLabel();
+        checkPagamentoCartaoCredito = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -197,7 +181,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
                 buttonSalvarAlunoActionPerformed(evt);
             }
         });
-        telaCadastroJPanel.add(buttonSalvarAluno, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 590, 99, 37));
+        telaCadastroJPanel.add(buttonSalvarAluno, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 550, 99, 37));
 
         jButton2.setBackground(new java.awt.Color(255, 51, 51));
         jButton2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -208,7 +192,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
                 jButton2ActionPerformed(evt);
             }
         });
-        telaCadastroJPanel.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 590, 94, 37));
+        telaCadastroJPanel.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 550, 94, 37));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI Symbol", 1, 16)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -454,21 +438,17 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
 
         campoApresentaValorCadastro.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         campoApresentaValorCadastro.setEnabled(false);
-        telaCadastroJPanel.add(campoApresentaValorCadastro, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 520, 150, 30));
+        telaCadastroJPanel.add(campoApresentaValorCadastro, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 370, 150, 30));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI Symbol", 3, 16)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Valor inscrição:");
-        telaCadastroJPanel.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 490, 130, 20));
+        telaCadastroJPanel.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 340, 130, 20));
 
         jLabel12.setFont(new java.awt.Font("Segoe UI Symbol", 1, 16)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(255, 255, 255));
         jLabel12.setText("Bairro:");
         telaCadastroJPanel.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 260, -1, -1));
-
-        opcoesDePagamento.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        opcoesDePagamento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione a forma de pagamento", "Dinheiro", "Cartão de Crédito" }));
-        telaCadastroJPanel.add(opcoesDePagamento, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 350, 250, 30));
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
@@ -487,34 +467,17 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
         tituloPagina.setText("Cadastro de Aluno");
         telaCadastroJPanel.add(tituloPagina, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 50, -1, -1));
 
-        jLabel14.setFont(new java.awt.Font("Segoe UI Symbol", 1, 16)); // NOI18N
-        jLabel14.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel14.setText("Forma de Pagamento:");
-        telaCadastroJPanel.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 320, -1, -1));
-
-        qntdVezesCartaoCredito.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        qntdVezesCartaoCredito.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                qntdVezesCartaoCreditoKeyReleased(evt);
+        checkPagamentoCartaoCredito.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        checkPagamentoCartaoCredito.setForeground(new java.awt.Color(255, 255, 255));
+        checkPagamentoCartaoCredito.setText("Pagamento Efetuado com cartão de crédito?");
+        checkPagamentoCartaoCredito.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkPagamentoCartaoCreditoActionPerformed(evt);
             }
         });
-        telaCadastroJPanel.add(qntdVezesCartaoCredito, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 430, 50, 30));
+        telaCadastroJPanel.add(checkPagamentoCartaoCredito, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 440, 350, 40));
 
-        jLabel15.setFont(new java.awt.Font("Segoe UI Symbol", 1, 16)); // NOI18N
-        jLabel15.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel15.setText("Quantidade de vezes:");
-        telaCadastroJPanel.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 400, -1, -1));
-
-        valorDaParcela.setFont(new java.awt.Font("Segoe UI Symbol", 1, 16)); // NOI18N
-        valorDaParcela.setForeground(new java.awt.Color(255, 255, 255));
-        telaCadastroJPanel.add(valorDaParcela, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 440, 130, 20));
-
-        textoParcela1.setFont(new java.awt.Font("Segoe UI Symbol", 1, 16)); // NOI18N
-        textoParcela1.setForeground(new java.awt.Color(255, 255, 255));
-        textoParcela1.setText("X. De");
-        telaCadastroJPanel.add(textoParcela1, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 440, 50, -1));
-
-        getContentPane().add(telaCadastroJPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 650));
+        getContentPane().add(telaCadastroJPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 610));
 
         pack();
         setLocationRelativeTo(null);
@@ -535,8 +498,14 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
                 aluno.setTelefoneSecundario(campoTelefoneSecundario.getText());
                 aluno.setEndereco(campoEndereco.getText());
                 aluno.setCpf(campoCPF.getText());
+                aluno.setBairro(campoBairro.getText());
+                aluno.setCep(campoCEP.getText());
                 aluno.setInadimplente(false);
-                aluno.setFormaDePagamento(opcoesDePagamento.getSelectedItem().toString());
+                if (checkPagamentoCartaoCredito.isSelected()) {
+                    aluno.setPagamentoComCartao(true);
+                } else {
+                    aluno.setPagamentoComCartao(false);
+                }
                 if (ativarModalidades.isSelected()) {
                     List<Modalidade> modalidades = identificarListaDeModalidades();
                     aluno.setPacote(new Pacote());
@@ -568,6 +537,11 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
                 editarAluno.setInadimplente(false);
                 editarAluno.setBairro(campoBairro.getText());
                 editarAluno.setCep(campoCEP.getText());
+                if (checkPagamentoCartaoCredito.isSelected()) {
+                    editarAluno.setPagamentoComCartao(true);
+                } else {
+                    editarAluno.setPagamentoComCartao(false);
+                }
                 if (ativarModalidades.isSelected()) {
                     List<Modalidade> modalidades = identificarListaDeModalidades();
                     editarAluno.setModalidades(modalidades);
@@ -601,7 +575,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
         if (ativarPacote.isSelected()) {
             pacotesDisponiveis.setEnabled(true);
             componentesModalidade(false);
-
+            
         }
     }//GEN-LAST:event_ativarPacoteActionPerformed
 
@@ -638,7 +612,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
                 listaDeItensJlist.addElement("" + modalidade.getNome() + ", R$" + modalidade.getValorModalidade());
                 listaDeModalidadesAdd.setModel(listaDeItensJlist);
                 valor += modalidade.getValorModalidade();
-
+                
                 campoApresentaValorCadastro.setText("R" + formatoMoeda.format(valor));
             } else {
                 JOptionPane.showMessageDialog(this, "Ops!! Você já selecionou essa modalidade.");
@@ -653,36 +627,17 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
         limparTodosCampos();
     }//GEN-LAST:event_buttonLimparTudoActionPerformed
 
-    private void qntdVezesCartaoCreditoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_qntdVezesCartaoCreditoKeyReleased
-        int qntdParcelas;
-        if (!qntdVezesCartaoCredito.getText().trim().isEmpty()) {
-            if (!qntdVezesCartaoCredito.getText().trim().equals("0")) {
-                qntdParcelas = Integer.parseInt(qntdVezesCartaoCredito.getText().trim());
-                if (encontrarValorString(campoApresentaValorCadastro.getText()) > 0.0) {
-                    valorPacela = encontrarValorString(campoApresentaValorCadastro.getText()) / qntdParcelas;
-                    valorDaParcela.setText("R" + formatoMoeda.format(valorPacela) + " Reais.");
-                    System.out.println(valorPacela);
-                }
-            }
-        }
-    }//GEN-LAST:event_qntdVezesCartaoCreditoKeyReleased
-
+    private void checkPagamentoCartaoCreditoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkPagamentoCartaoCreditoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_checkPagamentoCartaoCreditoActionPerformed
+    
     private void componentesModalidade(boolean condicao) {
         modalidadesDisponiveis.setEnabled(condicao);
         listaDeModalidadesAdd.setEnabled(condicao);
         addModalidadeNaLista.setEnabled(condicao);
         excluirItemSelecionadoJlist.setEnabled(condicao);
     }
-
-    private void selecionarFormaPagamento(String opcao) {
-        for (int i = 0; i < opcoesDePagamento.getItemCount(); i++) {
-            if (opcoesDePagamento.getItemAt(i).equalsIgnoreCase(opcao)) {
-                opcoesDePagamento.setSelectedIndex(i);
-                break;
-            }
-        }
-    }
-
+    
     private void preencherCamposParaEditar(Aluno aluno) {
         campoNome.setText(aluno.getNome());
         campoTelefonePrincipal.setText(aluno.getTelefonePrincipal());
@@ -691,7 +646,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
         campoTelefoneSecundario.setText(aluno.getTelefoneSecundario());
         campoCPF.setText(aluno.getCpf());
         campoEndereco.setText(aluno.getEndereco());
-        selecionarFormaPagamento(aluno.getFormaDePagamento());
+        checkPagamentoCartaoCredito.setSelected(aluno.isPagamentoComCartao());
         if (aluno.getModalidades() != null || !aluno.getModalidades().isEmpty()) {
             for (int i = 0; i < aluno.getModalidades().size(); i++) {
                 String nomeModalidade = aluno.getModalidades().get(i).getNome();
@@ -706,37 +661,28 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
         }
     }
 
-    private void addItemListener() {
-        opcoesDePagamento.addItemListener((ItemEvent event) -> {
-            JComboBox comboBox = (JComboBox) event.getSource();
-            Object item = event.getItem();
-            if (event.getStateChange() == ItemEvent.SELECTED) {
-                System.out.println(item.toString() + " selected.");
-                if (item.toString().equalsIgnoreCase("Selecione a forma de pagamento")) {
-                    //JOptionPane.showMessageDialog(this, "Ops!! Essa.");
-                    habilitarConteudoCartaoCredito(false);
-                }
-                if (item.toString().equalsIgnoreCase("Dinheiro")) {
-                    habilitarConteudoCartaoCredito(false);
-                }
-                if (item.toString().equalsIgnoreCase("Cartão de Crédito")) {
-                    habilitarConteudoCartaoCredito(true);
-                }
-            }
-//            if (event.getStateChange() == ItemEvent.DESELECTED) {
-//                System.out.println(item.toString() + " deselected.");
+//    private void addItemListener() {
+//        opcoesDePagamento.addItemListener((ItemEvent event) -> {
+//            JComboBox comboBox = (JComboBox) event.getSource();
+//            Object item = event.getItem();
+//            if (event.getStateChange() == ItemEvent.SELECTED) {
+//                System.out.println(item.toString() + " selected.");
+//                if (item.toString().equalsIgnoreCase("Selecione a forma de pagamento")) {
+//                    //JOptionPane.showMessageDialog(this, "Ops!! Essa.");
+//                    habilitarConteudoCartaoCredito(false);
+//                }
+//                if (item.toString().equalsIgnoreCase("Dinheiro")) {
+//                    habilitarConteudoCartaoCredito(false);
+//                }
+//                if (item.toString().equalsIgnoreCase("Cartão de Crédito")) {
+//                    habilitarConteudoCartaoCredito(true);
+//                }
 //            }
-        });
-    }
-
-    private void habilitarConteudoCartaoCredito(boolean condicao) {
-        qntdVezesCartaoCredito.setEnabled(condicao);
-        valorDaParcela.setEnabled(condicao);
-        if (!condicao) {
-            valorDaParcela.setText("");
-        }
-    }
-
+////            if (event.getStateChange() == ItemEvent.DESELECTED) {
+////                System.out.println(item.toString() + " deselected.");
+////            }
+//        });
+//    }
     private double encontrarValorString(String text) {
         char caractere;
         double valorRecuperado = -1.0;
@@ -749,7 +695,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
         }
         return valorRecuperado;
     }
-
+    
     private String encontrarNomeString(String text) {
         char caractere;
         String nome = "";
@@ -762,7 +708,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
         }
         return nome;
     }
-
+    
     private boolean verificarDuplicidadeJList(String valor) {
         for (int i = 0; i < listaDeModalidadesAdd.getModel().getSize(); i++) {
             if (listaDeModalidadesAdd.getModel().getElementAt(i).equalsIgnoreCase(valor)) {
@@ -771,7 +717,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
         }
         return false;
     }
-
+    
     private List<Modalidade> identificarListaDeModalidades() {
         List<Modalidade> modalidadesSelecionadas = new ArrayList<>();
         String nome;
@@ -785,17 +731,17 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
         }
         return modalidadesSelecionadas;
     }
-
+    
     private Modalidade identificarModalidadeSelecionada() {
         for (int i = 0; i < listaDeModalides.size(); i++) {
             if (listaDeModalides.get(i).getNome().equalsIgnoreCase(modalidadesDisponiveis.getSelectedItem().toString())) {
                 return listaDeModalides.get(i);
             }
-
+            
         }
         return null;
     }
-
+    
     private Pacote identificarPacoteSelecionado() {
         for (int i = 0; i < listaDePacotes.size(); i++) {
             if (listaDePacotes.get(i).getNomePacote().equalsIgnoreCase(pacotesDisponiveis.getSelectedItem().toString())) {
@@ -804,7 +750,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
         }
         return null;
     }
-
+    
     private void popularOpcoesPacote() {
         listaDePacotes = gerenciadorPacotesController.getListaDePacotes();
         Pacote pacoteAux;
@@ -819,14 +765,14 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
             indexAux++;
         }
     }
-
+    
     private void popularOpcoesModalidades() {
         listaDeModalides = controllerModalidade.getModalidades();
         listaDeModalides.forEach((modalidade) -> {
             modalidadesDisponiveis.addItem(modalidade.getNome());
         });
     }
-
+    
     private void limparTodosCampos() {
         Component components[] = telaCadastroJPanel.getComponents();
         for (Component component : components) {
@@ -837,10 +783,11 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
                 ((JComboBox) component).setSelectedIndex(0);
             }
         }
+        checkPagamentoCartaoCredito.setSelected(false);
         listaDeItensJlist.removeAllElements();
         listaDeModalidadesAdd.setModel(listaDeItensJlist);
     }
-
+    
     private int verificarCampoVazio() {
         Component components[] = telaCadastroJPanel.getComponents();
         int controle = -1;
@@ -863,7 +810,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
         }
         return controle;
     }
-
+    
     private void preencherComValorPacote() {
         nomePacoteSelecionado = "";
         pacotesDisponiveis.addItemListener((ItemEvent e) -> {
@@ -888,7 +835,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
                 }
             }
         });
-
+        
     }
 
     /**
@@ -936,6 +883,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
     private javax.swing.JTextField campoNome;
     private javax.swing.JTextField campoTelefonePrincipal;
     private javax.swing.JTextField campoTelefoneSecundario;
+    private javax.swing.JCheckBox checkPagamentoCartaoCredito;
     private javax.swing.JLabel descModalidadesSelecionadas;
     private javax.swing.JButton excluirItemSelecionadoJlist;
     private javax.swing.JButton jButton2;
@@ -943,8 +891,6 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -958,12 +904,8 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JList<String> listaDeModalidadesAdd;
     private javax.swing.JComboBox<String> modalidadesDisponiveis;
-    private javax.swing.JComboBox<String> opcoesDePagamento;
     private javax.swing.JComboBox<String> pacotesDisponiveis;
-    private javax.swing.JTextField qntdVezesCartaoCredito;
     private javax.swing.JPanel telaCadastroJPanel;
-    private javax.swing.JLabel textoParcela1;
     private javax.swing.JLabel tituloPagina;
-    private javax.swing.JLabel valorDaParcela;
     // End of variables declaration//GEN-END:variables
 }
