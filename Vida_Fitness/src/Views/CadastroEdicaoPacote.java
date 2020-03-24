@@ -82,6 +82,7 @@ public class CadastroEdicaoPacote extends javax.swing.JFrame {
         campoValorTotalDesconto = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
 
@@ -201,7 +202,7 @@ public class CadastroEdicaoPacote extends javax.swing.JFrame {
                 campoValorDescontoKeyReleased(evt);
             }
         });
-        painelCentral.add(campoValorDesconto, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 270, 120, 30));
+        painelCentral.add(campoValorDesconto, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 270, 90, 30));
 
         jLabel6.setFont(new java.awt.Font("Segoe UI Symbol", 1, 16)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
@@ -215,7 +216,7 @@ public class CadastroEdicaoPacote extends javax.swing.JFrame {
                 campoValorTotalDescontoActionPerformed(evt);
             }
         });
-        painelCentral.add(campoValorTotalDesconto, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 340, 130, 30));
+        painelCentral.add(campoValorTotalDesconto, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 340, 130, 30));
 
         jLabel8.setFont(new java.awt.Font("Segoe UI Symbol", 1, 16)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
@@ -224,8 +225,13 @@ public class CadastroEdicaoPacote extends javax.swing.JFrame {
 
         jLabel9.setFont(new java.awt.Font("Segoe UI Symbol", 1, 16)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel9.setText("Valor de desconto:");
-        painelCentral.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 230, -1, -1));
+        jLabel9.setText("R$:");
+        painelCentral.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 270, 30, -1));
+
+        jLabel10.setFont(new java.awt.Font("Segoe UI Symbol", 1, 16)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel10.setText("Valor de desconto:");
+        painelCentral.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 230, -1, -1));
 
         getContentPane().add(painelCentral, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 70, 940, 480));
 
@@ -352,7 +358,7 @@ public class CadastroEdicaoPacote extends javax.swing.JFrame {
             valorTemporario *= duracao;
             campoValorTotalSemDesconto.setText("R" + formatoMoeda.format(valorTemporario));
             campoValorTotalDesconto.setText("R" + formatoMoeda.format((encontrarValorString(campoValorTotalSemDesconto.getText())
-                    - encontrarValorString(campoValorDesconto.getText()))));
+                    - Float.parseFloat(campoValorDesconto.getText()))));
         } else {
             campoValorTotalSemDesconto.setText("R" + formatoMoeda.format(valor));
         }
@@ -459,7 +465,7 @@ public class CadastroEdicaoPacote extends javax.swing.JFrame {
     private void preencherCamposParaEditar(Pacote pacoteRecuperado) {
         nomePacote.setText(pacoteRecuperado.getNomePacote());
         duracaoPacote.setText("" + pacoteRecuperado.getDuracao());
-        campoValorDesconto.setText("R" + formatoMoeda.format(pacoteRecuperado.getValorDesconto()));
+        campoValorDesconto.setText("" + pacoteRecuperado.getValorDesconto());
         if (pacoteRecuperado.getListaDeModalidades().size() > 0) {
             for (int i = 0; i < pacoteRecuperado.getListaDeModalidades().size(); i++) {
                 String nomeModalidade = pacoteRecuperado.getListaDeModalidades().get(i).getNome();
@@ -519,6 +525,7 @@ public class CadastroEdicaoPacote extends javax.swing.JFrame {
     private javax.swing.JTextField duracaoPacote;
     private javax.swing.JButton jButtonCancelarPacote;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
