@@ -32,7 +32,7 @@
     <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
-    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,2,88,0,0,3,-24"/>
+    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,2,100,0,0,3,-24"/>
   </AuxValues>
 
   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
@@ -47,7 +47,7 @@
       </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="0" y="0" width="1000" height="600"/>
+          <AbsoluteConstraints x="0" y="0" width="1000" height="610"/>
         </Constraint>
       </Constraints>
 
@@ -73,7 +73,7 @@
           </Events>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="840" y="540" width="99" height="37"/>
+              <AbsoluteConstraints x="870" y="550" width="99" height="37"/>
             </Constraint>
           </Constraints>
         </Component>
@@ -95,7 +95,7 @@
           </Events>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="710" y="540" width="94" height="37"/>
+              <AbsoluteConstraints x="760" y="550" width="94" height="37"/>
             </Constraint>
           </Constraints>
         </Component>
@@ -164,10 +164,13 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="18" style="1"/>
             </Property>
+            <Property name="inputVerifier" type="javax.swing.InputVerifier" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="new InputVerifier() {&#xa;            ;&#xa;            Border originalBorder;&#xa;&#xa;            @Override&#xa;            public boolean verify(JComponent input) {&#xa;                JTextField comp = (JTextField) input;&#xa;                return !(validadores.separarNumeros(comp.getText()).length() &lt; 11);&#xa;            }&#xa;&#xa;            @Override&#xa;            public boolean shouldYieldFocus(JComponent input) {&#xa;                boolean isValid = verify(input);&#xa;&#xa;                if (!isValid) {&#xa;                    originalBorder = originalBorder == null ? input.getBorder() : originalBorder;&#xa;                    input.setBorder(BorderFactory.createLineBorder(Color.red, 2));&#xa;                } else {&#xa;                    if (originalBorder != null) {&#xa;                        input.setBorder(originalBorder);&#xa;                        originalBorder = null;&#xa;                    }&#xa;                }&#xa;                return isValid; //To change body of generated methods, choose Tools | Templates.&#xa;            }&#xa;        }" type="code"/>
+            </Property>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="campoTelefoneSecundarioActionPerformed"/>
-          </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="try{&#xd;&#xa;   javax.swing.text.MaskFormatter data= new javax.swing.text.MaskFormatter(&quot;(##)# ####-####&quot;);&#xd;&#xa;   campoTelefoneSecundario = new javax.swing.JFormattedTextField(data);&#xd;&#xa;}&#xd;&#xa;   catch (Exception e){&#xd;&#xa;}"/>
+          </AuxValues>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
               <AbsoluteConstraints x="180" y="253" width="270" height="30"/>
@@ -194,6 +197,9 @@
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="18" style="1"/>
+            </Property>
+            <Property name="inputVerifier" type="javax.swing.InputVerifier" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="new InputVerifier() {&#xa;            ;&#xa;            Border originalBorder;&#xa;&#xa;            @Override&#xa;            public boolean verify(JComponent input) {&#xa;                JTextField comp = (JTextField) input;&#xa;                return !(validadores.separarNumeros(comp.getText()).length() &lt; 11);&#xa;            }&#xa;&#xa;            @Override&#xa;            public boolean shouldYieldFocus(JComponent input) {&#xa;                boolean isValid = verify(input);&#xa;&#xa;                if (!isValid) {&#xa;                    originalBorder = originalBorder == null ? input.getBorder() : originalBorder;&#xa;                    input.setBorder(BorderFactory.createLineBorder(Color.red, 2));&#xa;                } else {&#xa;                    if (originalBorder != null) {&#xa;                        input.setBorder(originalBorder);&#xa;                        originalBorder = null;&#xa;                    }&#xa;                }&#xa;                return isValid; //To change body of generated methods, choose Tools | Templates.&#xa;            }&#xa;        }" type="code"/>
             </Property>
           </Properties>
           <Events>
@@ -303,7 +309,13 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="18" style="1"/>
             </Property>
+            <Property name="inputVerifier" type="javax.swing.InputVerifier" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="new InputVerifier() {&#xa;            ;&#xa;            Border originalBorder;&#xa;&#xa;            @Override&#xa;            public boolean verify(JComponent input) {&#xa;                JTextField comp = (JTextField) input;&#xa;                return !(validadores.separarNumeros(comp.getText()).length() &lt; 11);&#xa;            }&#xa;&#xa;            @Override&#xa;            public boolean shouldYieldFocus(JComponent input) {&#xa;                boolean isValid = verify(input);&#xa;&#xa;                if (!isValid) {&#xa;                    originalBorder = originalBorder == null ? input.getBorder() : originalBorder;&#xa;                    input.setBorder(BorderFactory.createLineBorder(Color.red, 2));&#xa;                } else {&#xa;                    if (originalBorder != null) {&#xa;                        input.setBorder(originalBorder);&#xa;                        originalBorder = null;&#xa;                    }&#xa;                }&#xa;                return isValid; //To change body of generated methods, choose Tools | Templates.&#xa;            }&#xa;        }" type="code"/>
+            </Property>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="try{&#xd;&#xa;   javax.swing.text.MaskFormatter data= new javax.swing.text.MaskFormatter(&quot;(##)# ####-####&quot;);&#xd;&#xa;   campoTelefonePrincipal = new javax.swing.JFormattedTextField(data);&#xd;&#xa;}&#xd;&#xa;   catch (Exception e){&#xd;&#xa;}"/>
+          </AuxValues>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
               <AbsoluteConstraints x="180" y="205" width="270" height="-1"/>
@@ -369,10 +381,10 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="18" style="1"/>
             </Property>
+            <Property name="inputVerifier" type="javax.swing.InputVerifier" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="new InputVerifier() {&#xa;            ;&#xa;            Border originalBorder;&#xa;&#xa;            @Override&#xa;            public boolean verify(JComponent input) {&#xa;                JTextField comp = (JTextField) input;&#xa;                return !(validadores.separarNumeros(comp.getText()).length() &lt; 8);&#xa;            }&#xa;&#xa;            @Override&#xa;            public boolean shouldYieldFocus(JComponent input) {&#xa;                boolean isValid = verify(input);&#xa;&#xa;                if (!isValid) {&#xa;                    originalBorder = originalBorder == null ? input.getBorder() : originalBorder;&#xa;                    input.setBorder(BorderFactory.createLineBorder(Color.red, 2));&#xa;                } else {&#xa;                    if (originalBorder != null) {&#xa;                        input.setBorder(originalBorder);&#xa;                        originalBorder = null;&#xa;                    }&#xa;                }&#xa;                return isValid; //To change body of generated methods, choose Tools | Templates.&#xa;            }&#xa;        }" type="code"/>
+            </Property>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="campoCEPActionPerformed"/>
-          </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="try{&#xd;&#xa;   javax.swing.text.MaskFormatter data= new javax.swing.text.MaskFormatter(&quot;#####-###&quot;);&#xd;&#xa;   campoCEP = new javax.swing.JFormattedTextField(data);&#xd;&#xa;}&#xd;&#xa;   catch (Exception e){&#xd;&#xa;}"/>
           </AuxValues>
@@ -404,28 +416,9 @@
               <Font name="Tahoma" size="18" style="1"/>
             </Property>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="campoEnderecoActionPerformed"/>
-          </Events>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
               <AbsoluteConstraints x="680" y="210" width="270" height="30"/>
-            </Constraint>
-          </Constraints>
-        </Component>
-        <Component class="javax.swing.JLabel" name="jLabel11">
-          <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI Symbol" size="16" style="1"/>
-            </Property>
-            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="ff" red="ff" type="rgb"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="Forma de Pagamento:"/>
-          </Properties>
-          <Constraints>
-            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="730" y="320" width="-1" height="-1"/>
             </Constraint>
           </Constraints>
         </Component>
@@ -435,9 +428,6 @@
               <Font name="Tahoma" size="18" style="1"/>
             </Property>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="campoBairroActionPerformed"/>
-          </Events>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
               <AbsoluteConstraints x="680" y="260" width="270" height="30"/>
@@ -541,7 +531,7 @@
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="740" y="450" width="150" height="30"/>
+              <AbsoluteConstraints x="750" y="370" width="150" height="30"/>
             </Constraint>
           </Constraints>
         </Component>
@@ -557,7 +547,7 @@
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="750" y="420" width="130" height="20"/>
+              <AbsoluteConstraints x="760" y="340" width="130" height="20"/>
             </Constraint>
           </Constraints>
         </Component>
@@ -574,30 +564,6 @@
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
               <AbsoluteConstraints x="620" y="260" width="-1" height="-1"/>
-            </Constraint>
-          </Constraints>
-        </Component>
-        <Component class="javax.swing.JComboBox" name="opcoesDePagamento">
-          <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Tahoma" size="14" style="1"/>
-            </Property>
-            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="5">
-                <StringItem index="0" value="Selecione a forma de pagamento"/>
-                <StringItem index="1" value="A vista"/>
-                <StringItem index="2" value="Cart&#xe3;o de Cr&#xe9;dito"/>
-                <StringItem index="3" value="Cheque"/>
-                <StringItem index="4" value="A prazo"/>
-              </StringArray>
-            </Property>
-          </Properties>
-          <AuxValues>
-            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-          </AuxValues>
-          <Constraints>
-            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="690" y="350" width="250" height="30"/>
             </Constraint>
           </Constraints>
         </Component>
@@ -660,6 +626,25 @@
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
               <AbsoluteConstraints x="340" y="50" width="-1" height="-1"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="javax.swing.JCheckBox" name="checkPagamentoCartaoCredito">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Tahoma" size="14" style="1"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Pagamento Efetuado com cart&#xe3;o de cr&#xe9;dito?"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="checkPagamentoCartaoCreditoActionPerformed"/>
+          </Events>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="630" y="440" width="350" height="40"/>
             </Constraint>
           </Constraints>
         </Component>

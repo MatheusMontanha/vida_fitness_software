@@ -42,7 +42,7 @@ public class AlunoDAO {
         try {
             stm = conexao.prepareStatement("INSERT INTO Aluno(nome,"
                     + " telefone_principal, telefone_secundario, endereco, CPF,"
-                    + "inadimplente, bairro, data_cadastro, forma_pagamento)VALUES(?,?,?,?,?,?,?,?,?)");
+                    + "inadimplente, bairro, data_cadastro, pgmt_cartao_credito)VALUES(?,?,?,?,?,?,?,?,?)");
             stm.setString(1, aluno.getNome());
             stm.setString(2, aluno.getTelefonePrincipal());
             stm.setString(3, aluno.getTelefoneSecundario());
@@ -51,7 +51,7 @@ public class AlunoDAO {
             stm.setBoolean(6, false);
             stm.setString(7, aluno.getBairro());
             stm.setString(8, dataAgora());
-            stm.setString(9, aluno.getFormaDePagamento());
+            stm.setBoolean(9, aluno.isPagamentoComCartao());
             stm.executeUpdate();
             stm = conexao.prepareStatement("SELECT max(Aluno.id_aluno) from Aluno");
             rs = stm.executeQuery();
@@ -97,7 +97,7 @@ public class AlunoDAO {
                     calendarioDataCadastrada.setTime(dataConvertida);
                     dias = Math.abs(ChronoUnit.DAYS.between(calendarioAtual.toInstant(),
                             calendarioDataCadastrada.toInstant()));
-                    return dias > 30;
+                    return dias >= 30;
                 }
             } else {
                 String dataUltimoPagamento;
@@ -132,10 +132,34 @@ public class AlunoDAO {
     public void deletarAluno(int idAluno) throws SQLException {
         Connection conexao = Conexao.realizarConexão();
         PreparedStatement stm;
+        List idsPagamento;
         try {
+            idsPagamento = inscricaoModalidadeDAO.getInscricaoAlunoModalidade(idAluno);
+            for (int i = 0; i < idsPagamento.size(); i++) {
+                deletarRegistroDePagamento(Integer.parseInt("" + idsPagamento.get(i)));
+            }
+            frequenciaDAO.excluirFrequenciaAluno(idAluno);
+            inscricaoModalidadeDAO.deletarInscricaoModalidade(idAluno);
+            inscricaoPacoteDAO.deletarInscricaoPacote(idAluno);
             inscricaoModalidadeDAO.deletarInscricaoModalidade(idAluno);
             frequenciaDAO.excluirFrequenciaAluno(idAluno);
             stm = conexao.prepareStatement("DELETE FROM Aluno WHERE Aluno.id_aluno = " + idAluno);
+            stm.executeUpdate();
+        } catch (SQLException e) {
+            Logger.getLogger(AlunoDAO.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            Conexao.fecharConexao(conexao);
+        }
+    }
+
+    public void deletarRegistroDePagamento(int idInscricaoModalidade) {
+        Connection conexao = Conexao.realizarConexão();
+        PreparedStatement stm;
+        try {
+            stm = conexao.prepareStatement("DELETE FROM "
+                    + "Pagamento_Inscricao_Modalidade WHERE "
+                    + "Pagamento_Inscricao_Modalidade.id_inscricao_aluno_modalidade = "
+                    + idInscricaoModalidade);
             stm.executeUpdate();
         } catch (SQLException e) {
             Logger.getLogger(AlunoDAO.class.getName()).log(Level.SEVERE, null, e);
@@ -149,8 +173,8 @@ public class AlunoDAO {
         PreparedStatement stm;
         ResultSet rs;
         String nome, telefonePrincipal, telefoneSecundario, endereco, CPF,
-                bairro, cep, formaDePagamento;
-        boolean inadimplente;
+                bairro, cep;
+        boolean inadimplente, pagouCartaoCredito;
         Date data;
         DateFormat formatData = DateFormat.getDateInstance();
         List<Aluno> listaDeAlunos = new ArrayList<>();
@@ -170,7 +194,7 @@ public class AlunoDAO {
                 bairro = rs.getString("bairro");
                 cep = rs.getString("cep");
                 data = formatData.parse(rs.getString("data_cadastro"));
-                formaDePagamento = rs.getString("forma_pagamento");
+                pagouCartaoCredito = rs.getBoolean("pgmt_cartao_credito");
                 if (verificarInadimplencia(rs.getString("data_cadastro"), idAluno)) {
                     inadimplente = true;
                 }
@@ -179,7 +203,7 @@ public class AlunoDAO {
                         telefoneSecundario, endereco, bairro, cep, CPF, data, inadimplente,
                         modalidadeDAO.getModalidadesAluno(idAluno),
                         pacoteDAO.getPacoteCliente(idAluno),
-                        listaDeFrequencias, formaDePagamento);
+                        listaDeFrequencias, pagouCartaoCredito);
                 listaDeAlunos.add(aluno);
             }
             return listaDeAlunos;
@@ -203,8 +227,8 @@ public class AlunoDAO {
                     + "CPF = '" + aluno.getCpf() + "', "
                     + "bairro = '" + aluno.getBairro() + "', "
                     + "cep = '" + aluno.getCep() + "', "
-                    + "forma_pagamento = '" + aluno.getFormaDePagamento()
-                    + "' where Aluno.id_aluno = " + aluno.getIdAluno());
+                    + "pgmt_cartao_credito = " + aluno.isPagamentoComCartao()
+                    + " where Aluno.id_aluno = " + aluno.getIdAluno());
             stm.executeUpdate();
             if (aluno.getModalidades() != null) {
                 inscricaoModalidadeDAO.deletarInscricaoModalidade(aluno.getIdAluno());

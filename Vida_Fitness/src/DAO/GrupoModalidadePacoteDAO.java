@@ -17,7 +17,7 @@ import java.util.logging.Logger;
  */
 public class GrupoModalidadePacoteDAO {
 
-    public void salvarModalidadePacote(int idModalidade, int idPacote) throws SQLException {
+    public void salvarModalidadePacote(int idPacote, int idModalidade) throws SQLException {
         Connection conexao = Conexao.realizarConexão();
         PreparedStatement stm;
         try {
@@ -26,7 +26,6 @@ public class GrupoModalidadePacoteDAO {
             stm.setInt(1, idPacote);
             stm.setInt(2, idModalidade);
             stm.executeUpdate();
-
         } catch (SQLException e) {
             Logger.getLogger(GrupoModalidadePacoteDAO.class.getName()).log(Level.SEVERE, null, e);
         } finally {

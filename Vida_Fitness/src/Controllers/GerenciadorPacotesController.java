@@ -45,7 +45,7 @@ public class GerenciadorPacotesController {
         pacoteDAO.deletarPacote(idPacotes);
     }
      
-      public void editarCadastroModalidade(Pacote pacote) throws SQLException {
+      public void editarCadastroPacote(Pacote pacote) throws SQLException {
         pacoteDAO.editarPacote(pacote);
     }
 

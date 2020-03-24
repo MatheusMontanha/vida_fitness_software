@@ -87,7 +87,7 @@ public class MenuPacote extends javax.swing.JFrame {
                 {null, null, null}
             },
             new String [] {
-                "Nome", "Valor", "Duração"
+                "Nome", "Valor (Com desconto)", "Duração"
             }
         ) {
             Class[] types = new Class [] {
@@ -303,13 +303,20 @@ public class MenuPacote extends javax.swing.JFrame {
     private void popularTabelaPacote() throws ParseException {
         dtm = (DefaultTableModel) tabelaPacotes.getModel();
         dtm.setNumRows(0);
+        float valorComDesconto = 0;
         listaDePacotes = controllerPacotes.getListaDePacotes();
         System.out.println(listaDePacotes.size());
         for (Pacote pacote : listaDePacotes) {
+            for (int i = 0; i < pacote.getListaDeModalidades().size(); i++) {
+                valorComDesconto += pacote.getListaDeModalidades().get(i).getValorModalidade();
+            }
+            valorComDesconto = valorComDesconto * pacote.getDuracao();
+            valorComDesconto = valorComDesconto - pacote.getValorDesconto();
             dtm.addRow(new Object[]{
                 pacote.getNomePacote(),
-                pacote.getValorDesconto(),
+                valorComDesconto,
                 pacote.getDuracao(),});
+            valorComDesconto = 0;
         }
     }
 

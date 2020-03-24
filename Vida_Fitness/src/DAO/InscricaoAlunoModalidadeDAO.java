@@ -5,9 +5,13 @@
  */
 package DAO;
 
+import java.sql.Array;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -46,5 +50,27 @@ public class InscricaoAlunoModalidadeDAO {
         } finally {
             Conexao.fecharConexao(conexao);
         }
+    }
+
+    public List getInscricaoAlunoModalidade(int idAluno) {
+        Connection conexao = Conexao.realizarConexão();
+        PreparedStatement stm;
+        ResultSet rs;
+        ArrayList<Integer> idsInscricoes = new ArrayList<>();
+        try {
+            stm = conexao.prepareStatement("SELECT Inscricao_Aluno_Modalidade.id_inscricao_aluno_modalidade"
+                    + " FROM Inscricao_Aluno_Modalidade WHERE "
+                    + "Inscricao_Aluno_Modalidade.id_aluno = " + idAluno);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                idsInscricoes.add(rs.getInt("id_inscricao_aluno_modalidade"));
+            }
+            return idsInscricoes;
+        } catch (SQLException e) {
+            Logger.getLogger(InscricaoAlunoModalidadeDAO.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            Conexao.fecharConexao(conexao);
+        }
+        return idsInscricoes;
     }
 }
