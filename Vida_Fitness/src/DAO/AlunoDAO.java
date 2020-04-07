@@ -97,7 +97,7 @@ public class AlunoDAO {
                     calendarioDataCadastrada.setTime(dataConvertida);
                     dias = Math.abs(ChronoUnit.DAYS.between(calendarioAtual.toInstant(),
                             calendarioDataCadastrada.toInstant()));
-                    return dias >= 30;
+                    return dias > 30;
                 }
             } else {
                 String dataUltimoPagamento;
@@ -105,22 +105,8 @@ public class AlunoDAO {
                 dataConvertida = formataData.parse(dataUltimoPagamento);
                 calendarioDataCadastrada.setTime(dataConvertida);
 
-                int mesUltimoPagamento = calendarioDataCadastrada.get(Calendar.MONTH);
-                int mesAtual = calendarioAtual.get(Calendar.MONTH);
-                if ((mesUltimoPagamento - mesAtual) > 1) {
-                    return true;
-                } else if ((mesUltimoPagamento - mesAtual) == 0) {
-                    return false;
-                } else {
-                    Date dataConvertidaOutra;
-                    dataConvertidaOutra = formataData.parse(dataRecebida);
-                    calendarioDataCadastrada.setTime(dataConvertidaOutra);
-                    int diaDeVencimento = calendarioDataCadastrada.get(Calendar.DAY_OF_MONTH);
-                    int diaAtual = calendarioAtual.get(Calendar.DAY_OF_MONTH);
-                    if (diaAtual > diaDeVencimento) {
-                        return true;
-                    }
-                }
+                return (Math.abs(ChronoUnit.DAYS.between(calendarioDataCadastrada.toInstant(),
+                        calendarioAtual.toInstant()))) > 30;
             }
         } catch (ParseException ex) {
             Logger.getLogger(AlunoDAO.class.getName()).log(Level.SEVERE, null, ex);

@@ -161,10 +161,10 @@ public class ModalidadeDAO {
         String data;
         try {
             stm = conexao.prepareStatement("SELECT Pagamento_Inscricao_Modalidade.data_pagamento"
-                    + " FROM Pagamento_Inscricao_Modalidade \n"
+                    + " FROM Pagamento_Inscricao_Modalidade "
                     + "INNER JOIN Inscricao_Aluno_Modalidade ON "
                     + "Inscricao_Aluno_Modalidade.id_inscricao_aluno_modalidade = "
-                    + "Pagamento_Inscricao_Modalidade.id_inscricao_aluno_modalidade \n"
+                    + "Pagamento_Inscricao_Modalidade.id_inscricao_aluno_modalidade "
                     + "INNER JOIN Aluno on Aluno.id_aluno = Inscricao_Aluno_Modalidade.id_aluno "
                     + "WHERE Aluno.id_aluno = " + idAluno + " GROUP BY Pagamento_Inscricao_Modalidade.data_pagamento");
             rs = stm.executeQuery();

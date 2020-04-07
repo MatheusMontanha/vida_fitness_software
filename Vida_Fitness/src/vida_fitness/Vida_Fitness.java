@@ -5,7 +5,7 @@
  */
 package vida_fitness;
 
-import Views.QuadroPrincipal;
+import Views.MenuInicial;
 
 /**
  *
@@ -17,7 +17,7 @@ public class Vida_Fitness {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        QuadroPrincipal quadroPrincipal = new QuadroPrincipal();
+        MenuInicial quadroPrincipal = new MenuInicial();
         quadroPrincipal.setVisible(true);
     }
     
