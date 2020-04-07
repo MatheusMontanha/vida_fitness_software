@@ -11,6 +11,7 @@ import Views.ModuloAluno.MenuAlunos;
 import Controllers.ModalidadeController;
 import Models.Modalidade;
 import Views.MenuInicial;
+import Views.ModuloGastos.MenuGastos;
 import Views.ModuloPacote.MenuPacote;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -124,6 +125,11 @@ public class MenuModalidade extends javax.swing.JFrame {
         jButtonGerenciarCustos.setForeground(new java.awt.Color(255, 255, 255));
         jButtonGerenciarCustos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/dinheiro.png"))); // NOI18N
         jButtonGerenciarCustos.setText("Gerenciar Custos");
+        jButtonGerenciarCustos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonGerenciarCustosActionPerformed(evt);
+            }
+        });
         jPanel2.add(jButtonGerenciarCustos, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 530, 250, -1));
 
         jButtonInicio.setBackground(new java.awt.Color(102, 102, 102));
@@ -317,6 +323,12 @@ public class MenuModalidade extends javax.swing.JFrame {
             dispose();
     }//GEN-LAST:event_jButtonGerenciarModalidadesActionPerformed
 
+    private void jButtonGerenciarCustosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGerenciarCustosActionPerformed
+       MenuGastos menuGastos = new MenuGastos();
+       menuGastos.setVisible(true);
+       dispose();
+    }//GEN-LAST:event_jButtonGerenciarCustosActionPerformed
+
     private void filtrar(String nome) {
         try {
             TableRowSorter<DefaultTableModel> resultadoFiltro = new TableRowSorter<>(dtm);
@@ -331,7 +343,6 @@ public class MenuModalidade extends javax.swing.JFrame {
         dtm = (DefaultTableModel) tabelaModalidades.getModel();
         dtm.setNumRows(0);
         listaDeModalidades = controllerModalidades.getModalidades();
-        System.out.println(listaDeModalidades.size());
         for (Modalidade modalidade : listaDeModalidades) {
             dtm.addRow(new Object[]{
                 modalidade.getNome(),

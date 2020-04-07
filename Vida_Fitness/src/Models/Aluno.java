@@ -29,7 +29,9 @@ public class Aluno {
     private List<Frequencia> frequencias;
     private String formaDePagamento;
     private boolean pagamentoComCartao;
-
+    private String dataUltimoPagamento;
+    private float valorTotalInscricao;
+    
     public Aluno(int idAluno, String nome, String telefonePrincipal, String telefoneSecundario, String endereco, String bairro, String cep, String cpf, Date dataCadastro, boolean inadimplente, List<Modalidade> modalidades, Pacote pacote, List<Frequencia> frequencias, boolean pagamentoComCartao) {
         this.idAluno = idAluno;
         this.nome = nome;
@@ -44,10 +46,43 @@ public class Aluno {
         this.modalidades = modalidades;
         this.pacote = pacote;
         this.frequencias = frequencias;
-        this.formaDePagamento = formaDePagamento;
         this.pagamentoComCartao = pagamentoComCartao;
     }
 
+    public Aluno(int idAluno, String nome, String telefonePrincipal, 
+            String telefoneSecundario, String endereco, String bairro, 
+            String cep, String cpf, Date dataCadastro, boolean inadimplente, boolean pagamentoComCartao, String dataUltimoPagamento, float valorTotalInscricao) {
+        this.idAluno = idAluno;
+        this.nome = nome;
+        this.telefonePrincipal = telefonePrincipal;
+        this.telefoneSecundario = telefoneSecundario;
+        this.endereco = endereco;
+        this.bairro = bairro;
+        this.cep = cep;
+        this.cpf = cpf;
+        this.dataCadastro = dataCadastro;
+        this.inadimplente = inadimplente;
+        this.pagamentoComCartao = pagamentoComCartao;
+        this.dataUltimoPagamento = dataUltimoPagamento;
+        this.valorTotalInscricao = valorTotalInscricao;
+    }
+
+    public float getValorTotalInscricao() {
+        return valorTotalInscricao;
+    }
+
+    public void setValorTotalInscricao(float valorTotalInscricao) {
+        this.valorTotalInscricao = valorTotalInscricao;
+    }
+
+    public String getDataUltimoPagamento() {
+        return dataUltimoPagamento;
+    }
+
+    public void setDataUltimoPagamento(String dataUltimoPagamento) {
+        this.dataUltimoPagamento = dataUltimoPagamento;
+    }
+    
     public boolean isPagamentoComCartao() {
         return pagamentoComCartao;
     }

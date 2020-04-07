@@ -5,7 +5,17 @@
  */
 package Views.ModuloGastos;
 
-import Views.ModuloAluno.VisualizarFrequencia;
+import Controllers.GerenciadorMenuGastos;
+import Models.Aluno;
+import Views.ModuloAluno.LancarFrequencia;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
+
 
 /**
  *
@@ -16,8 +26,15 @@ public class LancarPagamento extends javax.swing.JFrame {
     /**
      * Creates new form LancarPagamento
      */
+    
+    List<Aluno> listaDeAlunos;
+    List<Aluno> listaDeResultado;
+    DefaultListModel listaDeAlunosResultadoJList;
+    GerenciadorMenuGastos gerenciadorMenuGastos = new GerenciadorMenuGastos();
+    
     public LancarPagamento() {
         initComponents();
+        popularListaDeAlunos();
     }
 
     /**
@@ -118,8 +135,8 @@ public class LancarPagamento extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void voltarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_voltarButtonActionPerformed
-        VisualizarFrequencia visualizarFrequencia = new VisualizarFrequencia();
-        visualizarFrequencia.setVisible(true);
+        MenuGastos menuGastos = new MenuGastos();
+        menuGastos.setVisible(true);
         dispose();
     }//GEN-LAST:event_voltarButtonActionPerformed
 
@@ -128,9 +145,67 @@ public class LancarPagamento extends javax.swing.JFrame {
     }//GEN-LAST:event_lancarPagamentoActionPerformed
 
     private void buscarAlunoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarAlunoActionPerformed
-   
+      if (buscarAluno(campoPesquisaAluno.getText()).size() > 0) {
+            listaDeAlunos.clear();
+            popularListaDeAlunos();
+            listaDeResultado = buscarAluno(campoPesquisaAluno.getText());
+            preencherLista(buscarAluno(campoPesquisaAluno.getText()));
+        } else {
+            JOptionPane.showMessageDialog(this, "Ops!! Nenhum Aluno foi encontrado.");
+        }
     }//GEN-LAST:event_buscarAlunoActionPerformed
+    private String cpfAlunoSelecionado(String valor) {
+        char caractere;
+        String cpf = "";
+        for (int i = 0; i < valor.length(); i++) {
+            caractere = valor.charAt(i);
+            if (caractere == ',') {
+                cpf = valor.substring(i + 2, valor.length());
+                return cpf;
+            }
+        }
+        return cpf;
+    }
 
+    private Aluno identificarAluno(String cpf) {
+        if (cpf.length() > 0) {
+            for (int i = 0; i < listaDeAlunos.size(); i++) {
+                if (listaDeAlunos.get(i).getCpf().equalsIgnoreCase(cpf)) {
+                    return listaDeAlunos.get(i);
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Ops!! Cpf passado parece estar vazio. Tente novamente.");
+            return new Aluno();
+        }
+        return new Aluno();
+    }
+
+    private void preencherLista(List<Aluno> alunos) {
+        listaDeAlunosResultadoJList = new DefaultListModel();
+        for (int i = 0; i < alunos.size(); i++) {
+            listaDeAlunosResultadoJList.addElement(alunos.get(i).getNome() + ", " + alunos.get(i).getCpf());
+        }
+        alunosResultadoMensalidade.setModel(listaDeAlunosResultadoJList);
+    }
+
+    private List<Aluno> buscarAluno(String valorDigitado) {
+        ArrayList<Aluno> resultado = new ArrayList<>();
+        for (int i = 0; i < listaDeAlunos.size(); i++) {
+            if (valorDigitado.equalsIgnoreCase(listaDeAlunos.get(i).getNome()) || listaDeAlunos.get(i).getNome().contains(valorDigitado)) {
+                resultado.add(listaDeAlunos.get(i));
+            }
+        }
+        return resultado;
+    }
+    
+       private void popularListaDeAlunos() {
+        try {
+            listaDeAlunos = gerenciadorMenuGastos.mensalidadesDeHoje();
+        } catch (ParseException ex) {
+            Logger.getLogger(LancarFrequencia.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     /**
      * @param args the command line arguments
      */

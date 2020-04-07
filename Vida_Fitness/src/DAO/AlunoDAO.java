@@ -235,4 +235,55 @@ public class AlunoDAO {
             Conexao.fecharConexao(conexao);
         }
     }
+
+    public List<Aluno> mensalidadesAlunoHoje() throws ParseException {
+        Connection conexao = Conexao.realizarConexão();
+        PreparedStatement stm;
+        ResultSet rs;
+        String nome, telefonePrincipal, telefoneSecundario, endereco, CPF,
+                bairro, cep, dataUltimoPagamento;
+        boolean inadimplente, pagouCartaoCredito;
+        Date data;
+        DateFormat formatData = DateFormat.getDateInstance();
+        List<Aluno> listaDeAlunos = new ArrayList<>();
+        int idAluno;
+        float valorTotalInscroicao;
+        try {
+            stm = conexao.prepareStatement("SELECT * FROM Aluno "
+                    + "INNER JOIN Inscricao_Aluno_Modalidade on "
+                    + "Inscricao_Aluno_Modalidade.id_aluno = Aluno.id_aluno "
+                    + "INNER JOIN Pagamento_Inscricao_Modalidade on "
+                    + "Pagamento_Inscricao_Modalidade.id_inscricao_aluno_modalidade = "
+                    + "Inscricao_Aluno_Modalidade.id_inscricao_aluno_modalidade");
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                idAluno = rs.getInt("id_aluno");
+                nome = rs.getString("nome");
+                telefonePrincipal = rs.getString("telefone_principal");
+                telefoneSecundario = rs.getString("telefone_secundario");
+                endereco = rs.getString("endereco");
+                CPF = rs.getString("CPF");
+                inadimplente = rs.getBoolean("inadimplente");
+                bairro = rs.getString("bairro");
+                cep = rs.getString("cep");
+                data = formatData.parse(rs.getString("data_cadastro"));
+                pagouCartaoCredito = rs.getBoolean("pgmt_cartao_credito");
+                dataUltimoPagamento = rs.getString("data_pagamento");
+                valorTotalInscroicao = Float.parseFloat(rs.getString("valor_pagamento"));
+                if (verificarInadimplencia(rs.getString("data_cadastro"), idAluno)) {
+                    inadimplente = true;
+                }
+                Aluno aluno = new Aluno(idAluno, nome, telefonePrincipal,
+                        telefoneSecundario, endereco, bairro, cep, CPF,
+                        data, inadimplente, pagouCartaoCredito, dataUltimoPagamento, valorTotalInscroicao);
+                listaDeAlunos.add(aluno);
+            }
+            return listaDeAlunos;
+        } catch (SQLException e) {
+            Logger.getLogger(AlunoDAO.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            Conexao.fecharConexao(conexao);
+        }
+        return listaDeAlunos;
+    }
 }

@@ -8,6 +8,7 @@ package Views;
 import Views.ModuloModalidade.MenuModalidade;
 import Views.ModuloPacote.MenuPacote;
 import Views.ModuloAluno.MenuAlunos;
+import Views.ModuloGastos.MenuGastos;
 
 /**
  *
@@ -93,6 +94,11 @@ public class MenuInicial extends javax.swing.JFrame {
         jButtonGerenciarCustos.setForeground(new java.awt.Color(255, 255, 255));
         jButtonGerenciarCustos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/dinheiro.png"))); // NOI18N
         jButtonGerenciarCustos.setText("Gerenciar Custos");
+        jButtonGerenciarCustos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonGerenciarCustosActionPerformed(evt);
+            }
+        });
         jPanel2.add(jButtonGerenciarCustos, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 530, 250, -1));
 
         jButtonInicial.setBackground(new java.awt.Color(102, 102, 102));
@@ -146,6 +152,12 @@ public class MenuInicial extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_jButtonGerenciarModalidadesActionPerformed
 
+    private void jButtonGerenciarCustosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGerenciarCustosActionPerformed
+        MenuGastos menuGastos = new MenuGastos();
+        menuGastos.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jButtonGerenciarCustosActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -174,10 +186,8 @@ public class MenuInicial extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MenuInicial().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new MenuInicial().setVisible(true);
         });
     }
 
