@@ -3,13 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Views.ModuloPacote;
+package Views.ModuloModalidade;
 
+import Views.ModuloModalidade.CadastroEdicaoModalidade;
 import Views.ModuloPacote.MenuPacote;
 import Views.ModuloAluno.MenuAlunos;
 import Controllers.ModalidadeController;
 import Models.Modalidade;
 import Views.MenuInicial;
+import Views.ModuloPacote.MenuPacote;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.List;

@@ -8,7 +8,7 @@ package Views.ModuloAluno;
 import Controllers.GerenciamentoAlunosController;
 import Models.Aluno;
 import Views.MenuInicial;
-import Views.ModuloPacote.MenuModalidade;
+import Views.ModuloModalidade.MenuModalidade;
 import Views.ModuloPacote.MenuPacote;
 import java.awt.Dimension;
 import java.awt.Toolkit;

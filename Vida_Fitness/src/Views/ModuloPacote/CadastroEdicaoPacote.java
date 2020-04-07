@@ -9,6 +9,7 @@ import Controllers.GerenciadorPacotesController;
 import Controllers.ModalidadeController;
 import Models.Modalidade;
 import Models.Pacote;
+import Views.ModuloPacote.MenuPacote;
 import java.awt.Component;
 import java.sql.SQLException;
 import java.text.NumberFormat;

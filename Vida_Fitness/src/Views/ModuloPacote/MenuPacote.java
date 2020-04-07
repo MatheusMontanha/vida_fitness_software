@@ -5,6 +5,7 @@
  */
 package Views.ModuloPacote;
 
+import Views.ModuloModalidade.MenuModalidade;
 import Views.ModuloAluno.MenuAlunos;
 import Controllers.GerenciadorPacotesController;
 import Models.Pacote;

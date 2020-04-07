@@ -6,7 +6,7 @@
 package Views.ModuloGastos;
 
 import Views.MenuInicial;
-import Views.ModuloPacote.MenuModalidade;
+import Views.ModuloModalidade.MenuModalidade;
 import Views.ModuloPacote.MenuPacote;
 import Views.ModuloAluno.MenuAlunos;
 

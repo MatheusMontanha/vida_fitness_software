@@ -5,7 +5,7 @@
  */
 package Views;
 
-import Views.ModuloPacote.MenuModalidade;
+import Views.ModuloModalidade.MenuModalidade;
 import Views.ModuloPacote.MenuPacote;
 import Views.ModuloAluno.MenuAlunos;
 
