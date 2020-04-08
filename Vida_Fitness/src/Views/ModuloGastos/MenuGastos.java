@@ -307,11 +307,13 @@ public class MenuGastos extends javax.swing.JFrame {
                 } else {
                     dataUltimoPagamento = "Nenhum lançamento efetuado";
                 }
-                dtm.addRow(new Object[]{
-                    listaDeAlunos.get(i).getNome(),
-                    listaDeAlunos.get(i).getTelefonePrincipal(),
-                    valorTotalMensalidade,
-                    dataUltimoPagamento,});
+                if (!listaDeAlunos.get(i).isPagamentoComCartao()) {
+                    dtm.addRow(new Object[]{
+                        listaDeAlunos.get(i).getNome(),
+                        listaDeAlunos.get(i).getTelefonePrincipal(),
+                        valorTotalMensalidade,
+                        dataUltimoPagamento,});
+                }
                 valorTotalMensalidade = 0;
             }
         } catch (ParseException | SQLException ex) {

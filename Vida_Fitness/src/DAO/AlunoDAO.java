@@ -27,13 +27,13 @@ import java.util.logging.Logger;
  * @author mathe
  */
 public class AlunoDAO {
-    
+
     ModalidadeDAO modalidadeDAO = new ModalidadeDAO();
     PacoteDAO pacoteDAO = new PacoteDAO();
     FrequenciaDAO frequenciaDAO = new FrequenciaDAO();
     InscricaoAlunoModalidadeDAO inscricaoModalidadeDAO = new InscricaoAlunoModalidadeDAO();
     InscricaoAlunoPacoteDAO inscricaoPacoteDAO = new InscricaoAlunoPacoteDAO();
-    
+
     public void salvarAluno(Aluno aluno) throws SQLException {
         Connection conexao = Conexao.realizarConexão();
         PreparedStatement stm;
@@ -42,7 +42,7 @@ public class AlunoDAO {
         try {
             stm = conexao.prepareStatement("INSERT INTO Aluno(nome,"
                     + " telefone_principal, telefone_secundario, endereco, CPF,"
-                    + "inadimplente, bairro, data_cadastro, pgmt_cartao_credito)VALUES(?,?,?,?,?,?,?,?,?)");
+                    + "inadimplente, bairro, cep, data_cadastro, pgmt_cartao_credito)VALUES(?,?,?,?,?,?,?,?,?,?)");
             stm.setString(1, aluno.getNome());
             stm.setString(2, aluno.getTelefonePrincipal());
             stm.setString(3, aluno.getTelefoneSecundario());
@@ -50,8 +50,9 @@ public class AlunoDAO {
             stm.setString(5, aluno.getCpf());
             stm.setBoolean(6, false);
             stm.setString(7, aluno.getBairro());
-            stm.setString(8, dataAgora());
-            stm.setBoolean(9, aluno.isPagamentoComCartao());
+            stm.setString(8, aluno.getCep());
+            stm.setString(9, dataAgora());
+            stm.setBoolean(10, aluno.isPagamentoComCartao());
             stm.executeUpdate();
             stm = conexao.prepareStatement("SELECT max(Aluno.id_aluno) from Aluno");
             rs = stm.executeQuery();
@@ -72,22 +73,22 @@ public class AlunoDAO {
             Conexao.fecharConexao(conexao);
         }
     }
-    
+
     public String dataAgora() {
         Calendar c = Calendar.getInstance();
         Date date = c.getTime();
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         return dateFormat.format(date);
     }
-    
+
     private boolean verificarInadimplencia(String dataRecebida, int idAluno) {
-        
+
         Calendar calendarioAtual = Calendar.getInstance();
         Date dataAgora = calendarioAtual.getTime();
-        
+
         Calendar calendarioDataCadastrada = Calendar.getInstance();
         DateFormat formataData = DateFormat.getDateInstance();
-        
+
         Date dataConvertida;
         try {
             if (modalidadeDAO.verificarPrimeiroPagamento(idAluno)) {
@@ -104,17 +105,17 @@ public class AlunoDAO {
                 dataUltimoPagamento = modalidadeDAO.buscarDataUltimoPagamento(idAluno);
                 dataConvertida = formataData.parse(dataUltimoPagamento);
                 calendarioDataCadastrada.setTime(dataConvertida);
-                
+
                 return (Math.abs(ChronoUnit.DAYS.between(calendarioDataCadastrada.toInstant(),
                         calendarioAtual.toInstant()))) > 30;
             }
         } catch (ParseException ex) {
             Logger.getLogger(AlunoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return false;
     }
-    
+
     public void deletarAluno(int idAluno) throws SQLException {
         Connection conexao = Conexao.realizarConexão();
         PreparedStatement stm;
@@ -137,7 +138,7 @@ public class AlunoDAO {
             Conexao.fecharConexao(conexao);
         }
     }
-    
+
     public void deletarRegistroDePagamento(int idInscricaoModalidade) {
         Connection conexao = Conexao.realizarConexão();
         PreparedStatement stm;
@@ -153,7 +154,7 @@ public class AlunoDAO {
             Conexao.fecharConexao(conexao);
         }
     }
-    
+
     public List<Aluno> getAlunos() throws SQLException, ParseException {
         Connection conexao = Conexao.realizarConexão();
         PreparedStatement stm;
@@ -200,7 +201,7 @@ public class AlunoDAO {
         }
         return listaDeAlunos;
     }
-    
+
     public void editarCadastroDeAluno(Aluno aluno) throws SQLException {
         Connection conexao = Conexao.realizarConexão();
         PreparedStatement stm;
@@ -235,7 +236,7 @@ public class AlunoDAO {
             Conexao.fecharConexao(conexao);
         }
     }
-    
+
     public List<Aluno> mensalidadesModalidadeAluno() throws ParseException {
         Connection conexao = Conexao.realizarConexão();
         PreparedStatement stm;
@@ -253,7 +254,8 @@ public class AlunoDAO {
                     + "Inscricao_Aluno_Modalidade.id_aluno = Aluno.id_aluno "
                     + "INNER JOIN Pagamento_Inscricao_Modalidade on "
                     + "Pagamento_Inscricao_Modalidade.id_inscricao_aluno_modalidade = "
-                    + "Inscricao_Aluno_Modalidade.id_inscricao_aluno_modalidade");
+                    + "Inscricao_Aluno_Modalidade.id_inscricao_aluno_modalidade WHERE "
+                    + "Aluno.pgmt_cartao_credito = false GROUP BY Aluno.nome");
             rs = stm.executeQuery();
             while (rs.next()) {
                 idAluno = rs.getInt("id_aluno");
@@ -285,7 +287,7 @@ public class AlunoDAO {
         }
         return listaDeAlunos;
     }
-    
+
     public List<Aluno> mensalidadesPacoteAluno() throws ParseException {
         Connection conexao = Conexao.realizarConexão();
         PreparedStatement stm;
@@ -303,7 +305,8 @@ public class AlunoDAO {
                     + "Aluno.id_aluno "
                     + "INNER JOIN Pagamento_Inscricao_Pacote on "
                     + "Pagamento_Inscricao_Pacote.id_inscricao_aluno_pacote = "
-                    + "Inscricao_Aluno_Pacote.id_inscricao_aluno_pacote");
+                    + "Inscricao_Aluno_Pacote.id_inscricao_aluno_pacote WHERE "
+                    + "Aluno.pgmt_cartao_credito = false GROUP BY Aluno.nome");
             rs = stm.executeQuery();
             while (rs.next()) {
                 idAluno = rs.getInt("id_aluno");
@@ -335,7 +338,7 @@ public class AlunoDAO {
         }
         return listaDeAlunos;
     }
-    
+
     public void lancarPagamentoDeModalidade(Aluno aluno) {
         Connection conexao = Conexao.realizarConexão();
         PreparedStatement stm;
@@ -355,20 +358,19 @@ public class AlunoDAO {
             Conexao.fecharConexao(conexao);
         }
     }
-    
+
     public void lancarPagamentoPacote(Aluno aluno) {
         Connection conexao = Conexao.realizarConexão();
         PreparedStatement stm;
-        //List<Integer> identificadores = modalidadeDAO.identificadorInscricaoModalidadeAluno(aluno.getIdAluno());
         try {
-            
+
             stm = conexao.prepareStatement("INSERT INTO "
                     + "Pagamento_Inscricao_Pacote "
                     + "(id_inscricao_aluno_pacote, data_pagamento)VALUES(?,?)");
             stm.setInt(1, pacoteDAO.identificadorInscricaoPacoteAluno(aluno.getIdAluno()));
             stm.setString(2, dataAgora());
             stm.executeUpdate();
-            
+
         } catch (SQLException e) {
             Logger.getLogger(AlunoDAO.class.getName()).log(Level.SEVERE, null, e);
         } finally {
