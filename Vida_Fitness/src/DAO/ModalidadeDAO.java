@@ -180,4 +180,48 @@ public class ModalidadeDAO {
         }
         return "";
     }
+
+    public List<Integer> identificadorInscricaoModalidadeAluno(int idAluno) {
+        Connection conexao = Conexao.realizarConexão();
+        PreparedStatement stm;
+        ResultSet rs;
+        ArrayList<Integer> indentificadores = new ArrayList<>();
+        try {
+            stm = conexao.prepareStatement("SELECT Inscricao_Aluno_Modalidade.id_inscricao_aluno_modalidade"
+                    + " from Inscricao_Aluno_Modalidade WHERE"
+                    + " Inscricao_Aluno_Modalidade.id_aluno = " + idAluno);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                indentificadores.add(rs.getInt("id_inscricao_aluno_modalidade"));
+            }
+            return indentificadores;
+        } catch (SQLException e) {
+            Logger.getLogger(ModalidadeDAO.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            Conexao.fecharConexao(conexao);
+        }
+        return indentificadores;
+    }
+
+    public List<Integer> identificadorModalidadePorAluno(int idAluno) {
+        Connection conexao = Conexao.realizarConexão();
+        PreparedStatement stm;
+        ResultSet rs;
+        ArrayList<Integer> indentificadores = new ArrayList<>();
+        try {
+            stm = conexao.prepareStatement("SELECT Modalidade.id_modalidade from Modalidade INNER JOIN Inscricao_Aluno_Modalidade on "
+                    + "Inscricao_Aluno_Modalidade.id_modalidade = Modalidade.id_modalidade WHERE "
+                    + "Inscricao_Aluno_Modalidade.id_aluno = " + idAluno);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                indentificadores.add(rs.getInt("id_modalidade"));
+            }
+            return indentificadores;
+        } catch (SQLException e) {
+            Logger.getLogger(ModalidadeDAO.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            Conexao.fecharConexao(conexao);
+        }
+        return indentificadores;
+    }
 }

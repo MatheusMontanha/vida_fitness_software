@@ -10,8 +10,6 @@ import Models.Aluno;
 import Views.MenuInicial;
 import Views.ModuloModalidade.MenuModalidade;
 import Views.ModuloPacote.MenuPacote;
-import java.awt.Dimension;
-import java.awt.Toolkit;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.List;
@@ -397,7 +395,7 @@ public class MenuAlunos extends javax.swing.JFrame {
         }
     }
 
-    public void filtrar(String valor) {
+    private void filtrar(String valor) {
         try {
             TableRowSorter<DefaultTableModel> resultadoFiltro = new TableRowSorter<>(dtm);
             tabelaDeAlunos.setRowSorter(resultadoFiltro);

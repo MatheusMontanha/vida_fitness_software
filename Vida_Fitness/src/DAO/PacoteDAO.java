@@ -180,4 +180,25 @@ public class PacoteDAO {
             Conexao.fecharConexao(conexao);
         }
     }
+
+    public int identificadorInscricaoPacoteAluno(int idAluno) {
+        Connection conexao = Conexao.realizarConexão();
+        PreparedStatement stm;
+        ResultSet rs;
+        try {
+            stm = conexao.prepareStatement("SELECT Inscricao_Aluno_Pacote.id_inscricao_aluno_pacote"
+                    + " FROM Inscricao_Aluno_Pacote WHERE"
+                    + " Inscricao_Aluno_Pacote.id_aluno = " + idAluno);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                return rs.getInt("id_inscricao_aluno_pacote");
+
+            }
+        } catch (SQLException e) {
+            Logger.getLogger(ModalidadeDAO.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            Conexao.fecharConexao(conexao);
+        }
+        return -1;
+    }
 }

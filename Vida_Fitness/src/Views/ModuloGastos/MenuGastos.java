@@ -11,11 +11,14 @@ import Views.MenuInicial;
 import Views.ModuloModalidade.MenuModalidade;
 import Views.ModuloPacote.MenuPacote;
 import Views.ModuloAluno.MenuAlunos;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -26,6 +29,7 @@ public class MenuGastos extends javax.swing.JFrame {
     List<Aluno> listaDeAlunos;
     DefaultTableModel dtm;
     GerenciadorMenuGastos gerenciadorMenuGastos = new GerenciadorMenuGastos();
+
     /**
      * Creates new form MenuGastos
      */
@@ -50,7 +54,7 @@ public class MenuGastos extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tabelaHistoricoPagamento = new javax.swing.JTable();
+        tabelaMensalidadeAlunos = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -63,7 +67,7 @@ public class MenuGastos extends javax.swing.JFrame {
         jButtonInicio = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        mensalidadeDiaFiltro = new javax.swing.JTextField();
+        mensalidadeFiltro = new javax.swing.JTextField();
         lancarPagamentoButton = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
 
@@ -94,8 +98,8 @@ public class MenuGastos extends javax.swing.JFrame {
         jTextField1.setFont(new java.awt.Font("Segoe UI Symbol", 1, 12)); // NOI18N
         jPanel1.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 550, 110, 40));
 
-        tabelaHistoricoPagamento.setFont(new java.awt.Font("Segoe UI Symbol", 0, 12)); // NOI18N
-        tabelaHistoricoPagamento.setModel(new javax.swing.table.DefaultTableModel(
+        tabelaMensalidadeAlunos.setFont(new java.awt.Font("Segoe UI Symbol", 0, 12)); // NOI18N
+        tabelaMensalidadeAlunos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -127,7 +131,7 @@ public class MenuGastos extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(tabelaHistoricoPagamento);
+        jScrollPane1.setViewportView(tabelaMensalidadeAlunos);
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 180, 700, 330));
 
@@ -217,13 +221,13 @@ public class MenuGastos extends javax.swing.JFrame {
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/procurar.png"))); // NOI18N
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 150, -1, -1));
 
-        mensalidadeDiaFiltro.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        mensalidadeDiaFiltro.addKeyListener(new java.awt.event.KeyAdapter() {
+        mensalidadeFiltro.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        mensalidadeFiltro.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                mensalidadeDiaFiltroKeyReleased(evt);
+                mensalidadeFiltroKeyReleased(evt);
             }
         });
-        jPanel1.add(mensalidadeDiaFiltro, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 150, 210, -1));
+        jPanel1.add(mensalidadeFiltro, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 150, 210, -1));
 
         lancarPagamentoButton.setBackground(new java.awt.Color(0, 149, 0));
         lancarPagamentoButton.setFont(new java.awt.Font("Segoe UI Symbol", 1, 14)); // NOI18N
@@ -269,9 +273,10 @@ public class MenuGastos extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_jButtonInicioActionPerformed
 
-    private void mensalidadeDiaFiltroKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_mensalidadeDiaFiltroKeyReleased
-
-    }//GEN-LAST:event_mensalidadeDiaFiltroKeyReleased
+    private void mensalidadeFiltroKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_mensalidadeFiltroKeyReleased
+        String valor = mensalidadeFiltro.getText();
+        filtrar(valor);
+    }//GEN-LAST:event_mensalidadeFiltroKeyReleased
 
     private void lancarPagamentoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lancarPagamentoButtonActionPerformed
         LancarPagamento lancarPagamento = new LancarPagamento();
@@ -280,20 +285,47 @@ public class MenuGastos extends javax.swing.JFrame {
     }//GEN-LAST:event_lancarPagamentoButtonActionPerformed
 
     private void popularTabela() {
-        dtm = (DefaultTableModel) tabelaHistoricoPagamento.getModel();
+        dtm = (DefaultTableModel) tabelaMensalidadeAlunos.getModel();
         dtm.setNumRows(0);
         try {
             listaDeAlunos = gerenciadorMenuGastos.mensalidadesDeHoje();
+            float valorTotalMensalidade = 0;
+            String dataUltimoPagamento;
             for (int i = 0; i < listaDeAlunos.size(); i++) {
+                if (!listaDeAlunos.get(i).getModalidades().isEmpty()) {
+                    for (int j = 0; j < listaDeAlunos.get(i).getModalidades().size(); j++) {
+                        valorTotalMensalidade += listaDeAlunos.get(i).getModalidades().get(j).getValorModalidade();
+                    }
+                } else if (listaDeAlunos.get(i).getPacote() != null) {
+                    for (int j = 0; j < listaDeAlunos.get(i).getPacote().getListaDeModalidades().size(); j++) {
+                        valorTotalMensalidade += listaDeAlunos.get(i).getPacote().getListaDeModalidades().get(j).getValorModalidade();
+                    }
+                    valorTotalMensalidade = valorTotalMensalidade - listaDeAlunos.get(i).getPacote().getValorDesconto();
+                }
+                if (listaDeAlunos.get(i).getDataUltimoPagamento() != null) {
+                    dataUltimoPagamento = listaDeAlunos.get(i).getDataUltimoPagamento();
+                } else {
+                    dataUltimoPagamento = "Nenhum lançamento efetuado";
+                }
                 dtm.addRow(new Object[]{
                     listaDeAlunos.get(i).getNome(),
                     listaDeAlunos.get(i).getTelefonePrincipal(),
-                    listaDeAlunos.get(i).getValorTotalInscricao(),
-                    listaDeAlunos.get(i).getDataUltimoPagamento(),
-                });
+                    valorTotalMensalidade,
+                    dataUltimoPagamento,});
+                valorTotalMensalidade = 0;
             }
-        } catch (ParseException ex) {
+        } catch (ParseException | SQLException ex) {
             Logger.getLogger(MenuGastos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void filtrar(String valor) {
+        try {
+            TableRowSorter<DefaultTableModel> resultadoFiltro = new TableRowSorter<>(dtm);
+            tabelaMensalidadeAlunos.setRowSorter(resultadoFiltro);
+            resultadoFiltro.setRowFilter(RowFilter.regexFilter(valor));
+        } catch (Exception e) {
+            System.out.println("Caractere não aceito.");
         }
     }
 
@@ -352,7 +384,7 @@ public class MenuGastos extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JButton lancarPagamentoButton;
-    private javax.swing.JTextField mensalidadeDiaFiltro;
-    private javax.swing.JTable tabelaHistoricoPagamento;
+    private javax.swing.JTextField mensalidadeFiltro;
+    private javax.swing.JTable tabelaMensalidadeAlunos;
     // End of variables declaration//GEN-END:variables
 }

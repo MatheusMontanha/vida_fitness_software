@@ -31,7 +31,7 @@ public class Aluno {
     private boolean pagamentoComCartao;
     private String dataUltimoPagamento;
     private float valorTotalInscricao;
-    
+
     public Aluno(int idAluno, String nome, String telefonePrincipal, String telefoneSecundario, String endereco, String bairro, String cep, String cpf, Date dataCadastro, boolean inadimplente, List<Modalidade> modalidades, Pacote pacote, List<Frequencia> frequencias, boolean pagamentoComCartao) {
         this.idAluno = idAluno;
         this.nome = nome;
@@ -49,9 +49,9 @@ public class Aluno {
         this.pagamentoComCartao = pagamentoComCartao;
     }
 
-    public Aluno(int idAluno, String nome, String telefonePrincipal, 
-            String telefoneSecundario, String endereco, String bairro, 
-            String cep, String cpf, Date dataCadastro, boolean inadimplente, boolean pagamentoComCartao, String dataUltimoPagamento, float valorTotalInscricao) {
+    public Aluno(int idAluno, String nome, String telefonePrincipal,
+            String telefoneSecundario, String endereco, String bairro,
+            String cep, String cpf, Date dataCadastro, boolean inadimplente, boolean pagamentoComCartao, String dataUltimoPagamento, List<Modalidade> modalidades, Pacote pacote) {
         this.idAluno = idAluno;
         this.nome = nome;
         this.telefonePrincipal = telefonePrincipal;
@@ -64,7 +64,8 @@ public class Aluno {
         this.inadimplente = inadimplente;
         this.pagamentoComCartao = pagamentoComCartao;
         this.dataUltimoPagamento = dataUltimoPagamento;
-        this.valorTotalInscricao = valorTotalInscricao;
+        this.modalidades = modalidades;
+        this.pacote = pacote;
     }
 
     public float getValorTotalInscricao() {
@@ -82,7 +83,7 @@ public class Aluno {
     public void setDataUltimoPagamento(String dataUltimoPagamento) {
         this.dataUltimoPagamento = dataUltimoPagamento;
     }
-    
+
     public boolean isPagamentoComCartao() {
         return pagamentoComCartao;
     }

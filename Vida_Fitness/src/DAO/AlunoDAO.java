@@ -236,7 +236,7 @@ public class AlunoDAO {
         }
     }
 
-    public List<Aluno> mensalidadesAlunoHoje() throws ParseException {
+    public List<Aluno> mensalidadesModalidadeAluno() throws ParseException {
         Connection conexao = Conexao.realizarConexão();
         PreparedStatement stm;
         ResultSet rs;
@@ -247,7 +247,6 @@ public class AlunoDAO {
         DateFormat formatData = DateFormat.getDateInstance();
         List<Aluno> listaDeAlunos = new ArrayList<>();
         int idAluno;
-        float valorTotalInscroicao;
         try {
             stm = conexao.prepareStatement("SELECT * FROM Aluno "
                     + "INNER JOIN Inscricao_Aluno_Modalidade on "
@@ -269,13 +268,13 @@ public class AlunoDAO {
                 data = formatData.parse(rs.getString("data_cadastro"));
                 pagouCartaoCredito = rs.getBoolean("pgmt_cartao_credito");
                 dataUltimoPagamento = rs.getString("data_pagamento");
-                valorTotalInscroicao = Float.parseFloat(rs.getString("valor_pagamento"));
                 if (verificarInadimplencia(rs.getString("data_cadastro"), idAluno)) {
                     inadimplente = true;
                 }
                 Aluno aluno = new Aluno(idAluno, nome, telefonePrincipal,
                         telefoneSecundario, endereco, bairro, cep, CPF,
-                        data, inadimplente, pagouCartaoCredito, dataUltimoPagamento, valorTotalInscroicao);
+                        data, inadimplente, pagouCartaoCredito, dataUltimoPagamento, modalidadeDAO.getModalidadesAluno(idAluno),
+                        pacoteDAO.getPacoteCliente(idAluno));
                 listaDeAlunos.add(aluno);
             }
             return listaDeAlunos;
@@ -285,5 +284,95 @@ public class AlunoDAO {
             Conexao.fecharConexao(conexao);
         }
         return listaDeAlunos;
+    }
+
+    public List<Aluno> mensalidadesPacoteAluno() throws ParseException {
+        Connection conexao = Conexao.realizarConexão();
+        PreparedStatement stm;
+        ResultSet rs;
+        String nome, telefonePrincipal, telefoneSecundario, endereco, CPF,
+                bairro, cep, dataUltimoPagamento;
+        boolean inadimplente, pagouCartaoCredito;
+        Date data;
+        DateFormat formatData = DateFormat.getDateInstance();
+        List<Aluno> listaDeAlunos = new ArrayList<>();
+        int idAluno;
+        try {
+            stm = conexao.prepareStatement("SELECT * FROM Aluno INNER JOIN "
+                    + "Inscricao_Aluno_Pacote on Inscricao_Aluno_Pacote.id_aluno = "
+                    + "Aluno.id_aluno "
+                    + "INNER JOIN Pagamento_Inscricao_Pacote on "
+                    + "Pagamento_Inscricao_Pacote.id_inscricao_aluno_pacote = "
+                    + "Inscricao_Aluno_Pacote.id_inscricao_aluno_pacote");
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                idAluno = rs.getInt("id_aluno");
+                nome = rs.getString("nome");
+                telefonePrincipal = rs.getString("telefone_principal");
+                telefoneSecundario = rs.getString("telefone_secundario");
+                endereco = rs.getString("endereco");
+                CPF = rs.getString("CPF");
+                inadimplente = rs.getBoolean("inadimplente");
+                bairro = rs.getString("bairro");
+                cep = rs.getString("cep");
+                data = formatData.parse(rs.getString("data_cadastro"));
+                pagouCartaoCredito = rs.getBoolean("pgmt_cartao_credito");
+                dataUltimoPagamento = rs.getString("data_pagamento");
+                if (verificarInadimplencia(rs.getString("data_cadastro"), idAluno)) {
+                    inadimplente = true;
+                }
+                Aluno aluno = new Aluno(idAluno, nome, telefonePrincipal,
+                        telefoneSecundario, endereco, bairro, cep, CPF,
+                        data, inadimplente, pagouCartaoCredito, dataUltimoPagamento, modalidadeDAO.getModalidadesAluno(idAluno),
+                        pacoteDAO.getPacoteCliente(idAluno));
+                listaDeAlunos.add(aluno);
+            }
+            return listaDeAlunos;
+        } catch (SQLException e) {
+            Logger.getLogger(AlunoDAO.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            Conexao.fecharConexao(conexao);
+        }
+        return listaDeAlunos;
+    }
+
+    public void lancarPagamentoDeModalidade(Aluno aluno) {
+        Connection conexao = Conexao.realizarConexão();
+        PreparedStatement stm;
+        List<Integer> identificadores = modalidadeDAO.identificadorInscricaoModalidadeAluno(aluno.getIdAluno());
+        try {
+            for (int i = 0; i < identificadores.size(); i++) {
+                stm = conexao.prepareStatement("INSERT INTO "
+                        + "Pagamento_Inscricao_Modalidade(id_inscricao_aluno_modalidade"
+                        + ", data_pagamento)VALUES(?,?)");
+                stm.setInt(1, identificadores.get(i));
+                stm.setString(2, dataAgora());
+                stm.executeUpdate();
+            }
+        } catch (SQLException e) {
+            Logger.getLogger(AlunoDAO.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            Conexao.fecharConexao(conexao);
+        }
+    }
+
+    public void lancarPagamentoPacote(Aluno aluno) {
+        Connection conexao = Conexao.realizarConexão();
+        PreparedStatement stm;
+        List<Integer> identificadores = modalidadeDAO.identificadorInscricaoModalidadeAluno(aluno.getIdAluno());
+        try {
+            for (int i = 0; i < identificadores.size(); i++) {
+                stm = conexao.prepareStatement("INSERT INTO "
+                        + "Pagamento_Inscricao_Pacote "
+                        + "(id_inscricao_aluno_pacote, data_pagamento)VALUES(?,?)");
+                stm.setInt(1, identificadores.get(i));
+                stm.setString(2, dataAgora());
+                stm.executeUpdate();
+            }
+        } catch (SQLException e) {
+            Logger.getLogger(AlunoDAO.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            Conexao.fecharConexao(conexao);
+        }
     }
 }

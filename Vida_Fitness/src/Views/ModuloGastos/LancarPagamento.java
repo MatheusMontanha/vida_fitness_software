@@ -8,6 +8,7 @@ package Views.ModuloGastos;
 import Controllers.GerenciadorMenuGastos;
 import Models.Aluno;
 import Views.ModuloAluno.LancarFrequencia;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
-
 
 /**
  *
@@ -26,12 +26,11 @@ public class LancarPagamento extends javax.swing.JFrame {
     /**
      * Creates new form LancarPagamento
      */
-    
     List<Aluno> listaDeAlunos;
     List<Aluno> listaDeResultado;
     DefaultListModel listaDeAlunosResultadoJList;
     GerenciadorMenuGastos gerenciadorMenuGastos = new GerenciadorMenuGastos();
-    
+
     public LancarPagamento() {
         initComponents();
         popularListaDeAlunos();
@@ -141,11 +140,24 @@ public class LancarPagamento extends javax.swing.JFrame {
     }//GEN-LAST:event_voltarButtonActionPerformed
 
     private void lancarPagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lancarPagamentoActionPerformed
-  
+        int indiceSelecionado;
+        indiceSelecionado = alunosResultadoMensalidade.getSelectedIndex();
+        if (indiceSelecionado >= 0) {
+            Aluno aluno = identificarAluno(cpfAlunoSelecionado(listaDeAlunosResultadoJList.get(indiceSelecionado).toString()));
+            if (aluno.getPacote() != null) {
+                gerenciadorMenuGastos.lancarPagamentoPacote(aluno);
+            } else if (!aluno.getModalidades().isEmpty()) {
+                gerenciadorMenuGastos.lancarPagamentoModalidade(aluno);
+            }
+            JOptionPane.showMessageDialog(this, "Aê!! Pagamento de Mensalidade lançado com sucesso.");
+            listaDeAlunosResultadoJList = new DefaultListModel();
+        } else {
+            JOptionPane.showMessageDialog(this, "Ops!! Selecione novamente o aluno.");
+        }
     }//GEN-LAST:event_lancarPagamentoActionPerformed
 
     private void buscarAlunoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarAlunoActionPerformed
-      if (buscarAluno(campoPesquisaAluno.getText()).size() > 0) {
+        if (buscarAluno(campoPesquisaAluno.getText()).size() > 0) {
             listaDeAlunos.clear();
             popularListaDeAlunos();
             listaDeResultado = buscarAluno(campoPesquisaAluno.getText());
@@ -154,6 +166,7 @@ public class LancarPagamento extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Ops!! Nenhum Aluno foi encontrado.");
         }
     }//GEN-LAST:event_buscarAlunoActionPerformed
+
     private String cpfAlunoSelecionado(String valor) {
         char caractere;
         String cpf = "";
@@ -198,14 +211,17 @@ public class LancarPagamento extends javax.swing.JFrame {
         }
         return resultado;
     }
-    
-       private void popularListaDeAlunos() {
+
+    private void popularListaDeAlunos() {
         try {
             listaDeAlunos = gerenciadorMenuGastos.mensalidadesDeHoje();
         } catch (ParseException ex) {
             Logger.getLogger(LancarFrequencia.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(LancarPagamento.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     /**
      * @param args the command line arguments
      */
