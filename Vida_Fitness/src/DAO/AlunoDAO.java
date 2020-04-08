@@ -27,13 +27,13 @@ import java.util.logging.Logger;
  * @author mathe
  */
 public class AlunoDAO {
-
+    
     ModalidadeDAO modalidadeDAO = new ModalidadeDAO();
     PacoteDAO pacoteDAO = new PacoteDAO();
     FrequenciaDAO frequenciaDAO = new FrequenciaDAO();
     InscricaoAlunoModalidadeDAO inscricaoModalidadeDAO = new InscricaoAlunoModalidadeDAO();
     InscricaoAlunoPacoteDAO inscricaoPacoteDAO = new InscricaoAlunoPacoteDAO();
-
+    
     public void salvarAluno(Aluno aluno) throws SQLException {
         Connection conexao = Conexao.realizarConexão();
         PreparedStatement stm;
@@ -72,22 +72,22 @@ public class AlunoDAO {
             Conexao.fecharConexao(conexao);
         }
     }
-
+    
     public String dataAgora() {
         Calendar c = Calendar.getInstance();
         Date date = c.getTime();
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         return dateFormat.format(date);
     }
-
+    
     private boolean verificarInadimplencia(String dataRecebida, int idAluno) {
-
+        
         Calendar calendarioAtual = Calendar.getInstance();
         Date dataAgora = calendarioAtual.getTime();
-
+        
         Calendar calendarioDataCadastrada = Calendar.getInstance();
         DateFormat formataData = DateFormat.getDateInstance();
-
+        
         Date dataConvertida;
         try {
             if (modalidadeDAO.verificarPrimeiroPagamento(idAluno)) {
@@ -104,17 +104,17 @@ public class AlunoDAO {
                 dataUltimoPagamento = modalidadeDAO.buscarDataUltimoPagamento(idAluno);
                 dataConvertida = formataData.parse(dataUltimoPagamento);
                 calendarioDataCadastrada.setTime(dataConvertida);
-
+                
                 return (Math.abs(ChronoUnit.DAYS.between(calendarioDataCadastrada.toInstant(),
                         calendarioAtual.toInstant()))) > 30;
             }
         } catch (ParseException ex) {
             Logger.getLogger(AlunoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        
         return false;
     }
-
+    
     public void deletarAluno(int idAluno) throws SQLException {
         Connection conexao = Conexao.realizarConexão();
         PreparedStatement stm;
@@ -137,7 +137,7 @@ public class AlunoDAO {
             Conexao.fecharConexao(conexao);
         }
     }
-
+    
     public void deletarRegistroDePagamento(int idInscricaoModalidade) {
         Connection conexao = Conexao.realizarConexão();
         PreparedStatement stm;
@@ -153,7 +153,7 @@ public class AlunoDAO {
             Conexao.fecharConexao(conexao);
         }
     }
-
+    
     public List<Aluno> getAlunos() throws SQLException, ParseException {
         Connection conexao = Conexao.realizarConexão();
         PreparedStatement stm;
@@ -200,7 +200,7 @@ public class AlunoDAO {
         }
         return listaDeAlunos;
     }
-
+    
     public void editarCadastroDeAluno(Aluno aluno) throws SQLException {
         Connection conexao = Conexao.realizarConexão();
         PreparedStatement stm;
@@ -235,7 +235,7 @@ public class AlunoDAO {
             Conexao.fecharConexao(conexao);
         }
     }
-
+    
     public List<Aluno> mensalidadesModalidadeAluno() throws ParseException {
         Connection conexao = Conexao.realizarConexão();
         PreparedStatement stm;
@@ -285,7 +285,7 @@ public class AlunoDAO {
         }
         return listaDeAlunos;
     }
-
+    
     public List<Aluno> mensalidadesPacoteAluno() throws ParseException {
         Connection conexao = Conexao.realizarConexão();
         PreparedStatement stm;
@@ -335,7 +335,7 @@ public class AlunoDAO {
         }
         return listaDeAlunos;
     }
-
+    
     public void lancarPagamentoDeModalidade(Aluno aluno) {
         Connection conexao = Conexao.realizarConexão();
         PreparedStatement stm;
@@ -355,20 +355,20 @@ public class AlunoDAO {
             Conexao.fecharConexao(conexao);
         }
     }
-
+    
     public void lancarPagamentoPacote(Aluno aluno) {
         Connection conexao = Conexao.realizarConexão();
         PreparedStatement stm;
-        List<Integer> identificadores = modalidadeDAO.identificadorInscricaoModalidadeAluno(aluno.getIdAluno());
+        //List<Integer> identificadores = modalidadeDAO.identificadorInscricaoModalidadeAluno(aluno.getIdAluno());
         try {
-            for (int i = 0; i < identificadores.size(); i++) {
-                stm = conexao.prepareStatement("INSERT INTO "
-                        + "Pagamento_Inscricao_Pacote "
-                        + "(id_inscricao_aluno_pacote, data_pagamento)VALUES(?,?)");
-                stm.setInt(1, identificadores.get(i));
-                stm.setString(2, dataAgora());
-                stm.executeUpdate();
-            }
+            
+            stm = conexao.prepareStatement("INSERT INTO "
+                    + "Pagamento_Inscricao_Pacote "
+                    + "(id_inscricao_aluno_pacote, data_pagamento)VALUES(?,?)");
+            stm.setInt(1, pacoteDAO.identificadorInscricaoPacoteAluno(aluno.getIdAluno()));
+            stm.setString(2, dataAgora());
+            stm.executeUpdate();
+            
         } catch (SQLException e) {
             Logger.getLogger(AlunoDAO.class.getName()).log(Level.SEVERE, null, e);
         } finally {
