@@ -10,7 +10,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -223,5 +227,47 @@ public class ModalidadeDAO {
             Conexao.fecharConexao(conexao);
         }
         return indentificadores;
+    }
+
+    public List<Float> mensalidadesPagaModalidade() {
+        Connection conexao = Conexao.realizarConexão();
+        PreparedStatement stm;
+        ResultSet rs;
+        ArrayList<Float> mensalidadesPagasModalidades = new ArrayList<>();
+        Calendar calendarioAtual = Calendar.getInstance();
+        Calendar calendarioDataCadastrada = Calendar.getInstance();
+        Date dataRecebida;
+        DateFormat formataData = DateFormat.getDateInstance();
+        calendarioAtual.get(Calendar.MONTH);
+        try {
+            stm = conexao.prepareStatement("SELECT Modalidade.valor_modalidade, "
+                    + "Pagamento_Inscricao_Modalidade.data_pagamento from Modalidade"
+                    + " INNER JOIN Inscricao_Aluno_Modalidade on "
+                    + "Inscricao_Aluno_Modalidade.id_modalidade = "
+                    + "Modalidade.id_modalidade INNER JOIN Pagamento_Inscricao_Modalidade on "
+                    + "Pagamento_Inscricao_Modalidade.id_inscricao_aluno_modalidade = "
+                    + "Inscricao_Aluno_Modalidade.id_inscricao_aluno_modalidade");
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                try {
+                    dataRecebida = formataData.parse(rs.getString("data_pagamento"));
+                    calendarioDataCadastrada.setTime(dataRecebida);
+                    if ((calendarioAtual.get(Calendar.MONTH)
+                            == calendarioDataCadastrada.get(Calendar.MONTH))
+                            && (calendarioAtual.get(Calendar.YEAR)
+                            == calendarioDataCadastrada.get(Calendar.YEAR))) {
+                        mensalidadesPagasModalidades.add(rs.getFloat("valor_modalidade"));
+                    }
+                } catch (ParseException ex) {
+                    Logger.getLogger(ModalidadeDAO.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            return mensalidadesPagasModalidades;
+        } catch (SQLException e) {
+            Logger.getLogger(ModalidadeDAO.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            Conexao.fecharConexao(conexao);
+        }
+        return mensalidadesPagasModalidades;
     }
 }

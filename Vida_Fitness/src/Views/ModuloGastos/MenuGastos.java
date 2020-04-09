@@ -25,10 +25,11 @@ import javax.swing.table.TableRowSorter;
  * @author Debor
  */
 public class MenuGastos extends javax.swing.JFrame {
-
+    
     List<Aluno> listaDeAlunos;
     DefaultTableModel dtm;
     GerenciadorMenuGastos gerenciadorMenuGastos = new GerenciadorMenuGastos();
+    float valorMensalidadesPagas;
 
     /**
      * Creates new form MenuGastos
@@ -36,6 +37,7 @@ public class MenuGastos extends javax.swing.JFrame {
     public MenuGastos() {
         initComponents();
         popularTabela();
+        campoValorMensalidadesRecebidas.setText("R$" + preencherCampoMensalidades());
     }
 
     /**
@@ -52,7 +54,7 @@ public class MenuGastos extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        campoValorMensalidadesRecebidas = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabelaMensalidadeAlunos = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
@@ -94,9 +96,9 @@ public class MenuGastos extends javax.swing.JFrame {
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/moedas.png"))); // NOI18N
         jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 550, -1, -1));
 
-        jTextField1.setEditable(false);
-        jTextField1.setFont(new java.awt.Font("Segoe UI Symbol", 1, 12)); // NOI18N
-        jPanel1.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 550, 110, 40));
+        campoValorMensalidadesRecebidas.setEditable(false);
+        campoValorMensalidadesRecebidas.setFont(new java.awt.Font("Segoe UI Symbol", 1, 12)); // NOI18N
+        jPanel1.add(campoValorMensalidadesRecebidas, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 550, 110, 40));
 
         tabelaMensalidadeAlunos.setFont(new java.awt.Font("Segoe UI Symbol", 0, 12)); // NOI18N
         tabelaMensalidadeAlunos.setModel(new javax.swing.table.DefaultTableModel(
@@ -283,7 +285,7 @@ public class MenuGastos extends javax.swing.JFrame {
         lancarPagamento.setVisible(true);
         dispose();
     }//GEN-LAST:event_lancarPagamentoButtonActionPerformed
-
+    
     private void popularTabela() {
         dtm = (DefaultTableModel) tabelaMensalidadeAlunos.getModel();
         dtm.setNumRows(0);
@@ -320,7 +322,7 @@ public class MenuGastos extends javax.swing.JFrame {
             Logger.getLogger(MenuGastos.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
     private void filtrar(String valor) {
         try {
             TableRowSorter<DefaultTableModel> resultadoFiltro = new TableRowSorter<>(dtm);
@@ -329,6 +331,14 @@ public class MenuGastos extends javax.swing.JFrame {
         } catch (Exception e) {
             System.out.println("Caractere não aceito.");
         }
+    }
+    
+    private float preencherCampoMensalidades() {
+        List<Float> listaDeValores = gerenciadorMenuGastos.modalidadesPagaDesteMes();
+        for (int i = 0; i < listaDeValores.size(); i++) {
+            valorMensalidadesPagas += listaDeValores.get(i);
+        }
+        return valorMensalidadesPagas;
     }
 
     /**
@@ -365,6 +375,7 @@ public class MenuGastos extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField campoValorMensalidadesRecebidas;
     private javax.swing.JButton gerenciarAlunosButton;
     private javax.swing.JButton jButtonGerenciarCustos;
     private javax.swing.JButton jButtonGerenciarModalidades;
@@ -384,7 +395,6 @@ public class MenuGastos extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JButton lancarPagamentoButton;
     private javax.swing.JTextField mensalidadeFiltro;
     private javax.swing.JTable tabelaMensalidadeAlunos;

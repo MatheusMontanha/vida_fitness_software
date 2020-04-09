@@ -6,6 +6,7 @@
 package Controllers;
 
 import DAO.AlunoDAO;
+import DAO.ModalidadeDAO;
 import Models.Aluno;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -18,6 +19,7 @@ import java.util.List;
 public class GerenciadorMenuGastos {
 
     AlunoDAO daoAluno = new AlunoDAO();
+    ModalidadeDAO daoModalidade = new ModalidadeDAO();
 
     public List<Aluno> mensalidadesDeHoje() throws ParseException, SQLException {
         if (!daoAluno.mensalidadesModalidadeAluno().isEmpty()) {
@@ -32,8 +34,12 @@ public class GerenciadorMenuGastos {
     public void lancarPagamentoModalidade(Aluno aluno) {
         daoAluno.lancarPagamentoDeModalidade(aluno);
     }
-    
-    public void lancarPagamentoPacote(Aluno aluno){
+
+    public void lancarPagamentoPacote(Aluno aluno) {
         daoAluno.lancarPagamentoPacote(aluno);
+    }
+
+    public List<Float> modalidadesPagaDesteMes() {
+        return daoModalidade.mensalidadesPagaModalidade();
     }
 }

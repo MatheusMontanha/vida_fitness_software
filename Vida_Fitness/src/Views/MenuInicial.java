@@ -141,7 +141,7 @@ public class MenuInicial extends javax.swing.JFrame {
     }//GEN-LAST:event_gerenciarAlunosButtonActionPerformed
 
     private void jButtonInicialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonInicialActionPerformed
-       MenuInicial menuInicial = new MenuInicial();
+        MenuInicial menuInicial = new MenuInicial();
         menuInicial.setVisible(true);
         dispose();
     }//GEN-LAST:event_jButtonInicialActionPerformed
