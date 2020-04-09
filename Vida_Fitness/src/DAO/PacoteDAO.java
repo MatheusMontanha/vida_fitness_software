@@ -11,7 +11,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -200,5 +204,47 @@ public class PacoteDAO {
             Conexao.fecharConexao(conexao);
         }
         return -1;
+    }
+
+    public List<Float> mensalidadesPagaPacote() {
+        Connection conexao = Conexao.realizarConexão();
+        PreparedStatement stm;
+        ResultSet rs;
+        ArrayList<Float> mensalidadesPagasPacote = new ArrayList<>();
+        Calendar calendarioAtual = Calendar.getInstance();
+        Calendar calendarioDataCadastrada = Calendar.getInstance();
+        Date dataRecebida;
+        DateFormat formataData = DateFormat.getDateInstance();
+        calendarioAtual.get(Calendar.MONTH);
+        try {
+            stm = conexao.prepareStatement("SELECT modalidade.valor_modalidade, Pagamento_Inscricao_Pacote.data_pagamento from"
+                    + " Modalidade INNER JOIN Grupo_Modalidade_Pacote on "
+                    + " Grupo_Modalidade_Pacote.id_modalidade = Modalidade.id_modalidade"
+                    + " INNER JOIN Pacote on Pacote.id_pacote = Grupo_Modalidade_Pacote.id_pacote INNER JOIN "
+                    + " Inscricao_Aluno_Pacote on Inscricao_Aluno_Pacote.id_pacote = Pacote.id_pacote"
+                    + " INNER JOIN Pagamento_Inscricao_Pacote on "
+                    + " Pagamento_Inscricao_Pacote.id_inscricao_aluno_pacote = Inscricao_Aluno_Pacote.id_inscricao_aluno_pacote");
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                try {
+                    dataRecebida = formataData.parse(rs.getString("data_pagamento"));
+                    calendarioDataCadastrada.setTime(dataRecebida);
+                    if ((calendarioAtual.get(Calendar.MONTH)
+                            == calendarioDataCadastrada.get(Calendar.MONTH))
+                            && (calendarioAtual.get(Calendar.YEAR)
+                            == calendarioDataCadastrada.get(Calendar.YEAR))) {
+                        mensalidadesPagasPacote.add(rs.getFloat("valor_modalidade"));
+                    }
+                } catch (ParseException ex) {
+                    Logger.getLogger(ModalidadeDAO.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            return mensalidadesPagasPacote;
+        } catch (SQLException e) {
+            Logger.getLogger(ModalidadeDAO.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            Conexao.fecharConexao(conexao);
+        }
+        return mensalidadesPagasPacote;
     }
 }

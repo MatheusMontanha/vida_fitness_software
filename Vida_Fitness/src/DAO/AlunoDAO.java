@@ -125,11 +125,14 @@ public class AlunoDAO {
             for (int i = 0; i < idsPagamento.size(); i++) {
                 deletarRegistroDePagamento(Integer.parseInt("" + idsPagamento.get(i)));
             }
+            idsPagamento = inscricaoPacoteDAO.getInscricaoAlunoPacote(idAluno);
+            for (int i = 0; i < idsPagamento.size(); i++) {
+                deletarRegistroDePagamentoPacote(Integer.parseInt("" + idsPagamento.get(i)));
+            }
             frequenciaDAO.excluirFrequenciaAluno(idAluno);
             inscricaoModalidadeDAO.deletarInscricaoModalidade(idAluno);
             inscricaoPacoteDAO.deletarInscricaoPacote(idAluno);
             inscricaoModalidadeDAO.deletarInscricaoModalidade(idAluno);
-            frequenciaDAO.excluirFrequenciaAluno(idAluno);
             stm = conexao.prepareStatement("DELETE FROM Aluno WHERE Aluno.id_aluno = " + idAluno);
             stm.executeUpdate();
         } catch (SQLException e) {
@@ -147,6 +150,21 @@ public class AlunoDAO {
                     + "Pagamento_Inscricao_Modalidade WHERE "
                     + "Pagamento_Inscricao_Modalidade.id_inscricao_aluno_modalidade = "
                     + idInscricaoModalidade);
+            stm.executeUpdate();
+        } catch (SQLException e) {
+            Logger.getLogger(AlunoDAO.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            Conexao.fecharConexao(conexao);
+        }
+    }
+
+    public void deletarRegistroDePagamentoPacote(int idInscricaoPacote) {
+        Connection conexao = Conexao.realizarConexão();
+        PreparedStatement stm;
+        try {
+            stm = conexao.prepareStatement("DELETE FROM Pagamento_Inscricao_Pacote"
+                    + " WHERE Pagamento_Inscricao_Pacote.id_inscricao_aluno_pacote = "
+                    + idInscricaoPacote);
             stm.executeUpdate();
         } catch (SQLException e) {
             Logger.getLogger(AlunoDAO.class.getName()).log(Level.SEVERE, null, e);
@@ -205,6 +223,7 @@ public class AlunoDAO {
     public void editarCadastroDeAluno(Aluno aluno) throws SQLException {
         Connection conexao = Conexao.realizarConexão();
         PreparedStatement stm;
+        List idsPagamento;
         try {
             stm = conexao.prepareStatement("update Aluno set "
                     + "nome = '" + aluno.getNome() + "', "
@@ -218,6 +237,10 @@ public class AlunoDAO {
                     + " where Aluno.id_aluno = " + aluno.getIdAluno());
             stm.executeUpdate();
             if (aluno.getModalidades() != null) {
+                idsPagamento = inscricaoModalidadeDAO.getInscricaoAlunoModalidade(aluno.getIdAluno());
+                for (int i = 0; i < idsPagamento.size(); i++) {
+                    deletarRegistroDePagamento(Integer.parseInt("" + idsPagamento.get(i)));
+                }
                 inscricaoModalidadeDAO.deletarInscricaoModalidade(aluno.getIdAluno());
                 inscricaoPacoteDAO.deletarInscricaoPacote(aluno.getIdAluno());
                 for (int i = 0; i < aluno.getModalidades().size(); i++) {
@@ -226,6 +249,10 @@ public class AlunoDAO {
                 }
             }
             if (aluno.getPacote() != null) {
+                idsPagamento = inscricaoPacoteDAO.getInscricaoAlunoPacote(aluno.getIdAluno());
+                for (int i = 0; i < idsPagamento.size(); i++) {
+                    deletarRegistroDePagamentoPacote(Integer.parseInt("" + idsPagamento.get(i)));
+                }
                 inscricaoModalidadeDAO.deletarInscricaoModalidade(aluno.getIdAluno());
                 inscricaoPacoteDAO.deletarInscricaoPacote(aluno.getPacote().getIdPacote());
                 inscricaoPacoteDAO.salvarInscricaoPacote(aluno.getIdAluno(), aluno.getPacote().getIdPacote());

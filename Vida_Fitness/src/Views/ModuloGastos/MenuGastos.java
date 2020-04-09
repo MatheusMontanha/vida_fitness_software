@@ -25,7 +25,7 @@ import javax.swing.table.TableRowSorter;
  * @author Debor
  */
 public class MenuGastos extends javax.swing.JFrame {
-    
+
     List<Aluno> listaDeAlunos;
     DefaultTableModel dtm;
     GerenciadorMenuGastos gerenciadorMenuGastos = new GerenciadorMenuGastos();
@@ -285,7 +285,7 @@ public class MenuGastos extends javax.swing.JFrame {
         lancarPagamento.setVisible(true);
         dispose();
     }//GEN-LAST:event_lancarPagamentoButtonActionPerformed
-    
+
     private void popularTabela() {
         dtm = (DefaultTableModel) tabelaMensalidadeAlunos.getModel();
         dtm.setNumRows(0);
@@ -302,6 +302,7 @@ public class MenuGastos extends javax.swing.JFrame {
                     for (int j = 0; j < listaDeAlunos.get(i).getPacote().getListaDeModalidades().size(); j++) {
                         valorTotalMensalidade += listaDeAlunos.get(i).getPacote().getListaDeModalidades().get(j).getValorModalidade();
                     }
+                    valorTotalMensalidade *= listaDeAlunos.get(i).getPacote().getDuracao();
                     valorTotalMensalidade = valorTotalMensalidade - listaDeAlunos.get(i).getPacote().getValorDesconto();
                 }
                 if (listaDeAlunos.get(i).getDataUltimoPagamento() != null) {
@@ -322,7 +323,7 @@ public class MenuGastos extends javax.swing.JFrame {
             Logger.getLogger(MenuGastos.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     private void filtrar(String valor) {
         try {
             TableRowSorter<DefaultTableModel> resultadoFiltro = new TableRowSorter<>(dtm);
@@ -332,9 +333,13 @@ public class MenuGastos extends javax.swing.JFrame {
             System.out.println("Caractere não aceito.");
         }
     }
-    
+
     private float preencherCampoMensalidades() {
         List<Float> listaDeValores = gerenciadorMenuGastos.modalidadesPagaDesteMes();
+        for (int i = 0; i < listaDeValores.size(); i++) {
+            valorMensalidadesPagas += listaDeValores.get(i);
+        }
+        listaDeValores = gerenciadorMenuGastos.pacotePagosDesteMes();
         for (int i = 0; i < listaDeValores.size(); i++) {
             valorMensalidadesPagas += listaDeValores.get(i);
         }

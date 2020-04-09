@@ -35,7 +35,7 @@ import javax.swing.border.Border;
  * @author mathe
  */
 public class CadastroEdicaoAluno extends javax.swing.JFrame {
-    
+
     Aluno aluno;
     Aluno editarAluno;
     GerenciamentoAlunosController alunoController = new GerenciamentoAlunosController();
@@ -63,7 +63,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
         preencherComValorPacote();
         tituloPagina.setText("Cadastro de Aluno");
     }
-    
+
     public CadastroEdicaoAluno(Aluno aluno) {
         initComponents();
         tituloPagina.setText("Edição de Aluno");
@@ -575,7 +575,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
         if (ativarPacote.isSelected()) {
             pacotesDisponiveis.setEnabled(true);
             componentesModalidade(false);
-            
+
         }
     }//GEN-LAST:event_ativarPacoteActionPerformed
 
@@ -612,7 +612,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
                 listaDeItensJlist.addElement("" + modalidade.getNome() + ", R$" + modalidade.getValorModalidade());
                 listaDeModalidadesAdd.setModel(listaDeItensJlist);
                 valor += modalidade.getValorModalidade();
-                
+
                 campoApresentaValorCadastro.setText("R" + formatoMoeda.format(valor));
             } else {
                 JOptionPane.showMessageDialog(this, "Ops!! Você já selecionou essa modalidade.");
@@ -630,14 +630,14 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
     private void checkPagamentoCartaoCreditoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkPagamentoCartaoCreditoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_checkPagamentoCartaoCreditoActionPerformed
-    
+
     private void componentesModalidade(boolean condicao) {
         modalidadesDisponiveis.setEnabled(condicao);
         listaDeModalidadesAdd.setEnabled(condicao);
         addModalidadeNaLista.setEnabled(condicao);
         excluirItemSelecionadoJlist.setEnabled(condicao);
     }
-    
+
     private void preencherCamposParaEditar(Aluno aluno) {
         campoNome.setText(aluno.getNome());
         campoTelefonePrincipal.setText(aluno.getTelefonePrincipal());
@@ -661,28 +661,6 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
         }
     }
 
-//    private void addItemListener() {
-//        opcoesDePagamento.addItemListener((ItemEvent event) -> {
-//            JComboBox comboBox = (JComboBox) event.getSource();
-//            Object item = event.getItem();
-//            if (event.getStateChange() == ItemEvent.SELECTED) {
-//                System.out.println(item.toString() + " selected.");
-//                if (item.toString().equalsIgnoreCase("Selecione a forma de pagamento")) {
-//                    //JOptionPane.showMessageDialog(this, "Ops!! Essa.");
-//                    habilitarConteudoCartaoCredito(false);
-//                }
-//                if (item.toString().equalsIgnoreCase("Dinheiro")) {
-//                    habilitarConteudoCartaoCredito(false);
-//                }
-//                if (item.toString().equalsIgnoreCase("Cartão de Crédito")) {
-//                    habilitarConteudoCartaoCredito(true);
-//                }
-//            }
-////            if (event.getStateChange() == ItemEvent.DESELECTED) {
-////                System.out.println(item.toString() + " deselected.");
-////            }
-//        });
-//    }
     private double encontrarValorString(String text) {
         char caractere;
         double valorRecuperado = -1.0;
@@ -695,7 +673,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
         }
         return valorRecuperado;
     }
-    
+
     private String encontrarNomeString(String text) {
         char caractere;
         String nome = "";
@@ -708,7 +686,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
         }
         return nome;
     }
-    
+
     private boolean verificarDuplicidadeJList(String valor) {
         for (int i = 0; i < listaDeModalidadesAdd.getModel().getSize(); i++) {
             if (listaDeModalidadesAdd.getModel().getElementAt(i).equalsIgnoreCase(valor)) {
@@ -717,7 +695,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
         }
         return false;
     }
-    
+
     private List<Modalidade> identificarListaDeModalidades() {
         List<Modalidade> modalidadesSelecionadas = new ArrayList<>();
         String nome;
@@ -731,17 +709,17 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
         }
         return modalidadesSelecionadas;
     }
-    
+
     private Modalidade identificarModalidadeSelecionada() {
         for (int i = 0; i < listaDeModalides.size(); i++) {
             if (listaDeModalides.get(i).getNome().equalsIgnoreCase(modalidadesDisponiveis.getSelectedItem().toString())) {
                 return listaDeModalides.get(i);
             }
-            
+
         }
         return null;
     }
-    
+
     private Pacote identificarPacoteSelecionado() {
         for (int i = 0; i < listaDePacotes.size(); i++) {
             if (listaDePacotes.get(i).getNomePacote().equalsIgnoreCase(pacotesDisponiveis.getSelectedItem().toString())) {
@@ -750,7 +728,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
         }
         return null;
     }
-    
+
     private void popularOpcoesPacote() {
         listaDePacotes = gerenciadorPacotesController.getListaDePacotes();
         Pacote pacoteAux;
@@ -765,14 +743,14 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
             indexAux++;
         }
     }
-    
+
     private void popularOpcoesModalidades() {
         listaDeModalides = controllerModalidade.getModalidades();
         listaDeModalides.forEach((modalidade) -> {
             modalidadesDisponiveis.addItem(modalidade.getNome());
         });
     }
-    
+
     private void limparTodosCampos() {
         Component components[] = telaCadastroJPanel.getComponents();
         for (Component component : components) {
@@ -787,7 +765,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
         listaDeItensJlist.removeAllElements();
         listaDeModalidadesAdd.setModel(listaDeItensJlist);
     }
-    
+
     private int verificarCampoVazio() {
         Component components[] = telaCadastroJPanel.getComponents();
         int controle = -1;
@@ -810,7 +788,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
         }
         return controle;
     }
-    
+
     private void preencherComValorPacote() {
         nomePacoteSelecionado = "";
         pacotesDisponiveis.addItemListener((ItemEvent e) -> {
@@ -823,6 +801,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
                         for (int j = 0; j < listaDePacotes.get(i).getListaDeModalidades().size(); j++) {
                             resultado += listaDePacotes.get(i).getListaDeModalidades().get(j).getValorModalidade();
                         }
+                        resultado *= listaDePacotes.get(i).getDuracao();
                         resultado -= listaDePacotes.get(i).getValorDesconto();
                         campoApresentaValorCadastro.setText("R" + formatoMoeda.format(resultado));
                         break;
@@ -835,7 +814,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
                 }
             }
         });
-        
+
     }
 
     /**
