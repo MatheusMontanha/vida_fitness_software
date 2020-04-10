@@ -33,7 +33,12 @@ public class LancarPagamento extends javax.swing.JFrame {
 
     public LancarPagamento() {
         initComponents();
-        popularListaDeAlunos();
+        //popularListaDeAlunos();
+    }
+
+    public LancarPagamento(List<Aluno> alunosRecuperados) {
+        initComponents();
+        listaDeAlunos = alunosRecuperados;
     }
 
     /**
@@ -158,10 +163,12 @@ public class LancarPagamento extends javax.swing.JFrame {
 
     private void buscarAlunoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarAlunoActionPerformed
         if (buscarAluno(campoPesquisaAluno.getText()).size() > 0) {
-            listaDeAlunos.clear();
-            popularListaDeAlunos();
+            //listaDeAlunos.clear();
+            //popularListaDeAlunos();
             listaDeResultado = buscarAluno(campoPesquisaAluno.getText());
             preencherLista(buscarAluno(campoPesquisaAluno.getText()));
+            listaDeAlunos.clear();
+            popularListaDeAlunos();
         } else {
             JOptionPane.showMessageDialog(this, "Ops!! Nenhum Aluno foi encontrado.");
         }

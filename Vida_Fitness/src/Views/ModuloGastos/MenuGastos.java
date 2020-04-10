@@ -37,7 +37,7 @@ public class MenuGastos extends javax.swing.JFrame {
     public MenuGastos() {
         initComponents();
         popularTabela();
-        campoValorMensalidadesRecebidas.setText("R$" + preencherCampoMensalidades());
+        campoValorMensalidadesRecebidas.setText("R$" + valorMensalidadesPagas);
     }
 
     /**
@@ -281,7 +281,7 @@ public class MenuGastos extends javax.swing.JFrame {
     }//GEN-LAST:event_mensalidadeFiltroKeyReleased
 
     private void lancarPagamentoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lancarPagamentoButtonActionPerformed
-        LancarPagamento lancarPagamento = new LancarPagamento();
+        LancarPagamento lancarPagamento = new LancarPagamento(listaDeAlunos);
         lancarPagamento.setVisible(true);
         dispose();
     }//GEN-LAST:event_lancarPagamentoButtonActionPerformed
@@ -297,6 +297,9 @@ public class MenuGastos extends javax.swing.JFrame {
                 if (!listaDeAlunos.get(i).getModalidades().isEmpty()) {
                     for (int j = 0; j < listaDeAlunos.get(i).getModalidades().size(); j++) {
                         valorTotalMensalidade += listaDeAlunos.get(i).getModalidades().get(j).getValorModalidade();
+                        if (listaDeAlunos.get(i).getDataUltimoPagamento() != null) {
+                            valorMensalidadesPagas += valorTotalMensalidade;
+                        }
                     }
                 } else if (listaDeAlunos.get(i).getPacote() != null) {
                     for (int j = 0; j < listaDeAlunos.get(i).getPacote().getListaDeModalidades().size(); j++) {
@@ -304,6 +307,9 @@ public class MenuGastos extends javax.swing.JFrame {
                     }
                     valorTotalMensalidade *= listaDeAlunos.get(i).getPacote().getDuracao();
                     valorTotalMensalidade = valorTotalMensalidade - listaDeAlunos.get(i).getPacote().getValorDesconto();
+                    if (listaDeAlunos.get(i).getDataUltimoPagamento() != null) {
+                        valorMensalidadesPagas += valorTotalMensalidade;
+                    }
                 }
                 if (listaDeAlunos.get(i).getDataUltimoPagamento() != null) {
                     dataUltimoPagamento = listaDeAlunos.get(i).getDataUltimoPagamento();
