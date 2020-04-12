@@ -50,6 +50,7 @@ public class CadastroEdicaoPacote extends javax.swing.JFrame {
         popularOpcoesModalidades();
         editarPacote = pacoteEditar;
         preencherCamposParaEditar(pacoteEditar);
+        tituloTelaPacote.setText("Editar Pacote");
     }
 
     /**
@@ -62,7 +63,7 @@ public class CadastroEdicaoPacote extends javax.swing.JFrame {
     private void initComponents() {
 
         painelCentral = new javax.swing.JPanel();
-        tituloTelaCRUDMod = new javax.swing.JLabel();
+        tituloTelaPacote = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel2 = new javax.swing.JLabel();
         nomePacote = new javax.swing.JTextField();
@@ -94,10 +95,10 @@ public class CadastroEdicaoPacote extends javax.swing.JFrame {
         painelCentral.setBackground(new java.awt.Color(27, 25, 30));
         painelCentral.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        tituloTelaCRUDMod.setFont(new java.awt.Font("Segoe UI Black", 1, 36)); // NOI18N
-        tituloTelaCRUDMod.setForeground(new java.awt.Color(255, 255, 255));
-        tituloTelaCRUDMod.setText("Cadastrar Pacote");
-        painelCentral.add(tituloTelaCRUDMod, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 20, -1, -1));
+        tituloTelaPacote.setFont(new java.awt.Font("Segoe UI Black", 1, 36)); // NOI18N
+        tituloTelaPacote.setForeground(new java.awt.Color(255, 255, 255));
+        tituloTelaPacote.setText("Cadastrar Pacote");
+        painelCentral.add(tituloTelaPacote, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 20, -1, -1));
         painelCentral.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 80, 940, 10));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI Symbol", 1, 16)); // NOI18N
@@ -317,9 +318,9 @@ public class CadastroEdicaoPacote extends javax.swing.JFrame {
                 defaultModelJlist.addElement("" + modalidade.getNome() + ", R$" + modalidade.getValorModalidade());
                 modalidadesJList.setModel(defaultModelJlist);
                 valor += modalidade.getValorModalidade();
-                if(!duracaoPacote.getText().isEmpty()){
-                campoValorTotalSemDesconto.setText("R" + formatoMoeda.format(valor * Float.parseFloat(duracaoPacote.getText())));
-                campoValorTotalDesconto.setText("R" + formatoMoeda.format(encontrarValorString(campoValorTotalSemDesconto.getText()) - encontrarValorString(campoValorDesconto.getText())));
+                if (!duracaoPacote.getText().isEmpty()) {
+                    campoValorTotalSemDesconto.setText("R" + formatoMoeda.format(valor * Float.parseFloat(duracaoPacote.getText())));
+                    campoValorTotalDesconto.setText("R" + formatoMoeda.format(encontrarValorString(campoValorTotalSemDesconto.getText()) - encontrarValorString(campoValorDesconto.getText())));
                 }
             } else {
                 JOptionPane.showMessageDialog(this, "Ops!! Você já selecionou essa modalidade.");
@@ -346,7 +347,6 @@ public class CadastroEdicaoPacote extends javax.swing.JFrame {
 //                System.out.println("Valor ai sem desconto: " + encontrarValorString(campoValorTotalSemDesconto.getText()));
 //                System.out.println("Valor ai do desconto: "+ encontrarValorString(campoValorDesconto.getText()));
 //                formatoMoeda.format(encontrarValorString(campoValorTotalSemDesconto.getText()) - encontrarValorString(campoValorDesconto.getText()));
-
                 campoValorTotalDesconto.setText("R" + formatoMoeda.format(encontrarValorString(campoValorTotalSemDesconto.getText()) - Float.parseFloat(campoValorDesconto.getText())));
                 defaultModelJlist.removeElementAt(indiceModalidade);
                 modalidadesJList.setModel(defaultModelJlist);
@@ -378,16 +378,52 @@ public class CadastroEdicaoPacote extends javax.swing.JFrame {
     private void campoValorDescontoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoValorDescontoKeyReleased
         double valorDesconto;
         double valorTemporario;
-        if (!campoValorDesconto.getText().isEmpty() && !campoValorDesconto.getText().equalsIgnoreCase("0")) {
-            valorDesconto = Double.parseDouble(campoValorDesconto.getText());
-            valorTemporario = encontrarValorString(campoValorTotalSemDesconto.getText());
-            valorTemporario -= valorDesconto;
-            campoValorTotalDesconto.setText("R" + formatoMoeda.format(valorTemporario));
+        int condicao = verificarFormatoValor(campoValorDesconto.getText());
+        if (!campoValorDesconto.getText().isEmpty()
+                && !campoValorDesconto.getText().equalsIgnoreCase("0")) {
+            switch (condicao) {
+                case 0:
+                    valorDesconto = Double.parseDouble(campoValorDesconto.getText());
+                    valorTemporario = encontrarValorString(campoValorTotalSemDesconto.getText());
+                    valorTemporario -= valorDesconto;
+                    campoValorTotalDesconto.setText("R" + formatoMoeda.format(valorTemporario));
+                    break;
+                case 1:
+                    campoValorDesconto.setText(campoValorDesconto.getText().substring(0, campoValorDesconto.getText().length() - 1));
+                    break;
+                case 2:
+                    JOptionPane.showMessageDialog(this, "Ops!! Insira (.) ao invés de (,) por favor.");
+                    campoValorDesconto.setText(campoValorDesconto.getText().substring(0, campoValorDesconto.getText().length() - 1));
+                    break;
+                case 3:
+                    JOptionPane.showMessageDialog(this, "Ops!! Valor Inválido.");
+                    campoValorDesconto.setText("");
+                    break;
+                default:
+                    break;
+            }
         } else {
             campoValorTotalDesconto.setText(campoValorTotalSemDesconto.getText());
         }
 
     }//GEN-LAST:event_campoValorDescontoKeyReleased
+
+    private int verificarFormatoValor(String text) {
+        char caractere;
+        for (int i = 0; i < text.length(); i++) {
+            caractere = text.charAt(i);
+            if (caractere == '.') {
+                if ((text.length() - i) > 3) {
+                    return 1;
+                }
+            } else if (caractere == ',') {
+                return 2;
+            } else if (!Character.isDigit(caractere)) {
+                return 3;
+            }
+        }
+        return 0;
+    }
 
     private double encontrarValorString(String text) {
         char caractere;
@@ -553,6 +589,6 @@ public class CadastroEdicaoPacote extends javax.swing.JFrame {
     private javax.swing.JPanel painelCentral;
     private javax.swing.JButton removerModalidadeButton;
     private javax.swing.JButton salvarPacoteButton;
-    private javax.swing.JLabel tituloTelaCRUDMod;
+    private javax.swing.JLabel tituloTelaPacote;
     // End of variables declaration//GEN-END:variables
 }

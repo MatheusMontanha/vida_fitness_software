@@ -12,6 +12,7 @@ import Views.ModuloModalidade.MenuModalidade;
 import Views.ModuloPacote.MenuPacote;
 import Views.ModuloAluno.MenuAlunos;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.List;
 import java.util.logging.Level;
@@ -30,6 +31,7 @@ public class MenuGastos extends javax.swing.JFrame {
     DefaultTableModel dtm;
     GerenciadorMenuGastos gerenciadorMenuGastos = new GerenciadorMenuGastos();
     float valorMensalidadesPagas;
+    DecimalFormat formatNumber = new DecimalFormat("###,##0.00");
 
     /**
      * Creates new form MenuGastos
@@ -37,7 +39,7 @@ public class MenuGastos extends javax.swing.JFrame {
     public MenuGastos() {
         initComponents();
         popularTabela();
-        campoValorMensalidadesRecebidas.setText("R$" + valorMensalidadesPagas);
+        campoValorMensalidadesRecebidas.setText("R$" + formatNumber.format(valorMensalidadesPagas));
     }
 
     /**
@@ -119,7 +121,7 @@ public class MenuGastos extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Float.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false
@@ -320,7 +322,7 @@ public class MenuGastos extends javax.swing.JFrame {
                     dtm.addRow(new Object[]{
                         listaDeAlunos.get(i).getNome(),
                         listaDeAlunos.get(i).getTelefonePrincipal(),
-                        valorTotalMensalidade,
+                        "R$" + formatNumber.format(valorTotalMensalidade),
                         dataUltimoPagamento,});
                 }
                 valorTotalMensalidade = 0;

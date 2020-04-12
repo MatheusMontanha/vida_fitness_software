@@ -11,6 +11,7 @@ import Controllers.GerenciadorPacotesController;
 import Models.Pacote;
 import Views.MenuInicial;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.List;
 import java.util.logging.Level;
@@ -30,6 +31,7 @@ public class MenuPacote extends javax.swing.JFrame {
     int indiceSelecionado;
     GerenciadorPacotesController controllerPacotes = new GerenciadorPacotesController();
     DefaultTableModel dtm;
+    DecimalFormat formatNumber = new DecimalFormat("###,##0.00");
 
     /**
      * Creates new form MenuPacote
@@ -94,10 +96,10 @@ public class MenuPacote extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Float.class, java.lang.Integer.class
+                java.lang.String.class, java.lang.String.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
-                false, true, false
+                false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -317,7 +319,7 @@ public class MenuPacote extends javax.swing.JFrame {
             valorComDesconto = valorComDesconto - pacote.getValorDesconto();
             dtm.addRow(new Object[]{
                 pacote.getNomePacote(),
-                valorComDesconto,
+                "R$" + formatNumber.format(valorComDesconto),
                 pacote.getDuracao(),});
             valorComDesconto = 0;
         }

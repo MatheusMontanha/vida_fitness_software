@@ -5,8 +5,6 @@
  */
 package Views.ModuloModalidade;
 
-import Views.ModuloModalidade.CadastroEdicaoModalidade;
-import Views.ModuloPacote.MenuPacote;
 import Views.ModuloAluno.MenuAlunos;
 import Controllers.ModalidadeController;
 import Models.Modalidade;
@@ -170,9 +168,16 @@ public class MenuModalidade extends javax.swing.JFrame {
             Class[] types = new Class [] {
                 java.lang.String.class, java.lang.Float.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         jScrollPane1.setViewportView(tabelaModalidades);
@@ -318,15 +323,15 @@ public class MenuModalidade extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonInicioActionPerformed
 
     private void jButtonGerenciarModalidadesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGerenciarModalidadesActionPerformed
-            MenuModalidade menuModalidade = new MenuModalidade();
-            menuModalidade.setVisible(true);
-            dispose();
+        MenuModalidade menuModalidade = new MenuModalidade();
+        menuModalidade.setVisible(true);
+        dispose();
     }//GEN-LAST:event_jButtonGerenciarModalidadesActionPerformed
 
     private void jButtonGerenciarCustosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGerenciarCustosActionPerformed
-       MenuGastos menuGastos = new MenuGastos();
-       menuGastos.setVisible(true);
-       dispose();
+        MenuGastos menuGastos = new MenuGastos();
+        menuGastos.setVisible(true);
+        dispose();
     }//GEN-LAST:event_jButtonGerenciarCustosActionPerformed
 
     private void filtrar(String nome) {
@@ -343,12 +348,12 @@ public class MenuModalidade extends javax.swing.JFrame {
         dtm = (DefaultTableModel) tabelaModalidades.getModel();
         dtm.setNumRows(0);
         listaDeModalidades = controllerModalidades.getModalidades();
-        for (Modalidade modalidade : listaDeModalidades) {
+        listaDeModalidades.forEach((modalidade) -> {
             dtm.addRow(new Object[]{
                 modalidade.getNome(),
                 modalidade.getValorModalidade()
             });
-        }
+        });
     }
 
     /**
@@ -367,22 +372,16 @@ public class MenuModalidade extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MenuModalidade.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MenuModalidade.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MenuModalidade.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(MenuModalidade.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        
+        //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MenuModalidade().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new MenuModalidade().setVisible(true);
         });
     }
 
