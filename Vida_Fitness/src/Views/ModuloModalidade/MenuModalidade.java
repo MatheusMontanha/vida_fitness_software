@@ -12,6 +12,7 @@ import Views.MenuInicial;
 import Views.ModuloGastos.MenuGastos;
 import Views.ModuloPacote.MenuPacote;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.List;
 import java.util.logging.Level;
@@ -26,11 +27,12 @@ import javax.swing.table.TableRowSorter;
  * @author Debor
  */
 public class MenuModalidade extends javax.swing.JFrame {
-
+    
     int indiceSelecionado;
     List<Modalidade> listaDeModalidades;
     ModalidadeController controllerModalidades = new ModalidadeController();
     DefaultTableModel dtm;
+    DecimalFormat formatNumber = new DecimalFormat("###,##0.00");
 
     /**
      * Creates new form MenuModalidade
@@ -147,7 +149,7 @@ public class MenuModalidade extends javax.swing.JFrame {
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 310, 600));
 
-        tabelaModalidades.setFont(new java.awt.Font("Segoe UI Symbol", 0, 12)); // NOI18N
+        tabelaModalidades.setFont(new java.awt.Font("Segoe UI Symbol", 1, 12)); // NOI18N
         tabelaModalidades.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
@@ -166,7 +168,7 @@ public class MenuModalidade extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Float.class
+                java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false
@@ -253,7 +255,7 @@ public class MenuModalidade extends javax.swing.JFrame {
         String nome = modalidadeFiltro.getText();
         filtrar(nome);
     }//GEN-LAST:event_modalidadeFiltroKeyReleased
-
+    
     private Modalidade buscarModalidadeNaLista(String nome) {
         for (int i = 0; i < listaDeModalidades.size(); i++) {
             if (nome.equalsIgnoreCase(listaDeModalidades.get(i).getNome())) {
@@ -268,7 +270,7 @@ public class MenuModalidade extends javax.swing.JFrame {
             int linhaSelecionada = tabelaModalidades.getSelectedRow();
             String nome;
             nome = (String) tabelaModalidades.getValueAt(linhaSelecionada, 0);
-
+            
             Modalidade modalidade = buscarModalidadeNaLista(nome);
             int resposta = JOptionPane.showConfirmDialog(rootPane,
                     "Tem certeza que deseja excluir a modalidade " + modalidade.getNome() + "? "
@@ -291,7 +293,7 @@ public class MenuModalidade extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(this, "Nenhuma modalidade foi selecionada!");
         }
-
+        
 
     }//GEN-LAST:event_excluirModalidadeActionPerformed
 
@@ -333,7 +335,7 @@ public class MenuModalidade extends javax.swing.JFrame {
         menuGastos.setVisible(true);
         dispose();
     }//GEN-LAST:event_jButtonGerenciarCustosActionPerformed
-
+    
     private void filtrar(String nome) {
         try {
             TableRowSorter<DefaultTableModel> resultadoFiltro = new TableRowSorter<>(dtm);
@@ -343,7 +345,7 @@ public class MenuModalidade extends javax.swing.JFrame {
             System.out.println("Caractere não aceito.");
         }
     }
-
+    
     private void popularTabelaModalidade() throws ParseException {
         dtm = (DefaultTableModel) tabelaModalidades.getModel();
         dtm.setNumRows(0);
@@ -351,7 +353,7 @@ public class MenuModalidade extends javax.swing.JFrame {
         listaDeModalidades.forEach((modalidade) -> {
             dtm.addRow(new Object[]{
                 modalidade.getNome(),
-                modalidade.getValorModalidade()
+                "R$" + formatNumber.format(modalidade.getValorModalidade())
             });
         });
     }
@@ -376,7 +378,7 @@ public class MenuModalidade extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(MenuModalidade.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        
+
         //</editor-fold>
 
         /* Create and display the form */
