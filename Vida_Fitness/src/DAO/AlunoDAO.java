@@ -404,4 +404,26 @@ public class AlunoDAO {
             Conexao.fecharConexao(conexao);
         }
     }
+
+    public boolean verificarExistenciaCpf(String cpf) throws SQLException {
+        Connection conexao = Conexao.realizarConexão();
+        PreparedStatement stm;
+        ResultSet rs;
+        String cpfRegistrado;
+        try {
+            stm = conexao.prepareStatement("SELECT Aluno.CPF FROM Aluno;");
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                cpfRegistrado = rs.getString("CPF");
+                if (cpf.equalsIgnoreCase(cpfRegistrado)) {
+                    return true;
+                }
+            }
+        } catch (SQLException e) {
+            Logger.getLogger(AlunoDAO.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            Conexao.fecharConexao(conexao);
+        }
+        return false;
+    }
 }

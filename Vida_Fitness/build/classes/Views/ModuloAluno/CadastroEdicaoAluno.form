@@ -203,7 +203,7 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="campoCPFActionPerformed"/>
+            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="campoCPFFocusLost"/>
           </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="try{&#xd;&#xa;   javax.swing.text.MaskFormatter data= new javax.swing.text.MaskFormatter(&quot;###.###.###-##&quot;);&#xd;&#xa;   campoCPF = new javax.swing.JFormattedTextField(data);&#xd;&#xa;}&#xd;&#xa;   catch (Exception e){&#xd;&#xa;}"/>

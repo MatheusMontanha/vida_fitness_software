@@ -20,6 +20,8 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.InputVerifier;
@@ -35,7 +37,7 @@ import javax.swing.border.Border;
  * @author mathe
  */
 public class CadastroEdicaoAluno extends javax.swing.JFrame {
-
+    
     Aluno aluno;
     Aluno editarAluno;
     GerenciamentoAlunosController alunoController = new GerenciamentoAlunosController();
@@ -49,6 +51,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
     NumberFormat formatoMoeda = NumberFormat.getCurrencyInstance(Locale.CANADA);
     ValidadoresDeEntradas validadores = new ValidadoresDeEntradas();
     double valorPacela = 0.0;
+    boolean cpfValidado = false;
 
     /**
      * Creates new form CadastroAluno
@@ -63,7 +66,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
         preencherComValorPacote();
         tituloPagina.setText("Cadastro de Aluno");
     }
-
+    
     public CadastroEdicaoAluno(Aluno aluno) {
         initComponents();
         tituloPagina.setText("Edição de Aluno");
@@ -273,9 +276,9 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
                 return isValid; //To change body of generated methods, choose Tools | Templates.
             }
         });
-        campoCPF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                campoCPFActionPerformed(evt);
+        campoCPF.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                campoCPFFocusLost(evt);
             }
         });
         telaCadastroJPanel.add(campoCPF, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 160, 270, 30));
@@ -492,74 +495,82 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
     private void buttonSalvarAlunoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSalvarAlunoActionPerformed
         if (editarAluno == null) {
             if (verificarCampoVazio() == -1) {
-                aluno = new Aluno();
-                aluno.setNome(campoNome.getText());
-                aluno.setTelefonePrincipal(campoTelefonePrincipal.getText());
-                aluno.setTelefoneSecundario(campoTelefoneSecundario.getText());
-                aluno.setEndereco(campoEndereco.getText());
-                aluno.setCpf(campoCPF.getText());
-                aluno.setBairro(campoBairro.getText());
-                aluno.setCep(campoCEP.getText());
-                aluno.setInadimplente(false);
-                if (checkPagamentoCartaoCredito.isSelected()) {
-                    aluno.setPagamentoComCartao(true);
+                if (cpfValidado) {
+                    aluno = new Aluno();
+                    aluno.setNome(campoNome.getText());
+                    aluno.setTelefonePrincipal(campoTelefonePrincipal.getText());
+                    aluno.setTelefoneSecundario(campoTelefoneSecundario.getText());
+                    aluno.setEndereco(campoEndereco.getText());
+                    aluno.setCpf(campoCPF.getText());
+                    aluno.setBairro(campoBairro.getText());
+                    aluno.setCep(campoCEP.getText());
+                    aluno.setInadimplente(false);
+                    if (checkPagamentoCartaoCredito.isSelected()) {
+                        aluno.setPagamentoComCartao(true);
+                    } else {
+                        aluno.setPagamentoComCartao(false);
+                    }
+                    if (ativarModalidades.isSelected()) {
+                        List<Modalidade> modalidades = identificarListaDeModalidades();
+                        aluno.setPacote(new Pacote());
+                        aluno.setModalidades(modalidades);
+                    } else if (ativarPacote.isSelected()) {
+                        Pacote pacote = identificarPacoteSelecionado();
+                        aluno.setModalidades(new ArrayList<>());
+                        aluno.setPacote(pacote);
+                    }
+                    try {
+                        alunoController.salvarCadastroAluno(aluno);
+                        JOptionPane.showMessageDialog(this, "Aluno salvo com sucesso!");
+                        MenuAlunos menuAlunos = new MenuAlunos();
+                        menuAlunos.setVisible(true);
+                        dispose();
+                    } catch (SQLException e) {
+                        JOptionPane.showMessageDialog(this, "Ops!! Algo deu errado. Tente novamente.");
+                    }
                 } else {
-                    aluno.setPagamentoComCartao(false);
-                }
-                if (ativarModalidades.isSelected()) {
-                    List<Modalidade> modalidades = identificarListaDeModalidades();
-                    aluno.setPacote(new Pacote());
-                    aluno.setModalidades(modalidades);
-                } else if (ativarPacote.isSelected()) {
-                    Pacote pacote = identificarPacoteSelecionado();
-                    aluno.setModalidades(new ArrayList<>());
-                    aluno.setPacote(pacote);
-                }
-                try {
-                    alunoController.salvarCadastroAluno(aluno);
-                    JOptionPane.showMessageDialog(this, "Aluno salvo com sucesso!");
-                    MenuAlunos menuAlunos = new MenuAlunos();
-                    menuAlunos.setVisible(true);
-                    dispose();
-                } catch (SQLException e) {
-                    JOptionPane.showMessageDialog(this, "Ops!! Algo deu errado. Tente novamente.");
+                    JOptionPane.showMessageDialog(this, "Ops!! CPF ainda não foi validado.");
                 }
             } else {
                 JOptionPane.showMessageDialog(this, "Ops!! Algum campo foi deixado em branco.");
             }
         } else {
             if (verificarCampoVazio() == -1) {
-                editarAluno.setNome(campoNome.getText());
-                editarAluno.setTelefonePrincipal(campoTelefonePrincipal.getText());
-                editarAluno.setTelefoneSecundario(campoTelefoneSecundario.getText());
-                editarAluno.setEndereco(campoEndereco.getText());
-                editarAluno.setCpf(campoCPF.getText());
-                editarAluno.setInadimplente(false);
-                editarAluno.setBairro(campoBairro.getText());
-                editarAluno.setCep(campoCEP.getText());
-                if (checkPagamentoCartaoCredito.isSelected()) {
-                    editarAluno.setPagamentoComCartao(true);
+                if (cpfValidado) {
+                    editarAluno.setNome(campoNome.getText());
+                    editarAluno.setTelefonePrincipal(campoTelefonePrincipal.getText());
+                    editarAluno.setTelefoneSecundario(campoTelefoneSecundario.getText());
+                    editarAluno.setEndereco(campoEndereco.getText());
+                    editarAluno.setCpf(campoCPF.getText());
+                    editarAluno.setInadimplente(false);
+                    editarAluno.setBairro(campoBairro.getText());
+                    editarAluno.setCep(campoCEP.getText());
+                    if (checkPagamentoCartaoCredito.isSelected()) {
+                        editarAluno.setPagamentoComCartao(true);
+                    } else {
+                        editarAluno.setPagamentoComCartao(false);
+                    }
+                    if (ativarModalidades.isSelected()) {
+                        List<Modalidade> modalidades = identificarListaDeModalidades();
+                        editarAluno.setModalidades(modalidades);
+                        editarAluno.setPacote(null);
+                    }
+                    if (ativarPacote.isSelected()) {
+                        Pacote pacote = identificarPacoteSelecionado();
+                        editarAluno.setPacote(pacote);
+                        editarAluno.setModalidades(null);
+                    }
+                    try {
+                        alunoController.editarCadastroAluno(editarAluno);
+                        JOptionPane.showMessageDialog(this, "Edição realizada com sucesso!");
+                        MenuAlunos menuAlunos = new MenuAlunos();
+                        menuAlunos.setVisible(true);
+                        dispose();
+                    } catch (SQLException e) {
+                        JOptionPane.showMessageDialog(this, "Ops!! Algo deu errado. Tente novamente.");
+                    }
                 } else {
-                    editarAluno.setPagamentoComCartao(false);
-                }
-                if (ativarModalidades.isSelected()) {
-                    List<Modalidade> modalidades = identificarListaDeModalidades();
-                    editarAluno.setModalidades(modalidades);
-                    editarAluno.setPacote(null);
-                }
-                if (ativarPacote.isSelected()) {
-                    Pacote pacote = identificarPacoteSelecionado();
-                    editarAluno.setPacote(pacote);
-                    editarAluno.setModalidades(null);
-                }
-                try {
-                    alunoController.editarCadastroAluno(editarAluno);
-                    JOptionPane.showMessageDialog(this, "Edição realizada com sucesso!");
-                    MenuAlunos menuAlunos = new MenuAlunos();
-                    menuAlunos.setVisible(true);
-                    dispose();
-                } catch (SQLException e) {
-                    JOptionPane.showMessageDialog(this, "Ops!! Algo deu errado. Tente novamente.");
+                    JOptionPane.showMessageDialog(this, "Ops!! O CPF ainda não foi validado.");
                 }
             } else {
                 JOptionPane.showMessageDialog(this, "Ops!! Algum campo foi deixado em branco.");
@@ -567,15 +578,10 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_buttonSalvarAlunoActionPerformed
 
-    private void campoCPFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoCPFActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_campoCPFActionPerformed
-
     private void ativarPacoteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ativarPacoteActionPerformed
         if (ativarPacote.isSelected()) {
             pacotesDisponiveis.setEnabled(true);
             componentesModalidade(false);
-
         }
     }//GEN-LAST:event_ativarPacoteActionPerformed
 
@@ -612,7 +618,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
                 listaDeItensJlist.addElement("" + modalidade.getNome() + ", R$" + modalidade.getValorModalidade());
                 listaDeModalidadesAdd.setModel(listaDeItensJlist);
                 valor += modalidade.getValorModalidade();
-
+                
                 campoApresentaValorCadastro.setText("R" + formatoMoeda.format(valor));
             } else {
                 JOptionPane.showMessageDialog(this, "Ops!! Você já selecionou essa modalidade.");
@@ -631,13 +637,39 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_checkPagamentoCartaoCreditoActionPerformed
 
+    private void campoCPFFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_campoCPFFocusLost
+        if (verificarQuantidadeNumerosCpf(campoCPF.getText()) == 11) {
+            try {
+                if (alunoController.verificarExistenciaCpf(campoCPF.getText())) {
+                    JOptionPane.showMessageDialog(this, "Ops!! Este CPF já foi cadastrado no sistema.");
+                    campoCPF.setText("");
+                    cpfValidado = false;
+                } else {
+                    cpfValidado = true;
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(CadastroEdicaoAluno.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_campoCPFFocusLost
+    
+    private int verificarQuantidadeNumerosCpf(String text) {
+        int qtndNumeros = 0;
+        for (int i = 0; i < text.length(); i++) {
+            if (Character.isDigit(text.charAt(i))) {
+                qtndNumeros++;
+            }
+        }
+        return qtndNumeros;
+    }
+    
     private void componentesModalidade(boolean condicao) {
         modalidadesDisponiveis.setEnabled(condicao);
         listaDeModalidadesAdd.setEnabled(condicao);
         addModalidadeNaLista.setEnabled(condicao);
         excluirItemSelecionadoJlist.setEnabled(condicao);
     }
-
+    
     private void preencherCamposParaEditar(Aluno aluno) {
         campoNome.setText(aluno.getNome());
         campoTelefonePrincipal.setText(aluno.getTelefonePrincipal());
@@ -660,7 +692,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
             }
         }
     }
-
+    
     private double encontrarValorString(String text) {
         char caractere;
         double valorRecuperado = -1.0;
@@ -673,7 +705,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
         }
         return valorRecuperado;
     }
-
+    
     private String encontrarNomeString(String text) {
         char caractere;
         String nome = "";
@@ -686,7 +718,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
         }
         return nome;
     }
-
+    
     private boolean verificarDuplicidadeJList(String valor) {
         for (int i = 0; i < listaDeModalidadesAdd.getModel().getSize(); i++) {
             if (listaDeModalidadesAdd.getModel().getElementAt(i).equalsIgnoreCase(valor)) {
@@ -695,7 +727,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
         }
         return false;
     }
-
+    
     private List<Modalidade> identificarListaDeModalidades() {
         List<Modalidade> modalidadesSelecionadas = new ArrayList<>();
         String nome;
@@ -709,17 +741,17 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
         }
         return modalidadesSelecionadas;
     }
-
+    
     private Modalidade identificarModalidadeSelecionada() {
         for (int i = 0; i < listaDeModalides.size(); i++) {
             if (listaDeModalides.get(i).getNome().equalsIgnoreCase(modalidadesDisponiveis.getSelectedItem().toString())) {
                 return listaDeModalides.get(i);
             }
-
+            
         }
         return null;
     }
-
+    
     private Pacote identificarPacoteSelecionado() {
         for (int i = 0; i < listaDePacotes.size(); i++) {
             if (listaDePacotes.get(i).getNomePacote().equalsIgnoreCase(pacotesDisponiveis.getSelectedItem().toString())) {
@@ -728,7 +760,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
         }
         return null;
     }
-
+    
     private void popularOpcoesPacote() {
         listaDePacotes = gerenciadorPacotesController.getListaDePacotes();
         Pacote pacoteAux;
@@ -743,14 +775,14 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
             indexAux++;
         }
     }
-
+    
     private void popularOpcoesModalidades() {
         listaDeModalides = controllerModalidade.getModalidades();
         listaDeModalides.forEach((modalidade) -> {
             modalidadesDisponiveis.addItem(modalidade.getNome());
         });
     }
-
+    
     private void limparTodosCampos() {
         Component components[] = telaCadastroJPanel.getComponents();
         for (Component component : components) {
@@ -765,7 +797,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
         listaDeItensJlist.removeAllElements();
         listaDeModalidadesAdd.setModel(listaDeItensJlist);
     }
-
+    
     private int verificarCampoVazio() {
         Component components[] = telaCadastroJPanel.getComponents();
         int controle = -1;
@@ -782,13 +814,16 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
             }
             if (component instanceof JRadioButton) {
                 if (((JRadioButton) component).isSelected()) {
+                    if (component.getName().equalsIgnoreCase("ativarModalidades")) {
+                        System.out.println("Opções de modalidade está ativada");
+                    }
                     controle = -1;
                 }
             }
         }
         return controle;
     }
-
+    
     private void preencherComValorPacote() {
         nomePacoteSelecionado = "";
         pacotesDisponiveis.addItemListener((ItemEvent e) -> {
@@ -814,7 +849,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
                 }
             }
         });
-
+        
     }
 
     /**

@@ -61,4 +61,8 @@ public class GerenciamentoAlunosController {
         }
         return "";
     }
+
+    public boolean verificarExistenciaCpf(String cpf) throws SQLException {
+        return daoAluno.verificarExistenciaCpf(cpf);
+    }
 }
