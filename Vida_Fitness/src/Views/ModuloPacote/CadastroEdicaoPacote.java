@@ -12,10 +12,8 @@ import Models.Pacote;
 import java.awt.Component;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import javax.swing.DefaultListModel;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
@@ -26,7 +24,7 @@ import javax.swing.JTextField;
  * @author Debor
  */
 public class CadastroEdicaoPacote extends javax.swing.JFrame {
-
+    
     Pacote pacote;
     Pacote editarPacote;
     GerenciadorPacotesController pacoteController = new GerenciadorPacotesController();
@@ -44,7 +42,7 @@ public class CadastroEdicaoPacote extends javax.swing.JFrame {
         initComponents();
         popularOpcoesModalidades();
     }
-
+    
     public CadastroEdicaoPacote(Pacote pacoteEditar) {
         initComponents();
         popularOpcoesModalidades();
@@ -259,7 +257,7 @@ public class CadastroEdicaoPacote extends javax.swing.JFrame {
                 "Tem certeza que deseja cancelar? ",
                 "Selecione uma Opção",
                 JOptionPane.YES_NO_OPTION);
-
+        
         if (resposta != 1 & resposta != 2 & resposta != -1) {
             MenuPacote menuPacote = new MenuPacote();
             menuPacote.setVisible(true);
@@ -320,7 +318,7 @@ public class CadastroEdicaoPacote extends javax.swing.JFrame {
                 valor += modalidade.getValorModalidade();
                 if (!duracaoPacote.getText().isEmpty()) {
                     campoValorTotalSemDesconto.setText("R$" + (valor * Float.parseFloat(duracaoPacote.getText())));
-                    campoValorTotalDesconto.setText("R$" + (encontrarValorString(campoValorTotalSemDesconto.getText()) - encontrarValorString(campoValorDesconto.getText())));
+                    campoValorTotalDesconto.setText("R$" + (encontrarValorString(campoValorTotalSemDesconto.getText()) - Float.parseFloat(campoValorDesconto.getText())));
                 }
             } else {
                 JOptionPane.showMessageDialog(this, "Ops!! Você já selecionou essa modalidade.");
@@ -339,9 +337,10 @@ public class CadastroEdicaoPacote extends javax.swing.JFrame {
             if (indiceModalidade != -1) {
                 valorParaSubtrair = encontrarValorString(defaultModelJlist.get(indiceModalidade).toString());
                 valor -= valorParaSubtrair;
-                campoValorTotalSemDesconto.setText("R$" + valor * Float.parseFloat(duracaoPacote.getText()));
-
-                campoValorTotalDesconto.setText("R$" + (encontrarValorString(campoValorTotalSemDesconto.getText()) - Float.parseFloat(campoValorDesconto.getText())));
+                if (!duracaoPacote.getText().isEmpty() && !campoValorTotalDesconto.getText().isEmpty() && !campoValorTotalSemDesconto.getText().isEmpty()) {
+                    campoValorTotalSemDesconto.setText("R$" + valor * Float.parseFloat(duracaoPacote.getText()));
+                    campoValorTotalDesconto.setText("R$" + (encontrarValorString(campoValorTotalSemDesconto.getText()) - Float.parseFloat(campoValorDesconto.getText())));
+                }
                 defaultModelJlist.removeElementAt(indiceModalidade);
                 modalidadesJList.setModel(defaultModelJlist);
             } else {
@@ -369,6 +368,7 @@ public class CadastroEdicaoPacote extends javax.swing.JFrame {
                 }
             } else {
                 campoValorTotalSemDesconto.setText("R$" + valor);
+                campoValorTotalDesconto.setText("R$" + (valor - Float.parseFloat(campoValorDesconto.getText())));
             }
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Ops!! Valor inválido.");
@@ -387,7 +387,7 @@ public class CadastroEdicaoPacote extends javax.swing.JFrame {
                     valorDesconto = Double.parseDouble(campoValorDesconto.getText());
                     valorTemporario = encontrarValorString(campoValorTotalSemDesconto.getText());
                     valorTemporario -= valorDesconto;
-                    campoValorTotalDesconto.setText("R" + valorTemporario);
+                    campoValorTotalDesconto.setText("R$" + valorTemporario);
                     break;
                 case 1:
                     campoValorDesconto.setText(campoValorDesconto.getText().substring(0, campoValorDesconto.getText().length() - 1));
@@ -408,7 +408,7 @@ public class CadastroEdicaoPacote extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_campoValorDescontoKeyReleased
-
+    
     private int verificarFormatoValor(String text) {
         char caractere;
         for (int i = 0; i < text.length(); i++) {
@@ -425,7 +425,7 @@ public class CadastroEdicaoPacote extends javax.swing.JFrame {
         }
         return 0;
     }
-
+    
     private double encontrarValorString(String text) {
         char caractere;
         double valorRecuperado = -1.0;
@@ -438,7 +438,7 @@ public class CadastroEdicaoPacote extends javax.swing.JFrame {
         }
         return valorRecuperado;
     }
-
+    
     private int verificarCampoVazio() {
         Component components[] = painelCentral.getComponents();
         int controle = -1;
@@ -456,7 +456,7 @@ public class CadastroEdicaoPacote extends javax.swing.JFrame {
         }
         return controle;
     }
-
+    
     private List<Modalidade> identificarListaDeModalidades() {
         List<Modalidade> modalidadesSelecionadas = new ArrayList<>();
         String nome;
@@ -470,14 +470,14 @@ public class CadastroEdicaoPacote extends javax.swing.JFrame {
         }
         return modalidadesSelecionadas;
     }
-
+    
     private void popularOpcoesModalidades() {
         listaDeModalides = controllerModalidade.getModalidades();
         listaDeModalides.forEach((modalidade) -> {
             modalidadesDisponiveis.addItem(modalidade.getNome());
         });
     }
-
+    
     private String encontrarNomeString(String text) {
         char caractere;
         String nome = "";
@@ -490,17 +490,17 @@ public class CadastroEdicaoPacote extends javax.swing.JFrame {
         }
         return nome;
     }
-
+    
     private Modalidade identificarModalidadeSelecionada() {
         for (int i = 0; i < listaDeModalides.size(); i++) {
             if (listaDeModalides.get(i).getNome().equalsIgnoreCase(modalidadesDisponiveis.getSelectedItem().toString())) {
                 return listaDeModalides.get(i);
             }
-
+            
         }
         return null;
     }
-
+    
     private boolean verificarDuplicidadeJList(String valor) {
         for (int i = 0; i < modalidadesJList.getModel().getSize(); i++) {
             if (modalidadesJList.getModel().getElementAt(i).equalsIgnoreCase(valor)) {
@@ -509,7 +509,7 @@ public class CadastroEdicaoPacote extends javax.swing.JFrame {
         }
         return false;
     }
-
+    
     private void preencherCamposParaEditar(Pacote pacoteRecuperado) {
         nomePacote.setText(pacoteRecuperado.getNomePacote());
         duracaoPacote.setText("" + pacoteRecuperado.getDuracao());
