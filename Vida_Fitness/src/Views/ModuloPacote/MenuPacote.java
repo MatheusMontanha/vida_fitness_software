@@ -10,6 +10,7 @@ import Views.ModuloAluno.MenuAlunos;
 import Controllers.GerenciadorPacotesController;
 import Models.Pacote;
 import Views.MenuInicial;
+import Views.ModuloGastos.MenuGastos;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -204,6 +205,11 @@ public class MenuPacote extends javax.swing.JFrame {
         jButtonGerenciarCustos.setForeground(new java.awt.Color(255, 255, 255));
         jButtonGerenciarCustos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/dinheiro.png"))); // NOI18N
         jButtonGerenciarCustos.setText("Gerenciar Custos");
+        jButtonGerenciarCustos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonGerenciarCustosActionPerformed(evt);
+            }
+        });
         jPanel2.add(jButtonGerenciarCustos, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 530, 250, -1));
 
         jButtonInicial.setBackground(new java.awt.Color(102, 102, 102));
@@ -347,6 +353,12 @@ public class MenuPacote extends javax.swing.JFrame {
         menuModalidade.setVisible(true);
         dispose();
     }//GEN-LAST:event_jButtonGerenciarModalidadesActionPerformed
+
+    private void jButtonGerenciarCustosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGerenciarCustosActionPerformed
+       MenuGastos menuGastos = new MenuGastos();
+       menuGastos.setVisible(true);
+       dispose();
+    }//GEN-LAST:event_jButtonGerenciarCustosActionPerformed
 
     /**
      * @param args the command line arguments
