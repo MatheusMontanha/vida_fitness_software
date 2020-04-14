@@ -538,7 +538,7 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
         } else {
             if (verificarCampoVazio() == -1 && (verificarQuantidadeNumCamposEspeciais(campoTelefonePrincipal.getText()) == 11
                     && verificarQuantidadeNumCamposEspeciais(campoTelefoneSecundario.getText()) == 11)) {
-                if (cpfValidado) {
+                if (cpfValidado || campoCPF.getText().equalsIgnoreCase(editarAluno.getCpf())) {
                     editarAluno.setNome(campoNome.getText());
                     editarAluno.setTelefonePrincipal(campoTelefonePrincipal.getText());
                     editarAluno.setTelefoneSecundario(campoTelefoneSecundario.getText());
@@ -642,12 +642,26 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
     private void campoCPFFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_campoCPFFocusLost
         if (verificarQuantidadeNumCamposEspeciais(campoCPF.getText()) == 11) {
             try {
-                if (alunoController.verificarExistenciaCpf(campoCPF.getText())) {
-                    JOptionPane.showMessageDialog(this, "Ops!! Este CPF já foi cadastrado no sistema.");
-                    campoCPF.setText("");
-                    cpfValidado = false;
+                if (editarAluno != null) {
+                    if (campoCPF.getText().equalsIgnoreCase(editarAluno.getCpf())) {
+                        cpfValidado = true;
+                    } else {
+                        if (alunoController.verificarExistenciaCpf(campoCPF.getText())) {
+                            JOptionPane.showMessageDialog(this, "Ops!! Este CPF já foi cadastrado no sistema.");
+                            campoCPF.setText("");
+                            cpfValidado = false;
+                        } else {
+                            cpfValidado = true;
+                        }
+                    }
                 } else {
-                    cpfValidado = true;
+                    if (alunoController.verificarExistenciaCpf(campoCPF.getText())) {
+                        JOptionPane.showMessageDialog(this, "Ops!! Este CPF já foi cadastrado no sistema.");
+                        campoCPF.setText("");
+                        cpfValidado = false;
+                    } else {
+                        cpfValidado = true;
+                    }
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(CadastroEdicaoAluno.class.getName()).log(Level.SEVERE, null, ex);
