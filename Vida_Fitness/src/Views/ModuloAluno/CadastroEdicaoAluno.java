@@ -613,6 +613,9 @@ public class CadastroEdicaoAluno extends javax.swing.JFrame {
                 campoApresentaValorCadastro.setText("R" + formatoMoeda.format(valor));
                 listaDeItensJlist.removeElementAt(indiceModalidade);
                 listaDeModalidadesAdd.setModel(listaDeItensJlist);
+                if (listaDeItensJlist.getSize() <= 0) {
+                    campoApresentaValorCadastro.setText("");
+                }
             } else {
                 JOptionPane.showMessageDialog(this, "Ops!! Nenhum elemento foi selecionado.");
             }

@@ -304,4 +304,24 @@ public class ModalidadeDAO {
         }
         return false;
     }
+
+    public List<String> nomeModalidasCadastradas() {
+        Connection conexao = Conexao.realizarConexão();
+        PreparedStatement stm;
+        ResultSet rs;
+        ArrayList<String> listaDeModalidades = new ArrayList<>();
+        try {
+            stm = conexao.prepareStatement("SELECT Modalidade.nome from Modalidade");
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                listaDeModalidades.add(rs.getString("nome"));
+            }
+            return listaDeModalidades;
+        } catch (SQLException e) {
+            Logger.getLogger(AlunoDAO.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            Conexao.fecharConexao(conexao);
+        }
+        return listaDeModalidades;
+    }
 }

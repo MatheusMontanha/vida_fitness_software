@@ -44,4 +44,8 @@ public class ModalidadeController {
     public boolean verificarAlgumaDependencia(int idModalidade) throws SQLException {
         return (modalidadeDAO.verificarDependenciaComPacote(idModalidade) || modalidadeDAO.verificarDependenciaComInscricao(idModalidade));
     }
+
+    public List<String> nomeModalidadesCadastradas() {
+        return modalidadeDAO.nomeModalidasCadastradas();
+    }
 }

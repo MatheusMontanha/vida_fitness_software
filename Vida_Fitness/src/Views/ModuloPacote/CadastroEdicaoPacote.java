@@ -24,7 +24,7 @@ import javax.swing.JTextField;
  * @author Debor
  */
 public class CadastroEdicaoPacote extends javax.swing.JFrame {
-    
+
     Pacote pacote;
     Pacote editarPacote;
     GerenciadorPacotesController pacoteController = new GerenciadorPacotesController();
@@ -42,7 +42,7 @@ public class CadastroEdicaoPacote extends javax.swing.JFrame {
         initComponents();
         popularOpcoesModalidades();
     }
-    
+
     public CadastroEdicaoPacote(Pacote pacoteEditar) {
         initComponents();
         popularOpcoesModalidades();
@@ -257,7 +257,7 @@ public class CadastroEdicaoPacote extends javax.swing.JFrame {
                 "Tem certeza que deseja cancelar? ",
                 "Selecione uma Opção",
                 JOptionPane.YES_NO_OPTION);
-        
+
         if (resposta != 1 & resposta != 2 & resposta != -1) {
             MenuPacote menuPacote = new MenuPacote();
             menuPacote.setVisible(true);
@@ -283,7 +283,7 @@ public class CadastroEdicaoPacote extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(this, "Ops!! Algo deu errado. Tente novamente.");
                 }
             } else {
-                JOptionPane.showMessageDialog(this, "Ops!! Algum campo foi deixado em branco.");
+                JOptionPane.showMessageDialog(this, "Ops!! Algum campo foi deixado em branco ou preenchido incorretamente.");
             }
         } else {
             if (verificarCampoVazio() == -1) {
@@ -298,8 +298,10 @@ public class CadastroEdicaoPacote extends javax.swing.JFrame {
                     pacoteMenu.setVisible(true);
                     dispose();
                 } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(this, "Ops!! Algo deu errado. Tente novamente.");
+                    JOptionPane.showMessageDialog(this, "Ops!!  Algum campo foi deixado em branco ou preenchido incorretamente.");
                 }
+            } else {
+                JOptionPane.showMessageDialog(this, "Ops!!  Algum campo foi deixado em branco ou preenchido incorretamente.");
             }
         }
 
@@ -408,7 +410,7 @@ public class CadastroEdicaoPacote extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_campoValorDescontoKeyReleased
-    
+
     private int verificarFormatoValor(String text) {
         char caractere;
         for (int i = 0; i < text.length(); i++) {
@@ -425,7 +427,7 @@ public class CadastroEdicaoPacote extends javax.swing.JFrame {
         }
         return 0;
     }
-    
+
     private double encontrarValorString(String text) {
         char caractere;
         double valorRecuperado = -1.0;
@@ -438,7 +440,7 @@ public class CadastroEdicaoPacote extends javax.swing.JFrame {
         }
         return valorRecuperado;
     }
-    
+
     private int verificarCampoVazio() {
         Component components[] = painelCentral.getComponents();
         int controle = -1;
@@ -454,9 +456,15 @@ public class CadastroEdicaoPacote extends javax.swing.JFrame {
                 }
             }
         }
+        if (defaultModelJlist.getSize() <= 0) {
+            controle = 0;
+        }
+        if (duracaoPacote.getText().equalsIgnoreCase("0")) {
+            controle = 0;
+        }
         return controle;
     }
-    
+
     private List<Modalidade> identificarListaDeModalidades() {
         List<Modalidade> modalidadesSelecionadas = new ArrayList<>();
         String nome;
@@ -470,14 +478,14 @@ public class CadastroEdicaoPacote extends javax.swing.JFrame {
         }
         return modalidadesSelecionadas;
     }
-    
+
     private void popularOpcoesModalidades() {
         listaDeModalides = controllerModalidade.getModalidades();
         listaDeModalides.forEach((modalidade) -> {
             modalidadesDisponiveis.addItem(modalidade.getNome());
         });
     }
-    
+
     private String encontrarNomeString(String text) {
         char caractere;
         String nome = "";
@@ -490,17 +498,17 @@ public class CadastroEdicaoPacote extends javax.swing.JFrame {
         }
         return nome;
     }
-    
+
     private Modalidade identificarModalidadeSelecionada() {
         for (int i = 0; i < listaDeModalides.size(); i++) {
             if (listaDeModalides.get(i).getNome().equalsIgnoreCase(modalidadesDisponiveis.getSelectedItem().toString())) {
                 return listaDeModalides.get(i);
             }
-            
+
         }
         return null;
     }
-    
+
     private boolean verificarDuplicidadeJList(String valor) {
         for (int i = 0; i < modalidadesJList.getModel().getSize(); i++) {
             if (modalidadesJList.getModel().getElementAt(i).equalsIgnoreCase(valor)) {
@@ -509,7 +517,7 @@ public class CadastroEdicaoPacote extends javax.swing.JFrame {
         }
         return false;
     }
-    
+
     private void preencherCamposParaEditar(Pacote pacoteRecuperado) {
         nomePacote.setText(pacoteRecuperado.getNomePacote());
         duracaoPacote.setText("" + pacoteRecuperado.getDuracao());

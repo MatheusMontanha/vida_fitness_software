@@ -45,7 +45,7 @@ public class CadastroEdicaoModalidade extends javax.swing.JFrame {
     }
 
     private int verificarCampoVazio() {
-        Component components[] = jPanelCRUDModalidade.getComponents();
+        Component components[] = jPanelCentral.getComponents();
         int controle = -1;
         for (Component component : components) {
             if (component instanceof JTextField) {
@@ -67,11 +67,11 @@ public class CadastroEdicaoModalidade extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanelCRUDModalidade = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
+        jPanelCentral = new javax.swing.JPanel();
         tituloTelaCRUDMod = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel2 = new javax.swing.JLabel();
-        NomeModalidade = new javax.swing.JTextField();
+        campoNomeModalidade = new javax.swing.JTextField();
         campoValorModalidade = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jButtonCancelarModalidade = new javax.swing.JButton();
@@ -85,27 +85,27 @@ public class CadastroEdicaoModalidade extends javax.swing.JFrame {
         jPanelCRUDModalidade.setBackground(new java.awt.Color(27, 25, 30));
         jPanelCRUDModalidade.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel1.setBackground(new java.awt.Color(27, 25, 30));
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanelCentral.setBackground(new java.awt.Color(27, 25, 30));
+        jPanelCentral.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         tituloTelaCRUDMod.setFont(new java.awt.Font("Segoe UI Black", 1, 36)); // NOI18N
         tituloTelaCRUDMod.setForeground(new java.awt.Color(255, 255, 255));
         tituloTelaCRUDMod.setText("Cadastrar Modalidade");
-        jPanel1.add(tituloTelaCRUDMod, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, -1, -1));
-        jPanel1.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 510, 60));
+        jPanelCentral.add(tituloTelaCRUDMod, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, -1, -1));
+        jPanelCentral.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 510, 60));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI Symbol", 1, 16)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Nome");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 160, -1, -1));
+        jPanelCentral.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 160, -1, -1));
 
-        NomeModalidade.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        NomeModalidade.addActionListener(new java.awt.event.ActionListener() {
+        campoNomeModalidade.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        campoNomeModalidade.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                NomeModalidadeActionPerformed(evt);
+                campoNomeModalidadeActionPerformed(evt);
             }
         });
-        jPanel1.add(NomeModalidade, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 180, 290, 30));
+        jPanelCentral.add(campoNomeModalidade, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 180, 290, 30));
 
         campoValorModalidade.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         campoValorModalidade.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -113,12 +113,12 @@ public class CadastroEdicaoModalidade extends javax.swing.JFrame {
                 campoValorModalidadeKeyReleased(evt);
             }
         });
-        jPanel1.add(campoValorModalidade, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 270, 290, 30));
+        jPanelCentral.add(campoValorModalidade, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 270, 290, 30));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI Symbol", 1, 16)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Valor");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 250, -1, -1));
+        jPanelCentral.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 250, -1, -1));
 
         jButtonCancelarModalidade.setBackground(new java.awt.Color(255, 51, 51));
         jButtonCancelarModalidade.setFont(new java.awt.Font("Arial Black", 0, 12)); // NOI18N
@@ -129,7 +129,7 @@ public class CadastroEdicaoModalidade extends javax.swing.JFrame {
                 jButtonCancelarModalidadeActionPerformed(evt);
             }
         });
-        jPanel1.add(jButtonCancelarModalidade, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 350, 100, 30));
+        jPanelCentral.add(jButtonCancelarModalidade, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 350, 100, 30));
 
         jButtonSalvarModalidade.setBackground(new java.awt.Color(84, 182, 19));
         jButtonSalvarModalidade.setFont(new java.awt.Font("Arial Black", 0, 12)); // NOI18N
@@ -140,9 +140,9 @@ public class CadastroEdicaoModalidade extends javax.swing.JFrame {
                 jButtonSalvarModalidadeActionPerformed(evt);
             }
         });
-        jPanel1.add(jButtonSalvarModalidade, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 350, 100, 30));
+        jPanelCentral.add(jButtonSalvarModalidade, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 350, 100, 30));
 
-        jPanelCRUDModalidade.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 70, 490, 440));
+        jPanelCRUDModalidade.add(jPanelCentral, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 70, 490, 440));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/pesosPretos1000.jpg"))); // NOI18N
         jLabel1.setText("jLabel1");
@@ -170,18 +170,29 @@ public class CadastroEdicaoModalidade extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonCancelarModalidadeActionPerformed
 
     private void jButtonSalvarModalidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarModalidadeActionPerformed
+        List<String> nomesModalidadesCadastradas;
+        boolean jaContemModalidade = false;
         if (editarModalidade == null) {
             if (verificarCampoVazio() == -1) {
                 modalidade = new Modalidade();
-                modalidade.setNome(NomeModalidade.getText());
+                modalidade.setNome(campoNomeModalidade.getText());
                 modalidade.setValorModalidade(Float.parseFloat(campoValorModalidade.getText()));
-
                 try {
-                    modalidadeController.salvarCadastroModalidade(modalidade);
-                    JOptionPane.showMessageDialog(this, "Modalidade salva com sucesso!");
-                    MenuModalidade menuModalidade = new MenuModalidade();
-                    menuModalidade.setVisible(true);
-                    dispose();
+                    nomesModalidadesCadastradas = modalidadeController.nomeModalidadesCadastradas();
+                    for (int i = 0; i < nomesModalidadesCadastradas.size(); i++) {
+                        if (nomesModalidadesCadastradas.get(i).equalsIgnoreCase(campoNomeModalidade.getText())) {
+                            jaContemModalidade = true;
+                        }
+                    }
+                    if (!jaContemModalidade) {
+                        modalidadeController.salvarCadastroModalidade(modalidade);
+                        JOptionPane.showMessageDialog(this, "Modalidade salva com sucesso!");
+                        MenuModalidade menuModalidade = new MenuModalidade();
+                        menuModalidade.setVisible(true);
+                        dispose();
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Essa modalidade já foi cadastrada!");
+                    }
                 } catch (SQLException e) {
                     JOptionPane.showMessageDialog(this, "Ops!! Algo deu errado. Tente novamente.");
                 }
@@ -190,7 +201,7 @@ public class CadastroEdicaoModalidade extends javax.swing.JFrame {
             }
         } else {
             if (verificarCampoVazio() == -1) {
-                editarModalidade.setNome(NomeModalidade.getText());
+                editarModalidade.setNome(campoNomeModalidade.getText());
                 editarModalidade.setValorModalidade(Float.parseFloat(campoValorModalidade.getText()));
                 System.out.println(editarModalidade.getValorModalidade());
 
@@ -211,13 +222,13 @@ public class CadastroEdicaoModalidade extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonSalvarModalidadeActionPerformed
 
     private void preencherCamposParaEditar(Modalidade modalidade) {
-        NomeModalidade.setText(modalidade.getNome());
+        campoNomeModalidade.setText(modalidade.getNome());
         campoValorModalidade.setText("" + modalidade.getValorModalidade());
     }
 
-    private void NomeModalidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NomeModalidadeActionPerformed
+    private void campoNomeModalidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoNomeModalidadeActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_NomeModalidadeActionPerformed
+    }//GEN-LAST:event_campoNomeModalidadeActionPerformed
 
     private void campoValorModalidadeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoValorModalidadeKeyReleased
         int condicao = verificarFormatoValor(campoValorModalidade.getText());
@@ -292,15 +303,15 @@ public class CadastroEdicaoModalidade extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField NomeModalidade;
+    private javax.swing.JTextField campoNomeModalidade;
     private javax.swing.JTextField campoValorModalidade;
     private javax.swing.JButton jButtonCancelarModalidade;
     private javax.swing.JButton jButtonSalvarModalidade;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanelCRUDModalidade;
+    private javax.swing.JPanel jPanelCentral;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel tituloTelaCRUDMod;
     // End of variables declaration//GEN-END:variables
