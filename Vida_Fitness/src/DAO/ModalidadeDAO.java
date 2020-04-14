@@ -270,4 +270,38 @@ public class ModalidadeDAO {
         }
         return mensalidadesPagasModalidades;
     }
+
+    public boolean verificarDependenciaComPacote(int idModalidade) throws SQLException {
+        Connection conexao = Conexao.realizarConexão();
+        PreparedStatement stm;
+        ResultSet rs;
+        try {
+            stm = conexao.prepareStatement("SELECT Modalidade.id_modalidade from Modalidade INNER JOIN Grupo_Modalidade_Pacote on "
+                    + "Grupo_Modalidade_Pacote.id_modalidade = Modalidade.id_modalidade WHERE Modalidade.id_modalidade =" + idModalidade);
+            rs = stm.executeQuery();
+            return rs.next();
+        } catch (SQLException e) {
+            Logger.getLogger(AlunoDAO.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            Conexao.fecharConexao(conexao);
+        }
+        return false;
+    }
+
+    public boolean verificarDependenciaComInscricao(int idModalidade) throws SQLException {
+        Connection conexao = Conexao.realizarConexão();
+        PreparedStatement stm;
+        ResultSet rs;
+        try {
+            stm = conexao.prepareStatement("SELECT Modalidade.id_modalidade from Modalidade INNER JOIN Inscricao_Aluno_Modalidade on "
+                    + "Inscricao_Aluno_Modalidade.id_modalidade = Modalidade.id_modalidade WHERE Modalidade.id_modalidade = " + idModalidade);
+            rs = stm.executeQuery();
+            return rs.next();
+        } catch (SQLException e) {
+            Logger.getLogger(AlunoDAO.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            Conexao.fecharConexao(conexao);
+        }
+        return false;
+    }
 }

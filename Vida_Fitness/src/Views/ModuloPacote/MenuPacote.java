@@ -287,9 +287,13 @@ public class MenuPacote extends javax.swing.JFrame {
 
             if (resposta != 1 & resposta != 2 & resposta != -1) {
                 try {
-                    controllerPacotes.deletarCadastroPacote(pacote.getIdPacote());
-                    JOptionPane.showMessageDialog(this, "Pacote excluido com sucesso!");
-                    popularTabelaPacote();
+                    if (!controllerPacotes.verificarLigacaoPacote(pacote.getIdPacote())) {
+                        controllerPacotes.deletarCadastroPacote(pacote.getIdPacote());
+                        JOptionPane.showMessageDialog(this, "Pacote excluido com sucesso!");
+                        popularTabelaPacote();
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Este pacote não pode ser excluido pois está associado a algum aluno!");
+                    }
                 } catch (SQLException e) {
                     Logger.getLogger(MenuPacote.class.getName()).log(Level.SEVERE, null, e);
                     JOptionPane.showMessageDialog(this, "Ocorreu um erro ao excluir o pacote."

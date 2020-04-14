@@ -247,4 +247,21 @@ public class PacoteDAO {
         }
         return mensalidadesPagasPacote;
     }
+
+    public boolean verificarDependenciaComInscricao(int idPacote) throws SQLException {
+        Connection conexao = Conexao.realizarConexão();
+        PreparedStatement stm;
+        ResultSet rs;
+        try {
+            stm = conexao.prepareStatement("SELECT Pacote.id_pacote from Pacote INNER JOIN Inscricao_Aluno_Pacote on "
+                    + "Inscricao_Aluno_Pacote.id_pacote = Pacote.id_pacote WHERE Pacote.id_pacote = " + idPacote + " GROUP BY Pacote.id_pacote");
+            rs = stm.executeQuery();
+            return rs.next();
+        } catch (SQLException e) {
+            Logger.getLogger(AlunoDAO.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            Conexao.fecharConexao(conexao);
+        }
+        return false;
+    }
 }

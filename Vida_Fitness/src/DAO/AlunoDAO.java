@@ -411,7 +411,7 @@ public class AlunoDAO {
         ResultSet rs;
         String cpfRegistrado;
         try {
-            stm = conexao.prepareStatement("SELECT Aluno.CPF FROM Aluno;");
+            stm = conexao.prepareStatement("SELECT Aluno.CPF FROM Aluno");
             rs = stm.executeQuery();
             while (rs.next()) {
                 cpfRegistrado = rs.getString("CPF");

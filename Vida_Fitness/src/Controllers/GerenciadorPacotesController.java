@@ -39,17 +39,20 @@ public class GerenciadorPacotesController {
         valor = valor - pacote.getValorDesconto();
         return valor;
     }
-    
-     
-     public void deletarCadastroPacote(int idPacotes) throws SQLException {
+
+    public void deletarCadastroPacote(int idPacotes) throws SQLException {
         pacoteDAO.deletarPacote(idPacotes);
     }
-     
-      public void editarCadastroPacote(Pacote pacote) throws SQLException {
+
+    public void editarCadastroPacote(Pacote pacote) throws SQLException {
         pacoteDAO.editarPacote(pacote);
     }
 
-      public void cadastrarPacote(Pacote pacote) throws SQLException{
-          pacoteDAO.salvarPacote(pacote);
-      }
+    public void cadastrarPacote(Pacote pacote) throws SQLException {
+        pacoteDAO.salvarPacote(pacote);
+    }
+
+    public boolean verificarLigacaoPacote(int idPacote) throws SQLException {
+        return pacoteDAO.verificarDependenciaComInscricao(idPacote);
+    }
 }

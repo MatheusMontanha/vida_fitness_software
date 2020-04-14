@@ -1,7 +1,5 @@
 package Controllers;
 
-
-import Controllers.GerenciadorPacotesController;
 import DAO.ModalidadeDAO;
 import Models.Modalidade;
 import java.sql.SQLException;
@@ -21,7 +19,7 @@ import java.util.logging.Logger;
 public class ModalidadeController {
 
     ModalidadeDAO modalidadeDAO = new ModalidadeDAO();
-    
+
     public List<Modalidade> getModalidades() {
         try {
             return modalidadeDAO.getModalidades();
@@ -30,15 +28,20 @@ public class ModalidadeController {
         }
         return null;
     }
-    
-     public void salvarCadastroModalidade(Modalidade modalidade) throws SQLException {
+
+    public void salvarCadastroModalidade(Modalidade modalidade) throws SQLException {
         modalidadeDAO.salvarModalidades(modalidade);
     }
-     public void deletarCadastroModalidade(int idModalidade) throws SQLException {
+
+    public void deletarCadastroModalidade(int idModalidade) throws SQLException {
         modalidadeDAO.deletarModalidade(idModalidade);
     }
-     
-      public void editarCadastroModalidade(Modalidade modalidade) throws SQLException {
+
+    public void editarCadastroModalidade(Modalidade modalidade) throws SQLException {
         modalidadeDAO.editarModalidade(modalidade);
+    }
+
+    public boolean verificarAlgumaDependencia(int idModalidade) throws SQLException {
+        return (modalidadeDAO.verificarDependenciaComPacote(idModalidade) || modalidadeDAO.verificarDependenciaComInscricao(idModalidade));
     }
 }

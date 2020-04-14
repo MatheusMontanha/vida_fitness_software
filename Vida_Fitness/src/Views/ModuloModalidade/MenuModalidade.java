@@ -27,7 +27,7 @@ import javax.swing.table.TableRowSorter;
  * @author Debor
  */
 public class MenuModalidade extends javax.swing.JFrame {
-    
+
     int indiceSelecionado;
     List<Modalidade> listaDeModalidades;
     ModalidadeController controllerModalidades = new ModalidadeController();
@@ -255,7 +255,7 @@ public class MenuModalidade extends javax.swing.JFrame {
         String nome = modalidadeFiltro.getText();
         filtrar(nome);
     }//GEN-LAST:event_modalidadeFiltroKeyReleased
-    
+
     private Modalidade buscarModalidadeNaLista(String nome) {
         for (int i = 0; i < listaDeModalidades.size(); i++) {
             if (nome.equalsIgnoreCase(listaDeModalidades.get(i).getNome())) {
@@ -270,7 +270,7 @@ public class MenuModalidade extends javax.swing.JFrame {
             int linhaSelecionada = tabelaModalidades.getSelectedRow();
             String nome;
             nome = (String) tabelaModalidades.getValueAt(linhaSelecionada, 0);
-            
+
             Modalidade modalidade = buscarModalidadeNaLista(nome);
             int resposta = JOptionPane.showConfirmDialog(rootPane,
                     "Tem certeza que deseja excluir a modalidade " + modalidade.getNome() + "? "
@@ -279,9 +279,13 @@ public class MenuModalidade extends javax.swing.JFrame {
                     JOptionPane.YES_NO_OPTION);
             if (resposta != 1 & resposta != 2 & resposta != -1) {
                 try {
-                    controllerModalidades.deletarCadastroModalidade(modalidade.getIdModalidade());
-                    JOptionPane.showMessageDialog(this, "Modalidade excluida com sucesso!");
-                    popularTabelaModalidade();
+                    if (!controllerModalidades.verificarAlgumaDependencia(modalidade.getIdModalidade())) {
+                        controllerModalidades.deletarCadastroModalidade(modalidade.getIdModalidade());
+                        JOptionPane.showMessageDialog(this, "Modalidade excluida com sucesso!");
+                        popularTabelaModalidade();
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Esta modalidade não pode ser removida pois está associada a algum pacote ou aluno!");
+                    }
                 } catch (SQLException e) {
                     Logger.getLogger(CadastroEdicaoModalidade.class.getName()).log(Level.SEVERE, null, e);
                     JOptionPane.showMessageDialog(this, "Ocorreu um erro ao excluir a modalidade."
@@ -293,7 +297,7 @@ public class MenuModalidade extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(this, "Nenhuma modalidade foi selecionada!");
         }
-        
+
 
     }//GEN-LAST:event_excluirModalidadeActionPerformed
 
@@ -335,7 +339,7 @@ public class MenuModalidade extends javax.swing.JFrame {
         menuGastos.setVisible(true);
         dispose();
     }//GEN-LAST:event_jButtonGerenciarCustosActionPerformed
-    
+
     private void filtrar(String nome) {
         try {
             TableRowSorter<DefaultTableModel> resultadoFiltro = new TableRowSorter<>(dtm);
@@ -345,7 +349,7 @@ public class MenuModalidade extends javax.swing.JFrame {
             System.out.println("Caractere não aceito.");
         }
     }
-    
+
     private void popularTabelaModalidade() throws ParseException {
         dtm = (DefaultTableModel) tabelaModalidades.getModel();
         dtm.setNumRows(0);
