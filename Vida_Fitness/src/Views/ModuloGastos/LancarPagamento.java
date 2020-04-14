@@ -38,7 +38,7 @@ public class LancarPagamento extends javax.swing.JFrame {
 
     public LancarPagamento(List<Aluno> alunosRecuperados) {
         initComponents();
-        listaDeAlunos = alunosRecuperados;
+        listaDeAlunos = corrigirLista(alunosRecuperados);
     }
 
     /**
@@ -163,8 +163,6 @@ public class LancarPagamento extends javax.swing.JFrame {
 
     private void buscarAlunoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarAlunoActionPerformed
         if (buscarAluno(campoPesquisaAluno.getText()).size() > 0) {
-            //listaDeAlunos.clear();
-            //popularListaDeAlunos();
             listaDeResultado = buscarAluno(campoPesquisaAluno.getText());
             preencherLista(buscarAluno(campoPesquisaAluno.getText()));
             listaDeAlunos.clear();
@@ -220,13 +218,31 @@ public class LancarPagamento extends javax.swing.JFrame {
     }
 
     private void popularListaDeAlunos() {
+        List<Aluno> temp;
         try {
-            listaDeAlunos = gerenciadorMenuGastos.mensalidadesDeHoje();
+            temp = corrigirLista(gerenciadorMenuGastos.mensalidadesDeHoje());
+            if (!temp.isEmpty()) {
+                for (int i = 0; i < temp.size(); i++) {
+                    if (!temp.get(i).isPagamentoComCartao()) {
+                        listaDeAlunos.add(temp.get(i));
+                    }
+                }
+            }
         } catch (ParseException ex) {
             Logger.getLogger(LancarFrequencia.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(LancarPagamento.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    private List<Aluno> corrigirLista(List<Aluno> listaDeAluno) {
+        List<Aluno> temp = new ArrayList<>();
+        for (int i = 0; i < listaDeAluno.size(); i++) {
+            if (!listaDeAluno.get(i).isPagamentoComCartao()) {
+                temp.add(listaDeAluno.get(i));
+            }
+        }
+        return temp;
     }
 
     /**
